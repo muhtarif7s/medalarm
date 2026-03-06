@@ -11,13 +11,13 @@ android {
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-        coreLibraryDesugaringEnabled = true
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = true  // ✅ اسم الخاصية الصحيح لـ Kotlin DSL
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
     defaultConfig {
@@ -36,7 +36,9 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.3'
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3") // ✅ Kotlin DSL صيغة صحيحة
+    // مثال: لو عندك أي مكتبات إضافية ممكن تضيفها هنا
+    implementation("androidx.core:core-ktx:1.12.0")
 }
 
 flutter {
