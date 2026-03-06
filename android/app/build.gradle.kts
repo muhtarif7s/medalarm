@@ -13,7 +13,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-        isCoreLibraryDesugaringEnabled = true  // ✅ اسم الخاصية الصحيح لـ Kotlin DSL
+        isCoreLibraryDesugaringEnabled = true  // ✅ الخاصية الصحيحة في Kotlin DSL
     }
 
     kotlinOptions {
@@ -36,8 +36,10 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3") // ✅ Kotlin DSL صيغة صحيحة
-    // مثال: لو عندك أي مكتبات إضافية ممكن تضيفها هنا
+    // ✅ تحديث النسخة المطلوبة لتجنب مشاكل flutter_local_notifications
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+    
+    // مكتبات إضافية مهمة
     implementation("androidx.core:core-ktx:1.12.0")
 }
 
