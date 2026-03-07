@@ -1,46 +1,44 @@
 name: myapp
 description: "A new Flutter project."
-publish_to: 'none' 
+publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.4.3 <4.0.0'
+  sdk: '>=3.2.3 <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
-
-  # UI & Theming
-  google_fonts: ^6.2.1
+  flutter_localizations:
+    sdk: flutter
   
-  # State Management
-  provider: ^6.1.2
-
-  # Navigation
-  go_router: ^14.2.0
-
-  # Local Storage & Database
-  sqflite: ^2.3.3+1
-
-  # Utilities
-  intl: ^0.19.0
-  equatable: ^2.0.8
-  url_launcher: ^6.3.2
-  path: ^1.9.1
-  timezone: ^0.10.1
-  flutter_local_notifications: ^20.1.0
+  cupertino_icons: ^1.0.2
+  go_router: ^13.2.0
+  provider: ^6.1.1
+  sqflite: ^2.3.0
+  path: ^1.8.3
+  intl: ^0.20.2
+  google_fonts: ^6.1.0
+  flutter_local_notifications: ^17.0.0
+  timezone: ^0.9.2
+  permission_handler: ^11.2.0
+  collection: ^1.18.0
+  flutter_gen: ^5.13.0
+  flutter_datetime_picker_plus: ^2.2.0
+  url_launcher: ^6.2.5
+  package_info_plus: ^5.0.1
+  flutter_timezone: ^5.0.1
+  toggle_switch: ^2.3.0
+  equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^4.0.0
-  
-  # Code Generation
-  go_router_builder: ^2.7.0
-  build_runner: ^2.4.11
-
-  # Testing
+  flutter_lints: ^3.0.1
   mockito: ^5.4.4
+  build_runner: ^2.4.8
+  sqflite_common_ffi: ^2.3.2+1
 
 flutter:
   uses-material-design: true
+  generate: true

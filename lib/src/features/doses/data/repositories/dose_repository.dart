@@ -1,12 +1,23 @@
 import 'package:myapp/src/database/database_helper.dart';
 import 'package:myapp/src/features/doses/data/models/dose.dart';
+import 'package:sqflite/sqflite.dart';
 
 class DoseRepository {
-  final dbHelper = DatabaseHelper.instance;
+  final dbHelper = DatabaseHelper();
 
-  Future<int> insert(Dose dose) async {
+  Future<void> addDose(Dose dose) async {
     final db = await dbHelper.database;
-    return await db.insert('doses', dose.toMap());
+    await db.insert('doses', dose.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  Future<void> updateDoseStatus(int id, DoseStatus status) async {
+    final db = await dbHelper.database;
+    await db.update(
+      'doses',
+      {'status': status.toString().split('.').last},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
   }
 
   Future<List<Dose>> getDosesForMedication(int medicationId) async {
@@ -15,26 +26,23 @@ class DoseRepository {
       'doses',
       where: 'medicationId = ?',
       whereArgs: [medicationId],
+      orderBy: 'time DESC',
     );
-    return maps.map((map) => Dose.fromMap(map)).toList();
+    return List.generate(maps.length, (i) => Dose.fromMap(maps[i]));
   }
 
-  Future<int> update(Dose dose) async {
+  Future<List<Dose>> getAllDoses() async {
     final db = await dbHelper.database;
-    return await db.update(
-      'doses',
-      dose.toMap(),
-      where: 'id = ?',
-      whereArgs: [dose.id],
-    );
+    final maps = await db.query('doses', orderBy: 'time DESC');
+    return List.generate(maps.length, (i) => Dose.fromMap(maps[i]));
   }
 
-  Future<int> delete(int id) async {
+  Future<void> deleteDosesForMedication(int medicationId) async {
     final db = await dbHelper.database;
-    return await db.delete(
+    await db.delete(
       'doses',
-      where: 'id = ?',
-      whereArgs: [id],
+      where: 'medicationId = ?',
+      whereArgs: [medicationId],
     );
   }
 }

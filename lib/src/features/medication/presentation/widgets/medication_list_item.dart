@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:myapp/l10n/app_localizations.dart';
 import 'package:myapp/src/features/medication/data/models/medication.dart';
+import 'package:myapp/src/features/medication/presentation/screens/medication_details_screen.dart';
 
 class MedicationListItem extends StatelessWidget {
   final Medication medication;
@@ -16,6 +17,7 @@ class MedicationListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       elevation: 2,
@@ -39,23 +41,23 @@ class MedicationListItem extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '${medication.dosage} ${medication.unit}',
+                      l10n.medicationDosage(medication.dosage.toString(), medication.unit),
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      _buildScheduleSummary(context),
+                      buildScheduleDescription(medication, l10n, context),
                       style: Theme.of(context).textTheme.bodySmall,
-                      maxLines: 1,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
               ),
               IconButton(
-                icon: Icon(Icons.delete_outline, color: Theme.of(context).colorScheme.error),
+                icon: const Icon(Icons.delete_outline),
                 onPressed: onDelete,
-                tooltip: 'Delete Medication',
+                tooltip: l10n.deleteMedication,
               ),
             ],
           ),
@@ -77,17 +79,5 @@ class MedicationListItem extends StatelessWidget {
         color: Theme.of(context).colorScheme.onPrimaryContainer,
       ),
     );
-  }
-
-  String _buildScheduleSummary(BuildContext context) {
-    switch (medication.scheduleType) {
-      case MedicationScheduleType.daily:
-        return 'Daily at ${medication.times.map((t) => t.format(context)).join(', ')}';
-      case MedicationScheduleType.weekdays:
-        final days = medication.weekdays?.map((d) => DateFormat.E().format(DateTime(2023, 1, d))).join(', ') ?? '';
-        return 'On $days';
-      case MedicationScheduleType.interval:
-        return 'Every ${medication.interval} hours';
-    }
   }
 }

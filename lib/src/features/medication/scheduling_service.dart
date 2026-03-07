@@ -20,12 +20,13 @@ class SchedulingService {
       if (_isScheduledFor(medication, scheduledTime)) {
         upcomingDoses.add(Dose(
           medicationId: medication.id!,
-          scheduledTime: scheduledTime,
+          time: scheduledTime,
+          status: DoseStatus.pending,
         ));
       }
     }
 
-    upcomingDoses.sort((a, b) => a.scheduledTime.compareTo(b.scheduledTime));
+    upcomingDoses.sort((a, b) => a.time.compareTo(b.time));
     return upcomingDoses;
   }
 

@@ -79,7 +79,8 @@ class Medication extends Equatable {
       'dosage': dosage,
       'unit': unit,
       'scheduleType': scheduleType.name,
-      'times': times.map((time) => '${time.hour}:${time.minute}').join(','),
+      'times':
+          times.map((time) => '${time.hour}:${time.minute}').join(','),
       'weekdays': weekdays?.join(','),
       'interval': interval,
       'startDate': startDate.toIso8601String(),
@@ -91,17 +92,31 @@ class Medication extends Equatable {
     return Medication(
       id: map['id'] as int?,
       name: map['name'] as String,
-      dosage: map['dosage'] as double,
+      dosage: (map['dosage'] as num).toDouble(),
       unit: map['unit'] as String,
-      scheduleType: MedicationScheduleType.values.byName(map['scheduleType'] as String),
-      times: (map['times'] as String).split(',').map((timeStr) {
+      scheduleType: MedicationScheduleType.values.byName(
+        map['scheduleType'] as String,
+      ),
+      times: (map['times'] as String)
+          .split(',')
+          .where((s) => s.isNotEmpty)
+          .map((timeStr) {
         final parts = timeStr.split(':');
-        return TimeOfDay(hour: int.parse(parts[0]), minute: int.parse(parts[1]));
+        return TimeOfDay(
+          hour: int.parse(parts[0]),
+          minute: int.parse(parts[1]),
+        );
       }).toList(),
-      weekdays: (map['weekdays'] as String?)?.split(',').map(int.parse).toList(),
+      weekdays: (map['weekdays'] as String?)
+          ?.split(',')
+          .where((s) => s.isNotEmpty)
+          .map(int.parse)
+          .toList(),
       interval: map['interval'] as int?,
       startDate: DateTime.parse(map['startDate'] as String),
-      endDate: map['endDate'] != null ? DateTime.parse(map['endDate'] as String) : null,
+      endDate: map['endDate'] != null
+          ? DateTime.parse(map['endDate'] as String)
+          : null,
     );
   }
 }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:myapp/src/features/medication/data/models/dose.dart';
-import 'package:myapp/src/features/medication/presentation/providers/dose_provider.dart';
+import 'package:myapp/l10n/app_localizations.dart';
+import 'package:myapp/src/features/doses/data/models/dose.dart';
+import 'package:myapp/src/features/doses/presentation/providers/dose_provider.dart';
 
 class DoseHistoryList extends StatelessWidget {
   final List<Dose> doses;
@@ -11,9 +12,10 @@ class DoseHistoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     if (doses.isEmpty) {
-      return const Center(
-        child: Text('No doses in this category.'),
+      return Center(
+        child: Text(l10n.noDosesInCategory),
       );
     }
     return ListView.builder(
@@ -26,8 +28,8 @@ class DoseHistoryList extends StatelessWidget {
           child: ListTile(
             leading: _buildStatusIcon(dose.status),
             title: Text(DateFormat.yMMMd().add_jm().format(dose.time)),
-            subtitle: Text('Status: ${dose.status.name}'),
-            trailing: _buildPopupMenu(context, dose),
+            subtitle: Text('${l10n.status}: ${dose.status.name}'),
+            trailing: _buildPopupMenu(context, dose, l10n),
           ),
         );
       },
@@ -40,34 +42,43 @@ class DoseHistoryList extends StatelessWidget {
         return const Icon(Icons.check_circle, color: Colors.green);
       case DoseStatus.skipped:
         return const Icon(Icons.cancel, color: Colors.red);
-      case DoseStatus.pending:
+      default:
         return const Icon(Icons.hourglass_empty, color: Colors.grey);
     }
   }
 
-  Widget _buildPopupMenu(BuildContext context, Dose dose) {
+  Widget _buildPopupMenu(BuildContext context, Dose dose, AppLocalizations l10n) {
     final doseProvider = Provider.of<DoseProvider>(context, listen: false);
 
     return PopupMenuButton<DoseStatus>(
       icon: const Icon(Icons.more_vert),
-      onSelected: (DoseStatus newStatus) {
+      onSelected: (DoseStatus newStatus) async {
         if (dose.status != newStatus) {
-          final updatedDose = dose.copyWith(status: newStatus);
-          doseProvider.updateDose(updatedDose);
+          final confirmed = await showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text(l10n.confirmAction),
+              content: Text(l10n.areYouSureYouWantToMarkThisDoseAs(newStatus.name)),
+              actions: [
+                TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(l10n.cancel)),
+                TextButton(onPressed: () => Navigator.of(context).pop(true), child: Text(l10n.confirm)),
+              ],
+            ),
+          );
+
+          if (confirmed == true) {
+            doseProvider.updateDoseStatus(dose, newStatus);
+          }
         }
       },
       itemBuilder: (BuildContext context) => <PopupMenuEntry<DoseStatus>>[
-        const PopupMenuItem<DoseStatus>(
+        PopupMenuItem<DoseStatus>(
           value: DoseStatus.taken,
-          child: Text('Mark as Taken'),
+          child: Text(l10n.markAsTaken),
         ),
-        const PopupMenuItem<DoseStatus>(
+        PopupMenuItem<DoseStatus>(
           value: DoseStatus.skipped,
-          child: Text('Mark as Skipped'),
-        ),
-        const PopupMenuItem<DoseStatus>(
-          value: DoseStatus.pending,
-          child: Text('Mark as Pending'),
+          child: Text(l10n.markAsSkipped),
         ),
       ],
     );
