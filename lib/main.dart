@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:myapp/src/config/app_router.dart';
 import 'package:myapp/src/features/doses/presentation/providers/dose_provider.dart';
 import 'package:myapp/src/features/medication/presentation/providers/medication_provider.dart';
-import 'package:myapp/src/features/medication/presentation/services/notification_service.dart';
+// import 'package:myapp/src/features/medication/presentation/services/notification_service.dart';
 import 'package:myapp/src/features/settings/presentation/providers/settings_provider.dart';
 import 'package:myapp/src/providers/locale_provider.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +12,7 @@ import 'package:myapp/l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await NotificationService().init();
+  // await NotificationService().init(); // Temporarily disabled for debugging
   runApp(const MyApp());
 }
 
