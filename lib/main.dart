@@ -33,8 +33,8 @@ class MyApp extends StatelessWidget {
       primary: primaryColor,
       secondary: secondaryColor,
       error: errorColor,
-      surface: const Color(0xFFF2F4F7),
-      onSurface: Colors.black,
+      surface: const Color(0xFFFFFFFF),
+      onSurface: const Color(0xFF000000),
     );
 
     final lightTheme = ThemeData(
@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
         backgroundColor: lightColorScheme.primary,
         foregroundColor: lightColorScheme.onPrimary,
       ),
-      scaffoldBackgroundColor: lightColorScheme.surface,
+      scaffoldBackgroundColor: const Color(0xFFF9F9F9),
     );
 
     // --- Dark Theme ---
@@ -92,8 +92,8 @@ class MyApp extends StatelessWidget {
       primary: primaryColor,
       secondary: secondaryColor,
       error: errorColor,
-      surface: const Color(0xFF1E1E1E),
-      onSurface: Colors.white,
+      surface: const Color(0xFF121212),
+      onSurface: const Color(0xFFFFFFFF),
     );
 
     final darkTheme = ThemeData(
@@ -141,7 +141,7 @@ class MyApp extends StatelessWidget {
         backgroundColor: darkColorScheme.primary,
         foregroundColor: darkColorScheme.onPrimary,
       ),
-      scaffoldBackgroundColor: darkColorScheme.surface,
+      scaffoldBackgroundColor: const Color(0xFF000000),
     );
     
     return MultiProvider(
