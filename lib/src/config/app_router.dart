@@ -34,10 +34,10 @@ class AppRouter {
       ),
       GoRoute(
         name: 'medicationDetails',
-        path: '/details/:id',
+        path: '/details',
         builder: (context, state) {
-          final medicationId = int.parse(state.pathParameters['id']!);
-          return MedicationDetailScreen(medicationId: medicationId);
+          final medication = state.extra as Medication;
+          return MedicationDetailScreen(medication: medication);
         },
       ),
       GoRoute(

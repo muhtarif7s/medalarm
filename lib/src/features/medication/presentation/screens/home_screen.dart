@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
         final medication = provider.medications[index];
         return MedicationListItem(
           medication: medication,
-          onTap: () => context.go('/edit_medication', extra: medication),
+          onTap: () => context.go('/details', extra: medication),
           onDelete: () => _confirmDelete(context, medication.id!),
         );
       },

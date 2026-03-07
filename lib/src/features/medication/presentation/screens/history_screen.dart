@@ -6,8 +6,21 @@ import 'package:myapp/src/features/doses/presentation/providers/dose_provider.da
 import 'package:provider/provider.dart';
 import 'package:myapp/l10n/app_localizations.dart';
 
-class HistoryScreen extends StatelessWidget {
+class HistoryScreen extends StatefulWidget {
   const HistoryScreen({super.key});
+
+  @override
+  State<HistoryScreen> createState() => _HistoryScreenState();
+}
+
+class _HistoryScreenState extends State<HistoryScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<DoseProvider>(context, listen: false).loadDoses();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +84,7 @@ class HistoryScreen extends StatelessWidget {
     final theme = Theme.of(context);
 
     if (medication == null) {
-      // Medication might have been deleted, handle gracefully
+      // Medication might have been been deleted, handle gracefully
       return const SizedBox.shrink();
     }
 

@@ -21,9 +21,7 @@ class DoseProvider with ChangeNotifier {
     return groupBy(_doses, (Dose dose) => DateTime(dose.time.year, dose.time.month, dose.time.day));
   }
 
-  DoseProvider() {
-    loadDoses();
-  }
+  DoseProvider();
 
   Future<void> loadDoses() async {
     _isLoading = true;

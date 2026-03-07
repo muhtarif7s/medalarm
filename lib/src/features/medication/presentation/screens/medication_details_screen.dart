@@ -6,7 +6,6 @@ import 'package:myapp/l10n/app_localizations.dart';
 import 'package:myapp/src/features/medication/data/models/medication.dart';
 import 'package:myapp/src/features/doses/presentation/providers/dose_provider.dart';
 import 'package:myapp/src/features/medication/presentation/widgets/dose_history_list.dart';
-import 'package:myapp/src/features/medication/presentation/providers/medication_provider.dart';
 
 String buildScheduleDescription(
     Medication med, AppLocalizations l10n, BuildContext context) {
@@ -30,9 +29,9 @@ String buildScheduleDescription(
 }
 
 class MedicationDetailScreen extends StatefulWidget {
-  final int medicationId;
+  final Medication medication;
 
-  const MedicationDetailScreen({super.key, required this.medicationId});
+  const MedicationDetailScreen({super.key, required this.medication});
 
   @override
   State<MedicationDetailScreen> createState() => _MedicationDetailScreenState();
@@ -45,7 +44,7 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
     Future.microtask(() {
       if (mounted) {
         Provider.of<DoseProvider>(context, listen: false)
-            .loadDosesForMedication(widget.medicationId);
+            .loadDosesForMedication(widget.medication.id!);
       }
     });
   }
@@ -53,19 +52,16 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final medicationProvider = Provider.of<MedicationProvider>(context);
-    final medication = medicationProvider.medications
-        .firstWhere((m) => m.id == widget.medicationId);
     final doseProvider = Provider.of<DoseProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(medication.name),
+        title: Text(widget.medication.name),
         actions: [
           IconButton(
             icon: const Icon(Icons.edit),
             onPressed: () =>
-                context.goNamed('editMedication', extra: medication),
+                context.goNamed('editMedication', extra: widget.medication),
           ),
         ],
       ),
@@ -74,7 +70,7 @@ class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildInfoCard(medication, l10n),
+            _buildInfoCard(widget.medication, l10n),
             const SizedBox(height: 24),
             Text(l10n.doseHistory,
                 style: Theme.of(context).textTheme.headlineSmall),
