@@ -90,5 +90,9 @@
   "arabic": "العربية",
   "loading": "...",
   "pleaseAddTime": "Please add a time",
-  "clear": "Clear"
+  "clear": "Clear",
+  "pleaseEnterDosage": "Please enter a dosage",
+  "pills": "pills",
+  "yourMedications": "Your Medications",
+  "take": "Take"
 }

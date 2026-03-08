@@ -1,31 +1,35 @@
 class Profile {
   final int id;
-  final String? firstName;
-  final String? lastName;
-  final String? birthDate;
+  final String name;
+  final int age;
+  final double weight;
+  final double height;
 
   Profile({
     required this.id,
-    this.firstName,
-    this.lastName,
-    this.birthDate,
+    required this.name,
+    required this.age,
+    required this.weight,
+    required this.height,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'firstName': firstName,
-      'lastName': lastName,
-      'birthDate': birthDate,
+      'name': name,
+      'age': age,
+      'weight': weight,
+      'height': height,
     };
   }
 
   factory Profile.fromMap(Map<String, dynamic> map) {
     return Profile(
       id: map['id'],
-      firstName: map['firstName'],
-      lastName: map['lastName'],
-      birthDate: map['birthDate'],
+      name: map['name'],
+      age: map['age'],
+      weight: map['weight'],
+      height: map['height'],
     );
   }
 }

@@ -649,6 +649,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Clear'**
   String get clear;
+
+  /// No description provided for @pleaseEnterDosage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a dosage'**
+  String get pleaseEnterDosage;
+
+  /// No description provided for @pills.
+  ///
+  /// In en, this message translates to:
+  /// **'pills'**
+  String get pills;
+
+  /// No description provided for @yourMedications.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Medications'**
+  String get yourMedications;
+
+  /// No description provided for @take.
+  ///
+  /// In en, this message translates to:
+  /// **'Take'**
+  String get take;
 }
 
 class _AppLocalizationsDelegate

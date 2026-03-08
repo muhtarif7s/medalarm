@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class TimeSelector extends StatefulWidget {
-  const TimeSelector({super.key});
+  final void Function(TimeOfDay) onChanged;
+
+  const TimeSelector({super.key, required this.onChanged});
 
   @override
   State<TimeSelector> createState() => _TimeSelectorState();
@@ -15,6 +17,7 @@ class _TimeSelectorState extends State<TimeSelector> {
     if (picked != null && picked != _selectedTime) {
       setState(() {
         _selectedTime = picked;
+        widget.onChanged(_selectedTime);
       });
     }
   }

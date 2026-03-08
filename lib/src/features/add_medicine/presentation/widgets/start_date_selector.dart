@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class StartDateSelector extends StatefulWidget {
-  const StartDateSelector({super.key});
+  final void Function(DateTime) onChanged;
+
+  const StartDateSelector({super.key, required this.onChanged});
 
   @override
   State<StartDateSelector> createState() => _StartDateSelectorState();
@@ -15,6 +17,7 @@ class _StartDateSelectorState extends State<StartDateSelector> {
     if (picked != null && picked != _selectedDate) {
       setState(() {
         _selectedDate = picked;
+        widget.onChanged(_selectedDate);
       });
     }
   }

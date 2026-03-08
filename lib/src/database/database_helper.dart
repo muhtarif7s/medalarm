@@ -1,8 +1,8 @@
-
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import '../features/medicine/data/models/medicine_model.dart';
 import '../features/history/data/models/dose_history_model.dart';
+import '../features/settings/data/models/profile_model.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();
@@ -31,40 +31,34 @@ class DatabaseHelper {
       CREATE TABLE medicines(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
-        notes TEXT,
-        icon_name TEXT,
-        color TEXT,
-        dosage_amount REAL NOT NULL,
-        dosage_unit TEXT NOT NULL,
-        total_quantity REAL,
-        remaining_quantity REAL,
-        refill_reminder_at REAL,
-        frequency_type TEXT NOT NULL,
-        dose_times TEXT NOT NULL,
-        specific_days TEXT,
-        interval_days INTEGER,
-        start_date TEXT NOT NULL,
-        end_date TEXT,
-        skip_count INTEGER DEFAULT 0 NOT NULL,
-        created_at TEXT DEFAULT CURRENT_TIMESTAMP
+        dosage REAL NOT NULL,
+        frequency TEXT NOT NULL,
+        stock REAL NOT NULL,
+        "taken_today" INTEGER DEFAULT 0,
+        "remaining_doses" INTEGER DEFAULT 0,
+        "scheduled_time" TEXT,
+        "is_completed" INTEGER DEFAULT 0,
+        startDate TEXT NOT NULL,
+        endDate TEXT,
+        notes TEXT
       )
     ''');
     await db.execute('''
       CREATE TABLE dose_history(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        medicine_id INTEGER NOT NULL,
-        scheduled_time TEXT NOT NULL,
-        taken_at TEXT,
-        status TEXT NOT NULL,
-        FOREIGN KEY(medicine_id) REFERENCES medicines(id) ON DELETE CASCADE
+        medicineId INTEGER NOT NULL,
+        date TEXT NOT NULL,
+        taken INTEGER NOT NULL,
+        FOREIGN KEY(medicineId) REFERENCES medicines(id) ON DELETE CASCADE
       )
     ''');
     await db.execute('''
       CREATE TABLE profile(
         id INTEGER PRIMARY KEY NOT NULL, 
-        firstName TEXT, 
-        lastName TEXT, 
-        birthDate TEXT
+        name TEXT, 
+        age INTEGER, 
+        weight REAL, 
+        height REAL
       )
     ''');
   }
@@ -79,8 +73,8 @@ class DatabaseHelper {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query(
       'medicines',
-      where: '(remaining_quantity IS NULL OR remaining_quantity > 0) AND (end_date IS NULL OR date(end_date) >= date(\'now\', \'start of day\'))',
-      orderBy: 'created_at DESC',
+      where: 'stock > 0 AND (endDate IS NULL OR date(endDate) >= date(\'now\', \'start of day\'))',
+      orderBy: 'name DESC',
     );
     return List.generate(maps.length, (i) {
       return Medicine.fromMap(maps[i]);
@@ -116,14 +110,10 @@ class DatabaseHelper {
     final db = await database;
     await db.transaction((txn) async {
       await txn.insert('dose_history', {
-        'medicine_id': medicineId,
-        'scheduled_time': scheduledTime.toIso8601String(),
-        'status': 'skipped',
+        'medicineId': medicineId,
+        'date': scheduledTime.toIso8601String(),
+        'taken': 0,
       });
-      await txn.rawUpdate(
-        'UPDATE medicines SET skip_count = skip_count + 1 WHERE id = ?',
-        [medicineId],
-      );
     });
   }
 
@@ -131,13 +121,12 @@ class DatabaseHelper {
     final db = await database;
     await db.transaction((txn) async {
       await txn.insert('dose_history', {
-        'medicine_id': medicineId,
-        'scheduled_time': scheduledTime.toIso8601String(),
-        'taken_at': DateTime.now().toIso8601String(),
-        'status': 'taken',
+        'medicineId': medicineId,
+        'date': DateTime.now().toIso8601String(),
+        'taken': 1,
       });
       await txn.rawUpdate(
-        'UPDATE medicines SET remaining_quantity = remaining_quantity - ? WHERE id = ? AND (remaining_quantity IS NULL OR remaining_quantity >= ?)',
+        'UPDATE medicines SET stock = stock - ? WHERE id = ? AND stock >= ?',
         [doseValue, medicineId, doseValue],
       );
     });
@@ -147,16 +136,108 @@ class DatabaseHelper {
     final db = await database;
     final List<Map<String, dynamic>> maps = await db.query(
       'dose_history',
-      where: "status = 'taken' OR status = 'skipped'",
+      where: "taken = 1 OR taken = 0",
     );
     return List.generate(maps.length, (i) {
       return DoseHistory.fromMap(maps[i]);
     });
   }
+  
+  // Profile CRUD
+  Future<void> saveProfile(Profile profile) async {
+    final db = await database;
+    await db.insert('profile', profile.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  Future<Profile?> getProfile() async {
+    final db = await database;
+    List<Map<String, dynamic>> maps = await db.query('profile');
+    if (maps.isNotEmpty) {
+      return Profile.fromMap(maps.first);
+    }
+    return null;
+  }
+
 
   Future<void> deleteDatabase() async {
     String path = join(await getDatabasesPath(), 'doctordaily.db');
     await databaseFactory.deleteDatabase(path);
     _database = null;
+  }
+}
+
+class MedicineService {
+  final DatabaseHelper _dbHelper = DatabaseHelper();
+
+  Future<void> takeDose(int medicineId) async {
+    final medicine = await _dbHelper.getMedicineById(medicineId);
+    if (medicine == null) {
+      return;
+    }
+
+    if (medicine.stock <= 0) {
+      // Show a warning
+      return;
+    }
+
+    if (medicine.endDate != null && DateTime.parse(medicine.endDate!).isBefore(DateTime.now())) {
+      // Do not allow taking doses after endDate
+      return;
+    }
+
+    // Insert a new record in dose_history with taken = 1
+    final doseHistory = DoseHistory(
+      medicineId: medicineId,
+      date: DateTime.now().toIso8601String(),
+      taken: 1,
+    );
+    await _dbHelper.addDoseHistory(doseHistory);
+
+    // Subtract the taken dose from the stock in medicines
+    final newStock = medicine.stock - medicine.dosage;
+    final isCompleted = newStock <= 0;
+    final takenToday = medicine.takenToday + 1;
+    final remainingDoses = int.parse(medicine.frequency) - takenToday;
+
+    final updatedMedicine = Medicine(
+      id: medicine.id,
+      name: medicine.name,
+      dosage: medicine.dosage,
+      frequency: medicine.frequency,
+      stock: newStock,
+      takenToday: takenToday,
+      remainingDoses: remainingDoses,
+      scheduledTime: medicine.scheduledTime,
+      isCompleted: isCompleted,
+      startDate: medicine.startDate,
+      endDate: medicine.endDate,
+      notes: medicine.notes,
+    );
+    await _dbHelper.updateMedicine(updatedMedicine);
+  }
+
+  Future<void> checkMissedDoses() async {
+    final activeMedicines = await _dbHelper.getActiveMedicines();
+    for (final medicine in activeMedicines) {
+      if (medicine.scheduledTime != null) {
+        final scheduledTime = DateTime.parse(medicine.scheduledTime!);
+        if (scheduledTime.isBefore(DateTime.now())) {
+          final doses = await _dbHelper.getAllProcessedDoses();
+          final takenDoses = doses.where((dose) => dose.medicineId == medicine.id && dose.date == scheduledTime.toIso8601String());
+          if (takenDoses.isEmpty) {
+            // Notify if a dose was missed
+          }
+        }
+      }
+    }
+  }
+
+  Future<void> checkLowStock() async {
+    final activeMedicines = await _dbHelper.getActiveMedicines();
+    for (final medicine in activeMedicines) {
+      if (medicine.stock < 5) { // Assuming 5 is the low stock threshold
+        // Notify if stock is low
+      }
+    }
   }
 }

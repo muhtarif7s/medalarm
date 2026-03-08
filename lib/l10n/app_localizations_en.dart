@@ -304,4 +304,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get clear => 'Clear';
+
+  @override
+  String get pleaseEnterDosage => 'Please enter a dosage';
+
+  @override
+  String get pills => 'pills';
+
+  @override
+  String get yourMedications => 'Your Medications';
+
+  @override
+  String get take => 'Take';
 }

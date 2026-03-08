@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class FrequencySelector extends StatefulWidget {
-  const FrequencySelector({super.key});
+  final void Function(String) onChanged;
+
+  const FrequencySelector({super.key, required this.onChanged});
 
   @override
   State<FrequencySelector> createState() => _FrequencySelectorState();
@@ -21,6 +23,7 @@ class _FrequencySelectorState extends State<FrequencySelector> {
           onChanged: (String? newValue) {
             setState(() {
               _selectedFrequency = newValue!;
+              widget.onChanged(_selectedFrequency);
             });
           },
           items: <String>['daily', 'weekly']

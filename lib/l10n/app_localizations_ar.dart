@@ -304,4 +304,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get clear => 'مسح';
+
+  @override
+  String get pleaseEnterDosage => 'الرجاء إدخال جرعة';
+
+  @override
+  String get pills => 'حبات';
+
+  @override
+  String get yourMedications => 'أدويتك';
+
+  @override
+  String get take => 'خذ';
 }

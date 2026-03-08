@@ -1,64 +1,46 @@
 class Medicine {
   final int? id;
   final String name;
-  final String? notes;
-  final String? iconName;
-  final String? color;
-  final double dosageAmount;
-  final String dosageUnit;
-  final double? totalQuantity;
-  final double? remainingQuantity;
-  final double? refillReminderAt;
-  final String frequencyType;
-  final String doseTimes;
-  final String? specificDays;
-  final int? intervalDays;
+  final double dosage;
+  final String frequency;
+  final double stock;
+  final int takenToday;
+  final int remainingDoses;
+  final String? scheduledTime;
+  final bool isCompleted;
   final String startDate;
   final String? endDate;
-  final int skipCount;
-  final String? createdAt;
+  final String? notes;
 
   Medicine({
     this.id,
     required this.name,
-    this.notes,
-    this.iconName,
-    this.color,
-    required this.dosageAmount,
-    required this.dosageUnit,
-    this.totalQuantity,
-    this.remainingQuantity,
-    this.refillReminderAt,
-    required this.frequencyType,
-    required this.doseTimes,
-    this.specificDays,
-    this.intervalDays,
+    required this.dosage,
+    required this.frequency,
+    required this.stock,
+    this.takenToday = 0,
+    this.remainingDoses = 0,
+    this.scheduledTime,
+    this.isCompleted = false,
     required this.startDate,
     this.endDate,
-    this.skipCount = 0,
-    this.createdAt,
+    this.notes,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'name': name,
+      'dosage': dosage,
+      'frequency': frequency,
+      'stock': stock,
+      'taken_today': takenToday,
+      'remaining_doses': remainingDoses,
+      'scheduled_time': scheduledTime,
+      'is_completed': isCompleted ? 1 : 0,
+      'startDate': startDate,
+      'endDate': endDate,
       'notes': notes,
-      'icon_name': iconName,
-      'color': color,
-      'dosage_amount': dosageAmount,
-      'dosage_unit': dosageUnit,
-      'total_quantity': totalQuantity,
-      'remaining_quantity': remainingQuantity,
-      'refill_reminder_at': refillReminderAt,
-      'frequency_type': frequencyType,
-      'dose_times': doseTimes,
-      'specific_days': specificDays,
-      'interval_days': intervalDays,
-      'start_date': startDate,
-      'end_date': endDate,
-      'skip_count': skipCount,
-      'created_at': createdAt,
     };
   }
 
@@ -66,22 +48,16 @@ class Medicine {
     return Medicine(
       id: map['id'],
       name: map['name'],
+      dosage: map['dosage'],
+      frequency: map['frequency'],
+      stock: map['stock'],
+      takenToday: map['taken_today'],
+      remainingDoses: map['remaining_doses'],
+      scheduledTime: map['scheduled_time'],
+      isCompleted: map['is_completed'] == 1,
+      startDate: map['startDate'],
+      endDate: map['endDate'],
       notes: map['notes'],
-      iconName: map['icon_name'],
-      color: map['color'],
-      dosageAmount: map['dosage_amount'],
-      dosageUnit: map['dosage_unit'],
-      totalQuantity: map['total_quantity'],
-      remainingQuantity: map['remaining_quantity'],
-      refillReminderAt: map['refill_reminder_at'],
-      frequencyType: map['frequency_type'],
-      doseTimes: map['dose_times'],
-      specificDays: map['specific_days'],
-      intervalDays: map['interval_days'],
-      startDate: map['start_date'],
-      endDate: map['end_date'],
-      skipCount: map['skip_count'],
-      createdAt: map['created_at'],
     );
   }
 }

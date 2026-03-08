@@ -1,4 +1,5 @@
-enum DoseStatus { pending, taken, skipped }
+
+enum DoseStatus { taken, skipped, pending }
 
 class Dose {
   final int? id;
@@ -13,26 +14,12 @@ class Dose {
     this.status = DoseStatus.pending,
   });
 
-  Dose copyWith({
-    int? id,
-    int? medicationId,
-    DateTime? time,
-    DoseStatus? status,
-  }) {
-    return Dose(
-      id: id ?? this.id,
-      medicationId: medicationId ?? this.medicationId,
-      time: time ?? this.time,
-      status: status ?? this.status,
-    );
-  }
-
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'medicationId': medicationId,
       'time': time.toIso8601String(),
-      'status': status.toString().split('.').last,
+      'status': status.toString(),
     };
   }
 
@@ -41,10 +28,7 @@ class Dose {
       id: map['id'],
       medicationId: map['medicationId'],
       time: DateTime.parse(map['time']),
-      status: DoseStatus.values.firstWhere(
-        (e) => e.toString().split('.').last == map['status'],
-        orElse: () => DoseStatus.pending,
-      ),
+      status: DoseStatus.values.firstWhere((e) => e.toString() == map['status']),
     );
   }
 }

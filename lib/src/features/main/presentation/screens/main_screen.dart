@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/l10n/app_localizations.dart';
+import 'package:myapp/src/features/add_medicine/presentation/screens/add_medicine_screen.dart';
 import 'package:myapp/src/features/history/presentation/screens/history_screen.dart';
 import 'package:myapp/src/features/home/presentation/screens/home_screen.dart';
 import 'package:myapp/src/features/settings/presentation/screens/settings_screen.dart';
@@ -29,34 +31,50 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: 'History',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.show_chart),
-            label: 'Statistics',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Theme.of(context).colorScheme.primary,
-        unselectedItemColor: Colors.grey,
-        type: BottomNavigationBarType.fixed,
-        onTap: _onItemTapped,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddMedicineScreen()),
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 8.0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.home),
+              onPressed: () => _onItemTapped(0),
+              color: _selectedIndex == 0 ? Theme.of(context).colorScheme.primary : Colors.grey,
+            ),
+            IconButton(
+              icon: const Icon(Icons.history),
+              onPressed: () => _onItemTapped(1),
+              color: _selectedIndex == 1 ? Theme.of(context).colorScheme.primary : Colors.grey,
+            ),
+            const SizedBox(width: 40), // The dummy child
+            IconButton(
+              icon: const Icon(Icons.show_chart),
+              onPressed: () => _onItemTapped(2),
+              color: _selectedIndex == 2 ? Theme.of(context).colorScheme.primary : Colors.grey,
+            ),
+            IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () => _onItemTapped(3),
+              color: _selectedIndex == 3 ? Theme.of(context).colorScheme.primary : Colors.grey,
+            ),
+          ],
+        ),
       ),
     );
   }
