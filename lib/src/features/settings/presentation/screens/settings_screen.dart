@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/src/features/settings/presentation/widgets/settings_row.dart';
+import 'package:myapp/src/features/settings/presentation/widgets/user_profile_header.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -19,6 +20,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: ListView(
         children: [
+          const UserProfileHeader(),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Text('Profile', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
