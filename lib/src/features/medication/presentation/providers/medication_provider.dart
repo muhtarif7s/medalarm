@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:myapp/src/database/database_helper.dart';
 import 'package:myapp/src/features/doses/data/repositories/dose_repository.dart';
 import 'package:myapp/src/features/medication/data/models/medication.dart';
 import 'package:myapp/src/features/medication/data/repositories/medication_repository.dart';
@@ -26,6 +27,11 @@ class MedicationProvider with ChangeNotifier {
         _doseRepository = doseRepository ?? DoseRepository(),
         _doseService = doseService ?? DoseService(),
         _notificationService = notificationService ?? NotificationService();
+
+  Future<void> init() async {
+    // Initialize the database by getting the database instance
+    await _medicationRepository.dbHelper.database;
+  }
 
   Future<void> loadMedications() async {
     _isLoading = true;

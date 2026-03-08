@@ -41,7 +41,7 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
     _intervalController = TextEditingController(text: initialMed?.interval?.toString() ?? '24');
 
     _scheduleType = initialMed?.scheduleType ?? MedicationScheduleType.daily;
-    _times = initialMed?.times ?? [const TimeOfDay(hour: 8, minute: 0)];
+    _times = initialMed?.times ?? []; // Start with an empty list for new medications
     _weekdays = initialMed?.weekdays ?? [];
     _startDate = initialMed?.startDate ?? DateTime.now();
     _endDate = initialMed?.endDate;
@@ -58,6 +58,14 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
 
   void _saveForm() {
     if (_formKey.currentState!.validate()) {
+      // Ensure there's at least one time for daily/weekday schedules
+      if ((_scheduleType == MedicationScheduleType.daily || _scheduleType == MedicationScheduleType.weekdays) && _times.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(AppLocalizations.of(context)!.pleaseAddTime)),
+        );
+        return;
+      }
+
       final medication = Medication(
         id: widget.medication?.id,
         name: _nameController.text,
@@ -84,7 +92,7 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
   void _deleteMedication() {
     if (widget.medication != null) {
       Provider.of<MedicationProvider>(context, listen: false).deleteMedication(widget.medication!.id!);
-      context.go('/');
+      context.go('/'); // Use go to reset the navigation stack after deletion
     }
   }
 
@@ -177,7 +185,7 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
         Text(l10n.scheduleType, style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 8),
         DropdownButtonFormField<MedicationScheduleType>(
-          initialValue: _scheduleType,
+          value: _scheduleType, // Use value instead of initialValue
           items: [
             DropdownMenuItem(value: MedicationScheduleType.daily, child: Text(l10n.daily)),
             DropdownMenuItem(value: MedicationScheduleType.weekdays, child: Text(l10n.weekdays)),
@@ -224,6 +232,17 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
       l10n.saturdayShort,
       l10n.sundayShort
     ];
+
+    // Correctly build the list of active border colors
+    List<List<Color>> activeBgColors = [];
+    for (int i = 0; i < 7; i++) {
+      if (_weekdays.contains(i + 1)) {
+        activeBgColors.add([Theme.of(context).colorScheme.primary]);
+      } else {
+        activeBgColors.add([Colors.grey[300]!]); // Inactive color
+      }
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -231,14 +250,14 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
         const SizedBox(height: 8),
         ToggleSwitch(
           minWidth: 50.0,
-          initialLabelIndex: null,
+          isJumbo: true,
           cornerRadius: 20.0,
           activeFgColor: Colors.white,
-          inactiveBgColor: Colors.grey,
-          inactiveFgColor: Colors.white,
-          totalSwitches: 7,
+          inactiveBgColor: Colors.grey[300],
+          inactiveFgColor: Colors.black,
+          initialLabelIndex: null, // No initial selection
+          activeBgColors: activeBgColors,
           labels: days,
-          activeBgColors: List.generate(7, (_) => [Theme.of(context).colorScheme.primary]),
           onToggle: (index) {
             if (index == null) return;
             setState(() {
@@ -247,14 +266,15 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
                 _weekdays.remove(day);
               } else {
                 _weekdays.add(day);
+                _weekdays.sort();
               }
             });
           },
-          activeBorders: List.generate(7, (i) => Border.all(color: _weekdays.contains(i + 1) ? Theme.of(context).colorScheme.primary : Colors.transparent)),
         ),
       ],
     );
   }
+
 
   Widget _buildTimesList(AppLocalizations l10n, {required String title}) {
     return Column(
@@ -268,9 +288,7 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
               label: Text(_times[index].format(context)),
               onDeleted: () {
                 setState(() {
-                  if (_times.length > 1) {
-                    _times.removeAt(index);
-                  }
+                  _times.removeAt(index);
                 });
               },
             );
@@ -284,6 +302,8 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
             if (picked != null && !_times.contains(picked)) {
               setState(() {
                 _times.add(picked);
+                // Optional: sort times
+                _times.sort((a, b) => (a.hour * 60 + a.minute) - (b.hour * 60 + b.minute));
               });
             }
           },
@@ -323,7 +343,18 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
             const SizedBox(height: 16),
           ],
         ),
-        Text(l10n.endDateOptional, style: Theme.of(context).textTheme.titleMedium),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(l10n.endDateOptional, style: Theme.of(context).textTheme.titleMedium),
+            if (_endDate != null)
+              TextButton.icon(
+                icon: const Icon(Icons.clear, size: 18),
+                label: Text(l10n.clear),
+                onPressed: () => setState(() => _endDate = null),
+              )
+          ],
+        ),
         TextButton.icon(
           icon: const Icon(Icons.calendar_today_outlined),
           onPressed: () => _pickDate(false),
@@ -345,6 +376,9 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
       setState(() {
         if (isStartDate) {
           _startDate = picked;
+          if (_endDate != null && _endDate!.isBefore(_startDate)) {
+            _endDate = _startDate; // Ensure end date is not before start date
+          }
         } else {
           _endDate = picked;
         }

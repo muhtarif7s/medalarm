@@ -13,7 +13,22 @@ import 'package:myapp/l10n/app_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await NotificationService().init(); // Temporarily disabled for debugging
-  runApp(const MyApp());
+
+  // Create and initialize MedicationProvider to ensure the database is ready.
+  final medicationProvider = MedicationProvider();
+  await medicationProvider.init();
+  
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: medicationProvider),
+        ChangeNotifierProvider(create: (_) => DoseProvider()),
+        ChangeNotifierProvider(create: (_) => LocaleProvider()),
+        ChangeNotifierProvider(create: (_) => SettingsProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -144,36 +159,28 @@ class MyApp extends StatelessWidget {
       scaffoldBackgroundColor: const Color(0xFF000000),
     );
     
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => MedicationProvider()),
-        ChangeNotifierProvider(create: (_) => DoseProvider()),
-        ChangeNotifierProvider(create: (_) => LocaleProvider()),
-        ChangeNotifierProvider(create: (_) => SettingsProvider()),
-      ],
-      child: Consumer<SettingsProvider>(
-        builder: (context, settingsProvider, child) {
-          return MaterialApp.router(
-            title: 'MedAlarm',
-            theme: lightTheme,
-            darkTheme: darkTheme,
-            themeMode: settingsProvider.themeMode,
-            locale: Provider.of<LocaleProvider>(context).locale,
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            supportedLocales: const [
-              Locale('en', ''),
-              Locale('ar', ''),
-            ],
-            routerConfig: AppRouter.router,
-            debugShowCheckedModeBanner: false,
-          );
-        },
-      ),
+    return Consumer<SettingsProvider>(
+      builder: (context, settingsProvider, child) {
+        return MaterialApp.router(
+          title: 'MedAlarm',
+          theme: lightTheme,
+          darkTheme: darkTheme,
+          themeMode: settingsProvider.themeMode,
+          locale: Provider.of<LocaleProvider>(context).locale,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en', ''),
+            Locale('ar', ''),
+          ],
+          routerConfig: AppRouter.router,
+          debugShowCheckedModeBanner: false,
+        );
+      },
     );
   }
 }

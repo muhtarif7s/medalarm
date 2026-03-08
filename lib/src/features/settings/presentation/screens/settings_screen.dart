@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:myapp/src/providers/locale_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -16,10 +17,10 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final provider = context.watch<SettingsProvider>();
+    final localeProvider = context.watch<LocaleProvider>();
 
     // Set text direction based on language
-    final isRtl = provider.locale.languageCode == 'ar';
+    final isRtl = (localeProvider.locale ?? AppLocalizations.supportedLocales.first).languageCode == 'ar';
 
     return Directionality(
       textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
@@ -67,23 +68,23 @@ class _LanguageSetting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final provider = context.watch<SettingsProvider>();
+    final localeProvider = context.watch<LocaleProvider>();
 
     return ListTile(
       leading: const Icon(Icons.language),
       title: Text(l10n.language),
       trailing: DropdownButton<Locale>(
-        value: provider.locale,
+        value: localeProvider.locale ?? AppLocalizations.supportedLocales.first,
         underline: const SizedBox(),
         onChanged: (locale) {
           if (locale != null) {
-            context.read<SettingsProvider>().setLocale(locale);
+            localeProvider.setLocale(locale);
           }
         },
         items: AppLocalizations.supportedLocales.map((locale) {
           return DropdownMenuItem(
             value: locale,
-            child: Text(l10n.languageName),
+            child: Text(localeProvider.getLangName(locale.languageCode)),
           );
         }).toList(),
       ),

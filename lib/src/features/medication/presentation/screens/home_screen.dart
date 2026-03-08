@@ -30,11 +30,11 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.history),
-            onPressed: () => context.go('/history'),
+            onPressed: () => context.push('/history'),
           ),
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () => context.go('/settings'),
+            onPressed: () => context.push('/settings'),
           ),
         ],
       ),
@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => context.go('/add_medication'),
+        onPressed: () => context.push('/add_medication'),
         label: Text(l10n.addMedication),
         icon: const Icon(Icons.add),
       ),
@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
         final medication = provider.medications[index];
         return MedicationListItem(
           medication: medication,
-          onTap: () => context.go('/details', extra: medication),
+          onTap: () => context.push('/details', extra: medication),
           onDelete: () => _confirmDelete(context, medication.id!),
         );
       },

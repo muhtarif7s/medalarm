@@ -1,19 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsProvider with ChangeNotifier {
-  Locale _locale = const Locale('en');
+  static const String _themeModeKey = 'themeMode';
+
   ThemeMode _themeMode = ThemeMode.system;
 
-  Locale get locale => _locale;
   ThemeMode get themeMode => _themeMode;
 
-  void setLocale(Locale locale) {
-    _locale = locale;
-    notifyListeners();
+  SettingsProvider() {
+    _loadThemeMode();
   }
 
-  void setThemeMode(ThemeMode themeMode) {
-    _themeMode = themeMode;
-    notifyListeners();
+  Future<void> _loadThemeMode() async {
+    final prefs = await SharedPreferences.getInstance();
+    final themeModeString = prefs.getString(_themeModeKey);
+    if (themeModeString != null) {
+      _themeMode = ThemeMode.values.firstWhere(
+        (e) => e.toString() == themeModeString,
+        orElse: () => ThemeMode.system,
+      );
+      notifyListeners();
+    }
+  }
+
+  Future<void> setThemeMode(ThemeMode themeMode) async {
+    if (_themeMode != themeMode) {
+      _themeMode = themeMode;
+      notifyListeners();
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_themeModeKey, themeMode.toString());
+    }
   }
 }
