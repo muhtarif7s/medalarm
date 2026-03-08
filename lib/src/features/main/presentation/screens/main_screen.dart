@@ -31,7 +31,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),

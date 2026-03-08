@@ -14,6 +14,20 @@ class Dose {
     this.status = DoseStatus.pending,
   });
 
+  Dose copyWith({
+    int? id,
+    int? medicationId,
+    DateTime? time,
+    DoseStatus? status,
+  }) {
+    return Dose(
+      id: id ?? this.id,
+      medicationId: medicationId ?? this.medicationId,
+      time: time ?? this.time,
+      status: status ?? this.status,
+    );
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,

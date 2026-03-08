@@ -3,6 +3,7 @@ import 'package:myapp/l10n/app_localizations.dart';
 import 'package:myapp/src/services/database_service.dart';
 import 'package:myapp/src/features/doses/data/models/dose.dart';
 import 'package:myapp/src/features/medication/data/models/medication.dart';
+import 'package:myapp/src/features/medication/presentation/screens/medication_details_screen.dart';
 
 class MedicineCards extends StatefulWidget {
   const MedicineCards({super.key});

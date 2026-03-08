@@ -44,6 +44,7 @@ class _AddMedicineFormState extends State<AddMedicineForm> {
         startDate: _selectedDate,
       );
       await _dbService.insertMedication(newMedication);
+      if (!mounted) return;
       Navigator.of(context).pop();
     }
   }
