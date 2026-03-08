@@ -16,13 +16,20 @@ class _FrequencySelectorState extends State<FrequencySelector> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text('Frequency', style: TextStyle(fontWeight: FontWeight.bold)),
-        Row(
-          children: [
-            Radio(value: 'daily', groupValue: _selectedFrequency, onChanged: (value) => setState(() => _selectedFrequency = value!)),
-            const Text('Daily'),
-            Radio(value: 'weekly', groupValue: _selectedFrequency, onChanged: (value) => setState(() => _selectedFrequency = value!)),
-            const Text('Weekly'),
-          ],
+        DropdownButton<String>(
+          value: _selectedFrequency,
+          onChanged: (String? newValue) {
+            setState(() {
+              _selectedFrequency = newValue!;
+            });
+          },
+          items: <String>['daily', 'weekly']
+              .map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value[0].toUpperCase() + value.substring(1)),
+            );
+          }).toList(),
         ),
       ],
     );

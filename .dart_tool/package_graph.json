@@ -103,7 +103,7 @@
     },
     {
       "name": "flutter_lints",
-      "version": "3.0.2",
+      "version": "6.0.0",
       "dependencies": [
         "lints"
       ]
@@ -166,8 +166,9 @@
     },
     {
       "name": "package_info_plus",
-      "version": "5.0.1",
+      "version": "9.0.0",
       "dependencies": [
+        "clock",
         "ffi",
         "flutter",
         "flutter_web_plugins",
@@ -216,7 +217,7 @@
     },
     {
       "name": "permission_handler",
-      "version": "11.4.0",
+      "version": "12.0.1",
       "dependencies": [
         "flutter",
         "meta",
@@ -229,25 +230,27 @@
     },
     {
       "name": "timezone",
-      "version": "0.9.4",
+      "version": "0.10.1",
       "dependencies": [
+        "http",
         "path"
       ]
     },
     {
       "name": "flutter_local_notifications",
-      "version": "17.2.4",
+      "version": "20.1.0",
       "dependencies": [
         "clock",
         "flutter",
         "flutter_local_notifications_linux",
         "flutter_local_notifications_platform_interface",
+        "flutter_local_notifications_windows",
         "timezone"
       ]
     },
     {
       "name": "google_fonts",
-      "version": "6.3.3",
+      "version": "8.0.2",
       "dependencies": [
         "crypto",
         "flutter",
@@ -292,7 +295,7 @@
     },
     {
       "name": "go_router",
-      "version": "13.2.5",
+      "version": "17.1.0",
       "dependencies": [
         "collection",
         "flutter",
@@ -368,12 +371,13 @@
     },
     {
       "name": "web_socket_channel",
-      "version": "2.4.3",
+      "version": "3.0.3",
       "dependencies": [
         "async",
         "crypto",
         "stream_channel",
-        "web"
+        "web",
+        "web_socket"
       ]
     },
     {
@@ -651,7 +655,7 @@
     },
     {
       "name": "lints",
-      "version": "3.0.0",
+      "version": "6.1.0",
       "dependencies": []
     },
     {
@@ -711,7 +715,7 @@
     },
     {
       "name": "shared_preferences_web",
-      "version": "2.2.2",
+      "version": "2.4.3",
       "dependencies": [
         "flutter",
         "flutter_web_plugins",
@@ -771,12 +775,12 @@
     },
     {
       "name": "web",
-      "version": "0.4.2",
+      "version": "1.1.1",
       "dependencies": []
     },
     {
       "name": "package_info_plus_platform_interface",
-      "version": "2.0.1",
+      "version": "3.2.1",
       "dependencies": [
         "flutter",
         "meta",
@@ -785,7 +789,7 @@
     },
     {
       "name": "http",
-      "version": "1.2.0",
+      "version": "1.6.0",
       "dependencies": [
         "async",
         "http_parser",
@@ -808,7 +812,7 @@
     },
     {
       "name": "url_launcher_web",
-      "version": "2.2.3",
+      "version": "2.4.1",
       "dependencies": [
         "flutter",
         "flutter_web_plugins",
@@ -916,7 +920,7 @@
     },
     {
       "name": "permission_handler_android",
-      "version": "12.1.0",
+      "version": "13.0.1",
       "dependencies": [
         "flutter",
         "permission_handler_platform_interface"
@@ -924,15 +928,26 @@
     },
     {
       "name": "flutter_local_notifications_platform_interface",
-      "version": "7.2.0",
+      "version": "10.0.0",
       "dependencies": [
-        "flutter",
         "plugin_platform_interface"
       ]
     },
     {
+      "name": "flutter_local_notifications_windows",
+      "version": "2.0.1",
+      "dependencies": [
+        "ffi",
+        "flutter",
+        "flutter_local_notifications_platform_interface",
+        "meta",
+        "timezone",
+        "xml"
+      ]
+    },
+    {
       "name": "flutter_local_notifications_linux",
-      "version": "4.0.1",
+      "version": "7.0.0",
       "dependencies": [
         "dbus",
         "ffi",
@@ -1029,6 +1044,13 @@
         "collection",
         "path",
         "term_glyph"
+      ]
+    },
+    {
+      "name": "web_socket",
+      "version": "1.0.1",
+      "dependencies": [
+        "web"
       ]
     },
     {

@@ -10,10 +10,11 @@ class NotificationService {
   final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  Future<void> init() async {
-    // This initialization is the likely source of the startup crash.
-    // It's temporarily disabled in main.dart to confirm.
+  void onDidReceiveNotificationResponse(NotificationResponse notificationResponse) async {
+    // Handle notification tapped logic here
+  }
 
+  Future<void> init() async {
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
 
@@ -29,7 +30,10 @@ class NotificationService {
     );
 
     try {
-      await _notificationsPlugin.initialize(initializationSettings);
+      await _notificationsPlugin.initialize(
+        settings: initializationSettings,
+        onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
+      );
     } catch (e) {
       debugPrint('Failed to initialize notifications: $e');
     }
@@ -40,7 +44,6 @@ class NotificationService {
       final androidPlugin = _notificationsPlugin.resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>();
       if (androidPlugin != null) {
-        await androidPlugin.requestExactAlarmsPermission();
         await androidPlugin.requestNotificationsPermission();
       }
 
@@ -56,14 +59,13 @@ class NotificationService {
 
   Future<void> scheduleNotifications(
       Medication medication, String title, String body) async {
-    // Scheduling is temporarily disabled to prevent startup crashes.
     await cancelNotifications(medication.id!);
   }
 
   Future<void> cancelNotifications(int medicationId) async {
     for (int i = 0; i < 50; i++) {
       try {
-        await _notificationsPlugin.cancel(_generateNotificationId(medicationId, i));
+        await _notificationsPlugin.cancel(id: _generateNotificationId(medicationId, i));
       } catch (e) {
         debugPrint(
             'Failed to cancel notification ID ${_generateNotificationId(medicationId, i)}: $e');

@@ -6,7 +6,7 @@ class NextDoseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+      color: Theme.of(context).colorScheme.primary.withAlpha(25),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

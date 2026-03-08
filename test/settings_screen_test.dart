@@ -13,54 +13,27 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'settings_screen_test.mocks.dart';
 import 'utils/test_go_router.dart';
 
-class MockSettingsProvider extends ChangeNotifier implements SettingsProvider {
+class MockSettingsProvider extends ChangeNotifier {
   ThemeMode _themeMode = ThemeMode.system;
-  Locale _locale = const Locale('en');
 
-  @override
   ThemeMode get themeMode => _themeMode;
 
-  @override
   Future<void> setThemeMode(ThemeMode themeMode) async {
     _themeMode = themeMode;
     notifyListeners();
   }
-
-  @override
-  Locale get locale => _locale;
-
-  @override
-  void setLocale(Locale locale) {
-    _locale = locale;
-    notifyListeners();
-  }
-
-  @override
-  String getLangName(String langCode) {
-    switch (langCode) {
-      case 'en':
-        return 'English';
-      case 'ar':
-        return 'العربية';
-      default:
-        return '';
-    }
-  }
 }
 
-class MockLocaleProvider extends ChangeNotifier implements LocaleProvider {
+class MockLocaleProvider extends ChangeNotifier {
   Locale _locale = const Locale('en');
 
-  @override
   Locale get locale => _locale;
 
-  @override
   void setLocale(Locale locale) {
     _locale = locale;
     notifyListeners();
   }
 
-  @override
   String getLangName(String langCode) {
     switch (langCode) {
       case 'en':
@@ -89,10 +62,10 @@ void main() {
       MultiProvider(
         providers: [
           ChangeNotifierProvider<SettingsProvider>(
-            create: (_) => mockSettingsProvider,
+            create: (_) => mockSettingsProvider as SettingsProvider,
           ),
           ChangeNotifierProvider<LocaleProvider>(
-            create: (_) => mockLocaleProvider,
+            create: (_) => mockLocaleProvider as LocaleProvider,
           ),
         ],
         child: MaterialApp(

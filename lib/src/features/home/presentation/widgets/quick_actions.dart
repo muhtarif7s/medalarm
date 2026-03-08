@@ -22,7 +22,7 @@ class QuickActions extends StatelessWidget {
           onPressed: () {},
           icon: Icon(icon, size: 30),
           style: IconButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+            backgroundColor: Theme.of(context).colorScheme.primary.withAlpha(25),
             foregroundColor: Theme.of(context).colorScheme.primary
           ),
         ),
