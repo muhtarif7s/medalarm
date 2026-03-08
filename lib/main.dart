@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:myapp/src/config/app_router.dart';
+import 'package:myapp/src/features/main/presentation/screens/main_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:myapp/l10n/app_localizations.dart';
@@ -151,7 +151,7 @@ class MyApp extends StatelessWidget {
     
     return Consumer<SettingsProvider>(
       builder: (context, settingsProvider, child) {
-        return MaterialApp.router(
+        return MaterialApp(
           title: 'MedAlarm',
           theme: lightTheme,
           darkTheme: darkTheme,
@@ -167,7 +167,7 @@ class MyApp extends StatelessWidget {
             Locale('en', ''),
             Locale('ar', ''),
           ],
-          routerConfig: router,
+          home: const MainScreen(),
           debugShowCheckedModeBanner: false,
         );
       },
