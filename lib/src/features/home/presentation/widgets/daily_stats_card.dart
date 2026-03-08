@@ -5,24 +5,27 @@ class DailyStatsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Card(
+    return Card(
       child: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Column(
-              children: [Text('Taken'), Text('0/2')],
-            ),
-            Column(
-              children: [Text('Skipped'), Text('0')],
-            ),
-            Column(
-              children: [Text('Upcoming'), Text('2')],
-            ),
+            _buildStat('80%', 'Adherence'),
+            _buildStat('12', 'Taken'),
+            _buildStat('3', 'Skipped'),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildStat(String value, String label) {
+    return Column(
+      children: [
+        Text(value, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        Text(label, style: const TextStyle(color: Colors.grey)),
+      ],
     );
   }
 }

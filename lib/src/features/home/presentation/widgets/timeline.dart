@@ -5,35 +5,31 @@ class Timeline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Card(
-      child: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Today', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        SizedBox(height: 8),
+        // TODO: Implement a more dynamic timeline
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('Today's Timeline', style: TextStyle(fontWeight: FontWeight.bold)),
-            SizedBox(height: 16),
-            Row(
-              children: [
-                Text('8:00 AM'),
-                SizedBox(width: 16),
-                Icon(Icons.check_circle, color: Colors.green),
-                SizedBox(width: 8),
-                Text('Panadol (1 pill)'),
-              ],
-            ),
-            Row(
-              children: [
-                Text('12:00 PM'),
-                SizedBox(width: 16),
-                Icon(Icons.radio_button_unchecked),
-                SizedBox(width: 8),
-                Text('Panadol (1 pill)'),
-              ],
-            ),
+            _buildTimelineItem('8 AM', true),
+            _buildTimelineItem('12 PM', false),
+            _buildTimelineItem('4 PM', false),
+            _buildTimelineItem('8 PM', false),
           ],
         ),
-      ),
+      ],
+    );
+  }
+
+  static Widget _buildTimelineItem(String time, bool isNext) {
+    return Column(
+      children: [
+        Text(time, style: TextStyle(fontWeight: isNext ? FontWeight.bold : FontWeight.normal)),
+        Icon(isNext ? Icons.circle : Icons.circle_outlined, size: 16),
+      ],
     );
   }
 }

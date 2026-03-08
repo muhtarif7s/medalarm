@@ -5,24 +5,30 @@ class QuickActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Card(
-      child: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Column(
-              children: [Icon(Icons.add), Text('Add Medicine')],
-            ),
-            Column(
-              children: [Icon(Icons.history), Text('History')],
-            ),
-            Column(
-              children: [Icon(Icons.bar_chart), Text('Statistics')],
-            ),
-          ],
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        _buildAction(context, Icons.add, 'Add Medicine'),
+        _buildAction(context, Icons.history, 'View History'),
+        _buildAction(context, Icons.pie_chart, 'View Report'),
+      ],
+    );
+  }
+
+  Widget _buildAction(BuildContext context, IconData icon, String label) {
+    return Column(
+      children: [
+        IconButton.filled(
+          onPressed: () {},
+          icon: Icon(icon, size: 30),
+          style: IconButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+            foregroundColor: Theme.of(context).colorScheme.primary
+          ),
         ),
-      ),
+        const SizedBox(height: 4),
+        Text(label, style: const TextStyle(fontSize: 12)),
+      ],
     );
   }
 }

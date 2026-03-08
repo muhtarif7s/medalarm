@@ -5,12 +5,35 @@ class NextDoseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Card(
-      child: ListTile(
-        leading: Icon(Icons.medication),
-        title: Text('Panadol'),
-        subtitle: Text('Next dose in 2h 30m'),
-        trailing: Text('1 pill'),
+    return Card(
+      color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('Next Dose', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                const Icon(Icons.medical_services_outlined, size: 40),
+                const SizedBox(width: 16),
+                const Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Panadol', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                    Text('2 pills - 8:00 AM', style: TextStyle(color: Colors.grey)),
+                  ],
+                ),
+                const Spacer(),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('Take'),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

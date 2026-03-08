@@ -5,12 +5,22 @@ class SmartAlerts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Card(
-      child: ListTile(
-        leading: Icon(Icons.warning_amber_rounded),
-        title: Text('Low on Panadol'),
-        subtitle: Text('You have 5 pills left'),
-        trailing: Icon(Icons.arrow_forward_ios),
+    return Card(
+      color: Colors.amber.shade100,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          children: [
+            Icon(Icons.lightbulb_outline, color: Colors.amber.shade800, size: 30),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                'Your Panadol is running low. You might want to refill it soon.',
+                style: TextStyle(color: Colors.amber.shade900),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
