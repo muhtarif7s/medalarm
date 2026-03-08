@@ -5,11 +5,11 @@ class Timeline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Today', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-        SizedBox(height: 8),
+        const Text('Today', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        const SizedBox(height: 8),
         // TODO: Implement a more dynamic timeline
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -24,7 +24,7 @@ class Timeline extends StatelessWidget {
     );
   }
 
-  static Widget _buildTimelineItem(String time, bool isNext) {
+  Widget _buildTimelineItem(String time, bool isNext) {
     return Column(
       children: [
         Text(time, style: TextStyle(fontWeight: isNext ? FontWeight.bold : FontWeight.normal)),

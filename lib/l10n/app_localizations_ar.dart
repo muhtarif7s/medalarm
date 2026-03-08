@@ -291,7 +291,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get markAsSkipped => 'وضع علامة كـ تم تخطيها';
 
   @override
-  String get english => 'English';
+  String get english => 'الإنجليزية';
 
   @override
   String get arabic => 'العربية';

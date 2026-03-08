@@ -14,7 +14,7 @@ class MedicineCards extends StatelessWidget {
           height: 150,
           child: ListView(
             scrollDirection: Axis.horizontal,
-            children: const [
+            children: [
               _buildMedicineCard('Panadol', '2 pills left'),
               _buildMedicineCard('Aspirin', '10 pills left'),
               _buildMedicineCard('Ibuprofen', '5 pills left'),
@@ -25,7 +25,7 @@ class MedicineCards extends StatelessWidget {
     );
   }
 
-  static Widget _buildMedicineCard(String name, String stock) {
+  Widget _buildMedicineCard(String name, String stock) {
     return Card(
       child: SizedBox(
         width: 120,
