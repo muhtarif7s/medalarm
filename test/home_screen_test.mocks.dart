@@ -89,14 +89,14 @@ class _FakeGoRouteInformationParser_4 extends _i1.SmartFake
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
-  MockGoRouter() {
-    _i1.throwOnMissingStub(this);
-  }
-
   @override
   _i2.RouteConfiguration get configuration => (super.noSuchMethod(
         Invocation.getter(#configuration),
         returnValue: _FakeRouteConfiguration_0(
+          this,
+          Invocation.getter(#configuration),
+        ),
+        returnValueForMissingStub: _FakeRouteConfiguration_0(
           this,
           Invocation.getter(#configuration),
         ),
@@ -109,12 +109,20 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
           this,
           Invocation.getter(#backButtonDispatcher),
         ),
+        returnValueForMissingStub: _FakeBackButtonDispatcher_1(
+          this,
+          Invocation.getter(#backButtonDispatcher),
+        ),
       ) as _i3.BackButtonDispatcher);
 
   @override
   _i4.GoRouterDelegate get routerDelegate => (super.noSuchMethod(
         Invocation.getter(#routerDelegate),
         returnValue: _FakeGoRouterDelegate_2(
+          this,
+          Invocation.getter(#routerDelegate),
+        ),
+        returnValueForMissingStub: _FakeGoRouterDelegate_2(
           this,
           Invocation.getter(#routerDelegate),
         ),
@@ -128,6 +136,10 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
           this,
           Invocation.getter(#routeInformationProvider),
         ),
+        returnValueForMissingStub: _FakeGoRouteInformationProvider_3(
+          this,
+          Invocation.getter(#routeInformationProvider),
+        ),
       ) as _i5.GoRouteInformationProvider);
 
   @override
@@ -138,12 +150,17 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
           this,
           Invocation.getter(#routeInformationParser),
         ),
+        returnValueForMissingStub: _FakeGoRouteInformationParser_4(
+          this,
+          Invocation.getter(#routeInformationParser),
+        ),
       ) as _i6.GoRouteInformationParser);
 
   @override
   bool get overridePlatformDefaultLocation => (super.noSuchMethod(
         Invocation.getter(#overridePlatformDefaultLocation),
         returnValue: false,
+        returnValueForMissingStub: false,
       ) as bool);
 
   @override
@@ -191,6 +208,7 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
           [],
         ),
         returnValue: false,
+        returnValueForMissingStub: false,
       ) as bool);
 
   @override
@@ -209,6 +227,17 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
           },
         ),
         returnValue: _i8.dummyValue<String>(
+          this,
+          Invocation.method(
+            #namedLocation,
+            [name],
+            {
+              #pathParameters: pathParameters,
+              #queryParameters: queryParameters,
+            },
+          ),
+        ),
+        returnValueForMissingStub: _i8.dummyValue<String>(
           this,
           Invocation.method(
             #namedLocation,
@@ -276,6 +305,7 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
           {#extra: extra},
         ),
         returnValue: _i10.Future<T?>.value(),
+        returnValueForMissingStub: _i10.Future<T?>.value(),
       ) as _i10.Future<T?>);
 
   @override
@@ -296,6 +326,7 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
           },
         ),
         returnValue: _i10.Future<T?>.value(),
+        returnValueForMissingStub: _i10.Future<T?>.value(),
       ) as _i10.Future<T?>);
 
   @override
@@ -310,6 +341,7 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
           {#extra: extra},
         ),
         returnValue: _i10.Future<T?>.value(),
+        returnValueForMissingStub: _i10.Future<T?>.value(),
       ) as _i10.Future<T?>);
 
   @override
@@ -330,6 +362,7 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
           },
         ),
         returnValue: _i10.Future<T?>.value(),
+        returnValueForMissingStub: _i10.Future<T?>.value(),
       ) as _i10.Future<T?>);
 
   @override
@@ -344,6 +377,7 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
           {#extra: extra},
         ),
         returnValue: _i10.Future<T?>.value(),
+        returnValueForMissingStub: _i10.Future<T?>.value(),
       ) as _i10.Future<T?>);
 
   @override
@@ -364,6 +398,7 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
           },
         ),
         returnValue: _i10.Future<T?>.value(),
+        returnValueForMissingStub: _i10.Future<T?>.value(),
       ) as _i10.Future<T?>);
 
   @override

@@ -39,7 +39,7 @@ class MockMedicationProvider extends ChangeNotifier implements MedicationProvide
   Future<Medication?> getMedication(int id) async => null;
 }
 
-@GenerateMocks([GoRouter])
+@GenerateNiceMocks([MockSpec<GoRouter>()])
 void main() {
   setUpAll(() {
     sqfliteFfiInit();
@@ -72,7 +72,7 @@ void main() {
     await tester.tap(find.text('Add Medication'));
     await tester.pumpAndSettle();
 
-    verify(mockGoRouter.go('/add_medication')).called(1);
+    verify(mockGoRouter.push('/add_medication')).called(1);
   });
 
   testWidgets('T2.5: Tap "History" to go to the "History" screen', (WidgetTester tester) async {
@@ -101,7 +101,7 @@ void main() {
     await tester.tap(find.byIcon(Icons.history));
     await tester.pumpAndSettle();
 
-    verify(mockGoRouter.go('/history')).called(1);
+    verify(mockGoRouter.push('/history')).called(1);
   });
 
   testWidgets('T2.7: Tap "Settings" to go to the "Settings" screen', (WidgetTester tester) async {
@@ -130,6 +130,6 @@ void main() {
     await tester.tap(find.byIcon(Icons.settings));
     await tester.pumpAndSettle();
 
-    verify(mockGoRouter.go('/settings')).called(1);
+    verify(mockGoRouter.push('/settings')).called(1);
   });
 }

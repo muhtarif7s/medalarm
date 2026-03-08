@@ -1,28 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myapp/src/config/app_router.dart';
-import 'package:myapp/src/features/doses/presentation/providers/dose_provider.dart';
-import 'package:myapp/src/features/medication/presentation/providers/medication_provider.dart';
-// import 'package:myapp/src/features/medication/presentation/services/notification_service.dart';
-import 'package:myapp/src/features/settings/presentation/providers/settings_provider.dart';
-import 'package:myapp/src/providers/locale_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:myapp/l10n/app_localizations.dart';
+import 'package:myapp/src/features/settings/presentation/providers/settings_provider.dart';
+import 'package:myapp/src/providers/locale_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await NotificationService().init(); // Temporarily disabled for debugging
-
-  // Create and initialize MedicationProvider to ensure the database is ready.
-  final medicationProvider = MedicationProvider();
-  await medicationProvider.init();
   
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: medicationProvider),
-        ChangeNotifierProvider(create: (_) => DoseProvider()),
         ChangeNotifierProvider(create: (_) => LocaleProvider()),
         ChangeNotifierProvider(create: (_) => SettingsProvider()),
       ],
@@ -177,7 +167,7 @@ class MyApp extends StatelessWidget {
             Locale('en', ''),
             Locale('ar', ''),
           ],
-          routerConfig: AppRouter.router,
+          routerConfig: router,
           debugShowCheckedModeBanner: false,
         );
       },
