@@ -13,20 +13,15 @@ import 'settings_screen_test.mocks.dart';
 import 'utils/test_go_router.dart';
 
 class MockSettingsProvider extends ChangeNotifier implements SettingsProvider {
+  ThemeMode _themeMode = ThemeMode.system;
   @override
-  Locale get locale => const Locale('en');
+  ThemeMode get themeMode => _themeMode;
 
   @override
-  ThemeMode get themeMode => ThemeMode.system;
-
-  @override
-  void setLocale(Locale locale) {}
-
-  @override
-  void setThemeMode(ThemeMode themeMode) {}
-  
-  @override
-  void addListener(VoidCallback listener) {}
+  Future<void> setThemeMode(ThemeMode themeMode) async {
+    _themeMode = themeMode;
+    notifyListeners();
+  }
 }
 
 @GenerateMocks([GoRouter])

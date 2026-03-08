@@ -637,6 +637,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'...'**
   String get loading;
+
+  /// No description provided for @pleaseAddTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Please add a time'**
+  String get pleaseAddTime;
+
+  /// No description provided for @clear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clear;
 }
 
 class _AppLocalizationsDelegate

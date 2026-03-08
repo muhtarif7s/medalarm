@@ -88,5 +88,7 @@
   "markAsSkipped": "وضع علامة كـ تم تخطيها",
   "english": "English",
   "arabic": "العربية",
-  "loading": "..."
+  "loading": "...",
+  "pleaseAddTime": "يرجى إضافة وقت",
+  "clear": "مسح"
 }

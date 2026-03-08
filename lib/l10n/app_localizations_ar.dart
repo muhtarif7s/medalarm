@@ -298,4 +298,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get loading => '...';
+
+  @override
+  String get pleaseAddTime => 'يرجى إضافة وقت';
+
+  @override
+  String get clear => 'مسح';
 }

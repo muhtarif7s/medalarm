@@ -88,5 +88,7 @@
   "markAsSkipped": "Mark as Skipped",
   "english": "English",
   "arabic": "العربية",
-  "loading": "..."
+  "loading": "...",
+  "pleaseAddTime": "Please add a time",
+  "clear": "Clear"
 }

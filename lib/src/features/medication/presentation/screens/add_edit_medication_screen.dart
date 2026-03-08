@@ -185,7 +185,7 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
         Text(l10n.scheduleType, style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 8),
         DropdownButtonFormField<MedicationScheduleType>(
-          value: _scheduleType, // Use value instead of initialValue
+          initialValue: _scheduleType,
           items: [
             DropdownMenuItem(value: MedicationScheduleType.daily, child: Text(l10n.daily)),
             DropdownMenuItem(value: MedicationScheduleType.weekdays, child: Text(l10n.weekdays)),
@@ -250,7 +250,6 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
         const SizedBox(height: 8),
         ToggleSwitch(
           minWidth: 50.0,
-          isJumbo: true,
           cornerRadius: 20.0,
           activeFgColor: Colors.white,
           inactiveBgColor: Colors.grey[300],

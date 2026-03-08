@@ -298,4 +298,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loading => '...';
+
+  @override
+  String get pleaseAddTime => 'Please add a time';
+
+  @override
+  String get clear => 'Clear';
 }
