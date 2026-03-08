@@ -3,8 +3,6 @@
 
   packages = [
     pkgs.unzip
-    pkgs.openjdk17        # ← هنا ضيفنا JDK 17
-    pkgs.sudo             # ← هنا ضيفنا sudo
   ];
 
   idx = {
@@ -34,10 +32,6 @@
             "--web-port"
             "$PORT"
           ];
-          manager = "flutter";
-        };
-
-        android = {
           manager = "flutter";
         };
       };
