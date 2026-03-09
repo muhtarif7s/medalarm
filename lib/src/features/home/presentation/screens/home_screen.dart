@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:myapp/l10n/app_localizations.dart';
 import 'package:myapp/src/features/medication/presentation/providers/medication_provider.dart';
-import 'package:myapp/src/features/medication/presentation/screens/add_edit_medication_screen.dart';
-import 'package:myapp/src/features/medication/presentation/widgets/medication_list_item.dart';
+import 'package:myapp/src/features/medication/presentation/widgets/medication_list.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -20,12 +20,7 @@ class HomeScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AddEditMedicationScreen(),
-                ),
-              );
+              context.go('/add-edit-medication');
             },
           ),
         ],
@@ -42,29 +37,7 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             )
-          : ListView.builder(
-              itemCount: medicationProvider.medications.length,
-              itemBuilder: (context, index) {
-                final medication = medicationProvider.medications[index];
-                return MedicationListItem(
-                  medication: medication,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            AddEditMedicationScreen(medication: medication),
-                      ),
-                    );
-                  },
-                  onDelete: () {
-                    context
-                        .read<MedicationProvider>()
-                        .deleteMedication(medication.id!);
-                  },
-                );
-              },
-            ),
+          : MedicationList(medications: medicationProvider.medications),
     );
   }
 }

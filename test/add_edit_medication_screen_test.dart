@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mockito/mockito.dart';
 import 'package:myapp/l10n/app_localizations.dart';
 import 'package:myapp/src/features/medication/data/models/medication.dart';
@@ -14,10 +15,24 @@ void main() {
   group('AddEditMedicationScreen', () {
     late MockMedicationRepository mockMedicationRepository;
     late MockDoseScheduleRepository mockDoseScheduleRepository;
+    late GoRouter router;
 
     setUp(() {
       mockMedicationRepository = MockMedicationRepository();
       mockDoseScheduleRepository = MockDoseScheduleRepository();
+      router = GoRouter(
+        routes: [
+          GoRoute(
+            path: '/',
+            builder: (context, state) => const Scaffold(),
+          ),
+          GoRoute(
+            path: '/add-edit-medication',
+            builder: (context, state) => const AddEditMedicationScreen(),
+          ),
+        ],
+        initialLocation: '/add-edit-medication',
+      );
     });
 
     testWidgets('should add a medication', (WidgetTester tester) async {
@@ -33,6 +48,7 @@ void main() {
         remainingDoses: 10,
         startDate: DateTime.now(),
       );
+      when(mockMedicationRepository.addMedication(any)).thenAnswer((_) async => Future.value());
 
       // Act
       await tester.pumpWidget(
@@ -42,26 +58,28 @@ void main() {
               create: (_) => MedicationProvider(mockMedicationRepository, mockDoseScheduleRepository),
             ),
           ],
-          child: const MaterialApp(
-            home: AddEditMedicationScreen(),
-            localizationsDelegates: [
+          child: MaterialApp.router(
+            routerConfig: router,
+            localizationsDelegates: const [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: [
-              Locale('en', ''), 
+            supportedLocales: const [
+              Locale('en', ''),
             ],
           ),
         ),
       );
-      await tester.enterText(find.byType(TextFormField).at(0), medication.name);
-      await tester.enterText(find.byType(TextFormField).at(1), medication.dosage.toString());
-      await tester.enterText(find.byType(TextFormField).at(2), medication.unit);
-      await tester.enterText(find.byType(TextFormField).at(3), medication.stock.toString());
-      await tester.tap(find.byIcon(Icons.save_alt_outlined));
-      await tester.pump();
+
+      await tester.enterText(find.byKey(const Key('medication_name_field')), medication.name);
+      await tester.enterText(find.byKey(const Key('medication_dosage_field')), medication.dosage.toString());
+      await tester.enterText(find.byKey(const Key('medication_unit_field')), medication.unit);
+      await tester.enterText(find.byKey(const Key('medication_stock_field')), medication.stock.toString());
+
+      await tester.tap(find.byIcon(Icons.save));
+      await tester.pumpAndSettle();
 
       // Assert
       verify(mockMedicationRepository.addMedication(any)).called(1);

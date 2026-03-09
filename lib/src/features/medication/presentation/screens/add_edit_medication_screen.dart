@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:myapp/l10n/app_localizations.dart';
 import 'package:myapp/src/features/medication/data/models/day_of_week.dart';
@@ -65,6 +66,7 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
+                key: const Key('medication_name_field'),
                 initialValue: _name,
                 decoration: InputDecoration(labelText: l10n.medicationName),
                 validator: (value) {
@@ -76,6 +78,7 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
                 onSaved: (value) => _name = value ?? '',
               ),
               TextFormField(
+                key: const Key('medication_dosage_field'),
                 initialValue: _dosage.toString(),
                 decoration: InputDecoration(labelText: l10n.dosage),
                 keyboardType: TextInputType.number,
@@ -88,6 +91,7 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
                 onSaved: (value) => _dosage = double.tryParse(value ?? '0.0') ?? 0.0,
               ),
               TextFormField(
+                key: const Key('medication_unit_field'),
                 initialValue: _unit,
                 decoration: InputDecoration(labelText: l10n.unitExample),
                 validator: (value) {
@@ -99,6 +103,7 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
                 onSaved: (value) => _unit = value ?? '',
               ),
               TextFormField(
+                key: const Key('medication_stock_field'),
                 initialValue: _stock.toString(),
                 decoration: InputDecoration(labelText: l10n.stock),
                 keyboardType: TextInputType.number,
@@ -333,7 +338,7 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
       _formKey.currentState?.save();
       final l10n = AppLocalizations.of(context)!;
       final provider = Provider.of<MedicationProvider>(context, listen: false);
-      final navigator = Navigator.of(context);
+      final router = GoRouter.of(context);
       final messenger = ScaffoldMessenger.of(context);
 
       try {
@@ -357,7 +362,7 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
           await provider.updateMedication(medication);
         }
 
-        navigator.pop();
+        router.go('/');
       } catch (e) {
         messenger.showSnackBar(
           SnackBar(content: Text('${l10n.failedToSaveMedication} $e')),
@@ -369,7 +374,7 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
   void _confirmDelete(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final provider = Provider.of<MedicationProvider>(context, listen: false);
-    final navigator = Navigator.of(context);
+    final router = GoRouter.of(context);
     final messenger = ScaffoldMessenger.of(context);
 
     showDialog(
@@ -388,8 +393,7 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
                 if (widget.medication?.id != null) {
                   await provider.deleteMedication(widget.medication!.id!);
                 }
-                navigator.pop();
-                navigator.pop();
+                router.go('/');
               } catch (e) {
                 messenger.showSnackBar(
                   SnackBar(content: Text('${l10n.failedToDeleteMedication} $e')),

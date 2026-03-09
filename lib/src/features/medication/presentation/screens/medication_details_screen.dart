@@ -1,14 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/src/features/medication/data/models/medication.dart';
 import 'package:intl/intl.dart';
+import 'package:myapp/src/features/medication/data/models/medication.dart';
+import 'package:myapp/src/features/medication/presentation/providers/medication_provider.dart';
+import 'package:provider/provider.dart';
 
 class MedicationDetailsScreen extends StatelessWidget {
-  final Medication medication;
+  final String medicationId;
 
-  const MedicationDetailsScreen({super.key, required this.medication});
+  const MedicationDetailsScreen({super.key, required this.medicationId});
 
   @override
   Widget build(BuildContext context) {
+    final medication = context.watch<MedicationProvider>().getMedicationById(medicationId);
+
+    if (medication == null) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: const Center(
+          child: Text('Medication not found.'),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(medication.name),

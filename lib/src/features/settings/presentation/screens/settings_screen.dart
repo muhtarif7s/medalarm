@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:myapp/src/features/settings/presentation/widgets/settings_row.dart';
 import 'package:myapp/src/features/settings/presentation/widgets/user_profile_header.dart';
 
@@ -17,11 +16,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          tooltip: 'Back',
-          onPressed: () => GoRouter.of(context).pop(),
-        ),
         title: const Text('Settings'),
       ),
       body: ListView(

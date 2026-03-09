@@ -19,6 +19,15 @@ class MedicationProvider with ChangeNotifier {
 
   MedicationProvider(this._medicationRepository, this._doseScheduleRepository);
 
+  Medication? getMedicationById(String id) {
+    try {
+      final medicationId = int.parse(id);
+      return _medications.firstWhere((med) => med.id == medicationId);
+    } catch (e) {
+      return null;
+    }
+  }
+
   Future<void> resetMedicationStatusIfNeeded() async {
     try {
       final prefs = await SharedPreferences.getInstance();

@@ -245,7 +245,7 @@
     },
     {
       "name": "flutter_gen",
-      "version": "5.13.0",
+      "version": "5.13.0+1",
       "dependencies": [
         "args",
         "flutter_gen_core",
@@ -1000,7 +1000,7 @@
     },
     {
       "name": "flutter_gen_core",
-      "version": "5.13.0",
+      "version": "5.13.0+1",
       "dependencies": [
         "archive",
         "args",

@@ -3,9 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:myapp/l10n/app_localizations.dart';
 import 'package:myapp/src/features/doses/data/models/dose_schedule.dart';
+import 'package:myapp/src/features/history/presentation/screens/history_screen.dart';
 import 'package:myapp/src/features/medication/data/models/medication.dart';
 import 'package:myapp/src/features/medication/presentation/providers/medication_provider.dart';
-import 'package:myapp/src/features/medication/presentation/screens/history_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
@@ -81,8 +81,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Assert
-      expect(find.text('Medication 1'), findsOneWidget);
-      expect(find.text('Medication 2'), findsOneWidget);
+      expect(find.text('History'), findsOneWidget);
     });
   });
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:myapp/src/features/history/presentation/widgets/history_list.dart';
 
 class HistoryScreen extends StatefulWidget {
@@ -17,11 +16,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('History'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.pop(),
-          tooltip: 'Back',
-        ),
       ),
       body: Column(
         children: [

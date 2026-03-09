@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/src/features/add_medicine/presentation/screens/add_medicine_screen.dart';
+import 'package:go_router/go_router.dart';
 import 'package:myapp/src/features/history/presentation/screens/history_screen.dart';
 import 'package:myapp/src/features/home/presentation/screens/home_screen.dart';
 import 'package:myapp/src/features/settings/presentation/screens/settings_screen.dart';
@@ -26,6 +26,20 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {
       _selectedIndex = index;
     });
+    switch (index) {
+      case 0:
+        context.go('/');
+        break;
+      case 1:
+        context.go('/history');
+        break;
+      case 2:
+        context.go('/statistics');
+        break;
+      case 3:
+        context.go('/settings');
+        break;
+    }
   }
 
   @override
@@ -36,10 +50,7 @@ class _MainScreenState extends State<MainScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const AddMedicineScreen()),
-          );
+          context.go('/add-edit-medication');
         },
         child: const Icon(Icons.add),
       ),

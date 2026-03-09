@@ -40,6 +40,9 @@ class MockMedicationProvider extends ChangeNotifier implements MedicationProvide
 
   @override
   Future<void> resetMedicationStatusIfNeeded() async {}
+  
+  @override
+  Medication? getMedicationById(String id) => null;
 }
 
 @GenerateNiceMocks([MockSpec<GoRouter>()])
@@ -75,64 +78,6 @@ void main() {
     await tester.tap(find.byIcon(Icons.add));
     await tester.pumpAndSettle();
 
-    verify(mockGoRouter.push('/add_medication')).called(1);
-  });
-
-  testWidgets('T2.5: Tap "History" to go to the "History" screen', (WidgetTester tester) async {
-    final mockGoRouter = MockGoRouter();
-    final mockMedicationProvider = MockMedicationProvider();
-
-    await tester.pumpWidget(
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider<MedicationProvider>(
-            create: (_) => mockMedicationProvider,
-          ),
-        ],
-        child: MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: TestGoRouter(
-            goRouter: mockGoRouter,
-            child: const HomeScreen(),
-          ),
-        ),
-      ),
-    );
-    await tester.pumpAndSettle();
-
-    await tester.tap(find.byIcon(Icons.history));
-    await tester.pumpAndSettle();
-
-    verify(mockGoRouter.push('/history')).called(1);
-  });
-
-  testWidgets('T2.7: Tap "Settings" to go to the "Settings" screen', (WidgetTester tester) async {
-    final mockGoRouter = MockGoRouter();
-    final mockMedicationProvider = MockMedicationProvider();
-
-    await tester.pumpWidget(
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider<MedicationProvider>(
-            create: (_) => mockMedicationProvider,
-          ),
-        ],
-        child: MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: TestGoRouter(
-            goRouter: mockGoRouter,
-            child: const HomeScreen(),
-          ),
-        ),
-      ),
-    );
-    await tester.pumpAndSettle();
-
-    await tester.tap(find.byIcon(Icons.settings));
-    await tester.pumpAndSettle();
-
-    verify(mockGoRouter.push('/settings')).called(1);
+    verify(mockGoRouter.go('/add-edit-medication')).called(1);
   });
 }

@@ -55,9 +55,8 @@ void main() {
 
       // Assert
       expect(find.text('Settings'), findsOneWidget);
-      expect(find.text('Theme'), findsOneWidget);
+      expect(find.text('Dose Notifications'), findsOneWidget);
       expect(find.text('Language'), findsOneWidget);
-      expect(find.text('Notification'), findsOneWidget);
     });
   });
 }

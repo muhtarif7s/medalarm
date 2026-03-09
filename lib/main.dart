@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:myapp/l10n/app_localizations.dart';
-import 'package:myapp/src/features/home/presentation/screens/home_screen.dart';
+import 'package:myapp/src/navigation/app_router.dart';
 import 'package:myapp/src/features/medication/data/repositories/medication_repository.dart';
 import 'package:myapp/src/features/medication/presentation/providers/medication_provider.dart';
 import 'package:myapp/src/features/settings/presentation/providers/locale_provider.dart';
@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => SettingsProvider()),
-        ChangeNotifierProvider(create: (_) => LocaleProviderImpl(sharedPreferences)),
+        ChangeNotifierProvider<LocaleProvider>(create: (_) => LocaleProviderImpl(sharedPreferences)),
         ChangeNotifierProvider(
           create: (_) => MedicationProvider(
             MedicationRepository(database: database!),
@@ -94,7 +94,8 @@ class MyApp extends StatelessWidget {
       child: Consumer<SettingsProvider>(
         builder: (context, settingsProvider, child) {
           final localeProvider = Provider.of<LocaleProvider>(context);
-          return MaterialApp(
+          return MaterialApp.router(
+            routerConfig: AppRouter.router,
             title: 'Medication-Tracker',
             theme: ThemeData.light(),
             darkTheme: ThemeData.dark().copyWith(
@@ -112,14 +113,12 @@ class MyApp extends StatelessWidget {
               GlobalCupertinoLocalizations.delegate,
             ],
             supportedLocales: AppLocalizations.supportedLocales,
-            home: const HomeScreen(),
           );
         },
       ),
     );
   }
 }
-
 class LocaleProviderImpl extends ChangeNotifier implements LocaleProvider {
   LocaleProviderImpl(this._sharedPreferences);
 
@@ -154,3 +153,4 @@ class LocaleProviderImpl extends ChangeNotifier implements LocaleProvider {
     }
   }
 }
+
