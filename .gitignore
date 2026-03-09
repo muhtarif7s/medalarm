@@ -33,11 +33,13 @@ generated_plugin_registrant.dart
 # Android
 # ========================
 android/.gradle/
-android/app/*.jks
-android/app/*.keystore
 android/app/build/
 *.apk
 *.aab
+
+# Keep these if you have signing locally, else Codemagic handles signing:
+# android/app/*.jks
+# android/app/*.keystore
 
 # ========================
 # iOS
@@ -47,6 +49,9 @@ ios/Pods/
 ios/Runner.xcworkspace/
 ios/build/
 *.ipa
+
+# Keep these only if needed for signing locally
+# ios/Runner/Signing*
 
 # ========================
 # Desktop (macOS, Linux, Windows)
