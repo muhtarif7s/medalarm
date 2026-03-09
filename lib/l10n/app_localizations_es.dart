@@ -15,7 +15,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get medicationName => 'Nombre del Medicamento';
 
   @override
-  String get pleaseEnterName => 'Por favor, ingrese un nombre';
+  String get pleaseEnterName => 'Por favor, ingrese un nombre de medicamento';
 
   @override
   String get dosage => 'Dosis';
@@ -27,7 +27,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get invalidNumber => 'Número inválido';
 
   @override
-  String get unitExample => 'Unidad (ej. mg, pastilla)';
+  String get unitExample => 'Unidad (ej. mg, ml)';
 
   @override
   String get pleaseEnterUnit => 'Por favor, ingrese una unidad';
@@ -66,7 +66,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get interval => 'Intervalo';
 
   @override
-  String get intervalHours => 'Intervalo (horas)';
+  String get intervalHours => 'Intervalo en horas';
 
   @override
   String get daysOfTheWeek => 'Días de la semana';
@@ -75,13 +75,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get times => 'Horas';
 
   @override
-  String get addTime => 'Agregar hora';
+  String get addTime => 'Agregar Hora';
 
   @override
-  String get startDate => 'Fecha de inicio';
+  String get startDate => 'Fecha de Inicio';
 
   @override
-  String get endDateOptional => 'Fecha de finalización (Opcional)';
+  String get endDateOptional => 'Fecha de Finalización (Opcional)';
 
   @override
   String get notSet => 'No establecido';
@@ -93,16 +93,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get history => 'Historial';
 
   @override
-  String get settings => 'Ajustes';
+  String get settings => 'Configuración';
 
   @override
   String get medications => 'Medicamentos';
 
   @override
-  String get noMedications => 'No hay medicamentos todavía.';
+  String get noMedications => 'No se han agregado medicamentos aún.';
 
   @override
-  String get addYourFirstMedication => 'Agrega tu primer medicamento';
+  String get addYourFirstMedication => 'Agregue su primer medicamento';
 
   @override
   String get dosesFor => 'Dosis para';
@@ -114,10 +114,10 @@ class AppLocalizationsEs extends AppLocalizations {
   String get all => 'Todo';
 
   @override
-  String get taken => 'Tomada';
+  String get taken => 'Tomado';
 
   @override
-  String get missed => 'Omitidas';
+  String get missed => 'Omitido';
 
   @override
   String get theme => 'Tema';
@@ -141,7 +141,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get spanish => 'Español';
 
   @override
-  String get noRecords => 'No hay registros.';
+  String get noRecords => 'No se encontraron registros.';
 
   @override
   String get pleaseEnterAValidDosage => 'Por favor, ingrese una dosis válida';
@@ -156,7 +156,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get failedToDeleteMedication => 'Error al eliminar el medicamento:';
 
   @override
-  String get yourMedications => 'Tus Medicamentos';
+  String get yourMedications => 'Sus Medicamentos';
 
   @override
   String get noMedicationsYet => 'Aún no hay medicamentos.';
@@ -185,23 +185,23 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get markAsTaken => 'Marcar como tomada';
+  String get markAsTaken => 'Marcar como Tomado';
 
   @override
-  String get markAsSkipped => 'Marcar como omitida';
+  String get markAsSkipped => 'Marcar como Omitido';
 
   @override
-  String get markAsPending => 'Marcar como pendiente';
+  String get markAsPending => 'Marcar como Pendiente';
 
   @override
   String get helloWorld => '¡Hola Mundo!';
 
   @override
-  String get confirmDelete => 'Confirmar eliminación';
+  String get confirmDelete => 'Confirmar Eliminación';
 
   @override
   String get areYouSureYouWantToDeleteThisMedication =>
-      '¿Estás seguro de que quieres eliminar este medicamento?';
+      '¿Está seguro de que desea eliminar este medicamento?';
 
   @override
   String get noDosesInCategory => 'No hay dosis en esta categoría.';
@@ -210,11 +210,11 @@ class AppLocalizationsEs extends AppLocalizations {
   String get status => 'Estado';
 
   @override
-  String get confirmAction => 'Confirmar acción';
+  String get confirmAction => 'Confirmar Acción';
 
   @override
   String areYouSureYouWantToMarkThisDoseAs(String status) {
-    return '¿Estás seguro de que quieres marcar esta dosis como $status?';
+    return '¿Está seguro de que desea marcar esta dosis como $status?';
   }
 
   @override
@@ -234,4 +234,151 @@ class AppLocalizationsEs extends AppLocalizations {
   String intervalDose(String interval, String time) {
     return 'Cada $interval horas, a las $time';
   }
+
+  @override
+  String oneTimeDose(String date, String time) {
+    return 'Dosis única el $date a las $time';
+  }
+
+  @override
+  String medicationDosage(String dosage, String unit) {
+    return '$dosage $unit';
+  }
+
+  @override
+  String doseAtTime(String dosage, String unit, String time) {
+    return '$dosage $unit a las $time';
+  }
+
+  @override
+  String startDateLabel(String date) {
+    return 'Inicio: $date';
+  }
+
+  @override
+  String endDateLabel(String date) {
+    return 'Fin: $date';
+  }
+
+  @override
+  String get mondayShort => 'Lun';
+
+  @override
+  String get tuesdayShort => 'Mar';
+
+  @override
+  String get wednesdayShort => 'Mié';
+
+  @override
+  String get thursdayShort => 'Jue';
+
+  @override
+  String get fridayShort => 'Vie';
+
+  @override
+  String get saturdayShort => 'Sáb';
+
+  @override
+  String get sundayShort => 'Dom';
+
+  @override
+  String get scheduled => 'Programado';
+
+  @override
+  String get duration => 'Duración';
+
+  @override
+  String get start => 'Inicio';
+
+  @override
+  String get end => 'Fin';
+
+  @override
+  String get ongoing => 'En curso';
+
+  @override
+  String onDays(String days, String time) {
+    return 'En $days a las $time';
+  }
+
+  @override
+  String get arabic => 'Árabe';
+
+  @override
+  String get loading => 'Cargando...';
+
+  @override
+  String get pleaseAddTime => 'Por favor, agregue una hora';
+
+  @override
+  String get clear => 'Limpiar';
+
+  @override
+  String get pills => 'píldoras';
+
+  @override
+  String get oneTime => 'Una vez';
+
+  @override
+  String get weekdays => 'Días de la semana';
+
+  @override
+  String get dateTime => 'Fecha y Hora';
+
+  @override
+  String get monday => 'Lunes';
+
+  @override
+  String get tuesday => 'Martes';
+
+  @override
+  String get wednesday => 'Miércoles';
+
+  @override
+  String get thursday => 'Jueves';
+
+  @override
+  String get friday => 'Viernes';
+
+  @override
+  String get saturday => 'Sábado';
+
+  @override
+  String get sunday => 'Domingo';
+
+  @override
+  String get medicationHistory => 'Historial de Medicamentos';
+
+  @override
+  String get noDoseHistoryYet => 'Aún no hay historial de dosis.';
+
+  @override
+  String get today => 'Hoy';
+
+  @override
+  String get yesterday => 'Ayer';
+
+  @override
+  String get pending => 'Pendiente';
+
+  @override
+  String get privacyPolicy => 'Política de Privacidad';
+
+  @override
+  String get appVersion => 'Versión de la Aplicación';
+
+  @override
+  String get themeMode => 'Modo de Tema';
+
+  @override
+  String get appearance => 'Apariencia';
+
+  @override
+  String get about => 'Acerca de';
+
+  @override
+  String get languageName => 'Español';
+
+  @override
+  String get couldNotLaunchUrl => 'No se pudo abrir la URL';
 }

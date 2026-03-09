@@ -1,107 +1,228 @@
 {
-    "helloWorld": "مرحبًا بالعالم!",
-    "settings": "الإعدادات",
-    "language": "اللغة",
-    "languageName": "العربية",
-    "appearance": "المظهر",
-    "about": "حول",
-    "themeMode": "وضع السمة",
-    "light": "فاتح",
-    "dark": "داكن",
-    "system": "النظام",
-    "appVersion": "إصدار التطبيق",
-    "privacyPolicy": "سياسة الخصوصية",
-    "couldNotLaunchUrl": "لا يمكن فتح الرابط",
-    "oneTime": "مرة واحدة",
-    "daily": "يوميًا",
-    "weekdays": "أيام الأسبوع",
-    "interval": "فاصل زمني",
-    "dateTime": "التاريخ والوقت",
-    "monday": "الاثنين",
-    "tuesday": "الثلاثاء",
-    "wednesday": "الأربعاء",
-    "thursday": "الخميس",
-    "friday": "الجمعة",
-    "saturday": "السبت",
-    "sunday": "الأحد",
-    "editMedication": "تعديل الدواء",
-    "addMedicine": "إضافة دواء",
-    "deleteMedication": "حذف الدواء",
-    "saveMedication": "حفظ الدواء",
-    "medicationName": "اسم الدواء",
-    "pleaseEnterName": "الرجاء إدخال اسم",
-    "dosage": "الجرعة",
-    "invalidNumber": "رقم غير صالح",
-    "unitExample": "الوحدة (مثل ملغ، حبة)",
-    "pleaseEnterUnit": "الرجاء إدخال وحدة",
-    "scheduleType": "نوع الجدول",
-    "daysOfTheWeek": "أيام الأسبوع",
-    "intervalHours": "الفاصل الزمني (بالساعات)",
-    "times": "الأوقات",
-    "addTime": "إضافة وقت",
-    "startDate": "تاريخ البدء",
-    "endDateOptional": "تاريخ الانتهاء (اختياري)",
-    "notSet": "غير محدد",
-    "thisActionCannotBeUndone": "لا يمكن التراجع عن هذا الإجراء.",
-    "cancel": "إلغاء",
-    "delete": "حذف",
-    "medicationHistory": "سجل الأدوية",
-    "noDoseHistoryYet": "لا يوجد سجل جرعات حتى الآن.",
-    "today": "اليوم",
-    "yesterday": "الأمس",
-    "taken": "تم تناولها",
-    "skipped": "تم تخطيها",
-    "pending": "معلقة",
-    "oneTimeDose": "جرعة لمرة واحدة في {date} الساعة {time}",
-    "medicationDosage": "{dosage} {unit}",
-    "doseAtTime": "{dosage} {unit} في الساعة {time}",
-    "startDateLabel": "البداية: {date}",
-    "endDateLabel": "النهاية: {date}",
-    "mondayShort": "إث",
-    "tuesdayShort": "ثل",
-    "wednesdayShort": "أر",
-    "thursdayShort": "خم",
-    "fridayShort": "جم",
-    "saturdayShort": "سب",
-    "sundayShort": "أح",
-    "noMedicationsYet": "لا توجد أدوية بعد.",
-    "addMedicationToGetStarted": "أضف دواء للبدء.",
-    "confirmDelete": "تأكيد الحذف",
-    "areYouSureYouWantToDeleteThisMedication": "هل أنت متأكد أنك تريد حذف هذا الدواء؟",
-    "doseHistory": "سجل الجرعات",
-    "noDoseHistoryAvailable": "لا يوجد سجل جرعات متاح.",
-    "scheduled": "مجدول",
-    "duration": "المدة",
-    "start": "البداية",
-    "end": "النهاية",
-    "ongoing": "مستمر",
-    "onDays": "في أيام {days} الساعة {time}",
-    "noDosesInCategory": "لا توجد جرعات في هذه الفئة.",
-    "status": "الحالة",
-    "confirmAction": "تأكيد الإجراء",
-    "areYouSureYouWantToMarkThisDoseAs": "هل أنت متأكد أنك تريد تحديد هذه الجرعة كـ {status}؟",
-     "@areYouSureYouWantToMarkThisDoseAs": {
-        "placeholders": {
-            "status": {
-                "type": "String"
-            }
-        }
+    "@@locale": "ar",
+    "addMedication": "إضافة دواء",
+    "@addMedication": {
+        "description": "Add medication button"
     },
-    "confirm": "تأكيد",
-    "markAsTaken": "وضع علامة كـ تم تناولها",
-    "markAsSkipped": "وضع علامة كـ تم تخطيها",
-    "english": "English",
-    "arabic": "العربية",
-    "loading": "...",
-    "pleaseAddTime": "الرجاء إضافة وقت",
-    "clear": "مسح",
-    "pleaseEnterDosage": "الرجاء إدخال جرعة",
-    "pills": "حبوب",
+    "medicationName": "اسم الدواء",
+    "@medicationName": {
+        "description": "Medication name text field label"
+    },
+    "pleaseEnterName": "الرجاء إدخال اسم الدواء",
+    "@pleaseEnterName": {
+        "description": "Validation error message for medication name"
+    },
+    "dosage": "الجرعة",
+    "@dosage": {
+        "description": "Dosage text field label"
+    },
+    "pleaseEnterDosage": "يرجى إدخال الجرعة",
+    "@pleaseEnterDosage": {
+        "description": "Validation error message for dosage"
+    },
+    "invalidNumber": "رقم غير صالح",
+    "@invalidNumber": {
+        "description": "Validation error message for an invalid number"
+    },
+    "unitExample": "الوحدة (مثل ملجم، مل)",
+    "@unitExample": {
+        "description": "Example for unit text field"
+    },
+    "pleaseEnterUnit": "الرجاء إدخال وحدة",
+    "@pleaseEnterUnit": {
+        "description": "Validation error message for unit"
+    },
+    "stock": "المخزون",
+    "@stock": {
+        "description": "Stock text field label"
+    },
+    "invalidStock": "مخزون غير صالح",
+    "@invalidStock": {
+        "description": "Validation error message for stock"
+    },
+    "saveMedication": "حفظ الدواء",
+    "@saveMedication": {
+        "description": "Save medication button"
+    },
+    "editMedication": "تعديل الدواء",
+    "@editMedication": {
+        "description": "Edit medication screen title"
+    },
+    "deleteMedication": "حذف الدواء",
+    "@deleteMedication": {
+        "description": "Delete medication button"
+    },
+    "thisActionCannotBeUndone": "لا يمكن التراجع عن هذا الإجراء.",
+    "@thisActionCannotBeUndone": {
+        "description": "Warning that an action cannot be undone"
+    },
+    "cancel": "إلغاء",
+    "@cancel": {
+        "description": "Cancel button"
+    },
+    "delete": "حذف",
+    "@delete": {
+        "description": "Delete button"
+    },
+    "daily": "يوميًا",
+    "@daily": {
+        "description": "Daily schedule type"
+    },
+    "specificDaysInWeek": "أيام محددة في الأسبوع",
+    "@specificDaysInWeek": {
+        "description": "Specific days in a week schedule type"
+    },
+    "interval": "فاصل زمني",
+    "@interval": {
+        "description": "Interval schedule type"
+    },
+    "intervalHours": "الفاصل الزمني بالساعات",
+    "@intervalHours": {
+        "description": "Interval in hours"
+    },
+    "daysOfTheWeek": "أيام الأسبوع",
+    "@daysOfTheWeek": {
+        "description": "Days of the week"
+    },
+    "times": "الأوقات",
+    "@times": {
+        "description": "Times for medication"
+    },
+    "addTime": "إضافة وقت",
+    "@addTime": {
+        "description": "Add time button"
+    },
+    "startDate": "تاريخ البدء",
+    "@startDate": {
+        "description": "Start date"
+    },
+    "endDateOptional": "تاريخ الانتهاء (اختياري)",
+    "@endDateOptional": {
+        "description": "End date (optional)"
+    },
+    "notSet": "لم يتم التعيين",
+    "@notSet": {
+        "description": "Not set"
+    },
+    "home": "الرئيسية",
+    "@home": {
+        "description": "Home screen title"
+    },
+    "history": "السجل",
+    "@history": {
+        "description": "History screen title"
+    },
+    "settings": "الإعدادات",
+    "@settings": {
+        "description": "Settings screen title"
+    },
+    "medications": "الأدوية",
+    "@medications": {
+        "description": "Medications screen title"
+    },
+    "noMedications": "لم تتم إضافة أي أدوية حتى الآن.",
+    "@noMedications": {
+        "description": "Message when there are no medications"
+    },
+    "addYourFirstMedication": "أضف دوائك الأول",
+    "@addYourFirstMedication": {
+        "description": "Message to prompt user to add their first medication"
+    },
+    "dosesFor": "جرعات لـ",
+    "@dosesFor": {
+        "description": "Doses for a specific day"
+    },
+    "noDoses": "لا توجد جرعات مجدولة لهذا اليوم.",
+    "@noDoses": {
+        "description": "Message when there are no doses for a specific day"
+    },
+    "all": "الكل",
+    "@all": {
+        "description": "All filter"
+    },
+    "taken": "تم تناولها",
+    "@taken": {
+        "description": "Taken dose status"
+    },
+    "missed": "تم تفويتها",
+    "@missed": {
+        "description": "Missed filter"
+    },
+    "theme": "المظهر",
+    "@theme": {
+        "description": "Theme setting"
+    },
+    "light": "فاتح",
+    "@light": {
+        "description": "Light theme"
+    },
+    "dark": "داكن",
+    "@dark": {
+        "description": "Dark theme"
+    },
+    "system": "النظام",
+    "@system": {
+        "description": "System theme"
+    },
+    "language": "اللغة",
+    "@language": {
+        "description": "Language setting"
+    },
+    "english": "الإنجليزية",
+    "@english": {
+        "description": "English language"
+    },
+    "spanish": "الإسبانية",
+    "@spanish": {
+        "description": "Spanish language"
+    },
+    "noRecords": "لم يتم العثور على سجلات.",
+    "@noRecords": {
+        "description": "Message when there are no records"
+    },
+    "pleaseEnterAValidDosage": "الرجاء إدخال جرعة صالحة",
+    "@pleaseEnterAValidDosage": {
+        "description": "Validation error message for dosage"
+    },
+    "pleaseEnterAValidStock": "الرجاء إدخال مخزون صالح",
+    "@pleaseEnterAValidStock": {
+        "description": "Validation error message for stock"
+    },
+    "failedToSaveMedication": "فشل حفظ الدواء:",
+    "@failedToSaveMedication": {
+        "description": "Error message when saving a medication fails"
+    },
+    "failedToDeleteMedication": "فشل حذف الدواء:",
+    "@failedToDeleteMedication": {
+        "description": "Error message when deleting a medication fails"
+    },
     "yourMedications": "أدويتك",
+    "@yourMedications": {
+        "description": "Your medications screen title"
+    },
+    "noMedicationsYet": "لا توجد أدوية حتى الآن.",
+    "@noMedicationsYet": {
+        "description": "Message when there are no medications"
+    },
+    "addMedicationToGetStarted": "أضف دواء للبدء.",
+    "@addMedicationToGetStarted": {
+        "description": "Message to prompt user to add a medication"
+    },
     "take": "تناول",
+    "@take": {
+        "description": "Take button"
+    },
     "historyScreenTitle": "سجل الجرعات",
+    "@historyScreenTitle": {
+        "description": "Dose history screen title"
+    },
+    "noDoseHistoryAvailable": "لا يوجد سجل جرعات متاح.",
+    "@noDoseHistoryAvailable": {
+        "description": "Message when no dose history is available"
+    },
     "doseAt": "جرعة في {time}",
     "@doseAt": {
+        "description": "Dose at a specific time",
         "placeholders": {
             "time": {
                 "type": "String"
@@ -110,6 +231,7 @@
     },
     "doseDetails": "{dosage} {unit}",
     "@doseDetails": {
+        "description": "Dose details",
         "placeholders": {
             "dosage": {
                 "type": "String"
@@ -119,56 +241,311 @@
             }
         }
     },
-    "dailyDose": "يوميًا في الساعة {time}",
-    "@dailyDose": {
-      "placeholders": {
-        "time": {
-          "type": "String"
-        }
-      }
+    "markAsTaken": "وضع علامة كـ تم تناولها",
+    "@markAsTaken": {
+        "description": "Mark as taken button"
     },
-    "specificDaysDose": "في أيام {days} الساعة {time}",
-    "@specificDaysDose": {
-      "placeholders": {
-        "days": {
-          "type": "String"
-        },
-        "time": {
-          "type": "String"
-        }
-      }
-    },
-    "intervalDose": "كل {interval} ساعات, في {time}",
-    "@intervalDose": {
-      "placeholders": {
-        "interval": {
-          "type": "String"
-        },
-        "time": {
-          "type": "String"
-        }
-      }
+    "markAsSkipped": "وضع علامة كـ تم تخطيها",
+    "@markAsSkipped": {
+        "description": "Mark as skipped button"
     },
     "markAsPending": "وضع علامة كـ معلقة",
-    "stock": "المخزون",
-    "invalidDosage": "جرعة غير صالحة",
-    "invalidStock": "مخزون غير صالح",
-    "failedToSaveMedication": "فشل حفظ الدواء:",
-    "failedToDeleteMedication": "فشل حذف الدواء:",
-    "addMedication": "إضافة دواء",
-    "specificDaysInWeek": "أيام محددة في الأسبوع",
-    "home": "الرئيسية",
-    "history": "السجل",
-    "medications": "الأدوية",
-    "noMedications": "لا توجد أدوية حتى الآن.",
-    "addYourFirstMedication": "أضف دوائك الأول",
-    "dosesFor": "جرعات لـ",
-    "noDoses": "لا توجد جرعات مجدولة لهذا اليوم.",
-    "all": "الكل",
-    "missed": "الفائتة",
-    "theme": "السمة",
-    "spanish": "الإسبانية",
-    "noRecords": "لا توجد سجلات.",
-    "pleaseEnterAValidDosage": "يرجى إدخال جرعة صالحة",
-    "pleaseEnterAValidStock": "يرجى إدخال مخزون صالح"
+    "@markAsPending": {
+        "description": "Mark as pending button"
+    },
+    "helloWorld": "مرحبًا بالعالم!",
+    "@helloWorld": {
+        "description": "The conventional newborn programmer greeting"
+    },
+    "confirmDelete": "تأكيد الحذف",
+    "@confirmDelete": {
+        "description": "Confirm delete dialog title"
+    },
+    "areYouSureYouWantToDeleteThisMedication": "هل أنت متأكد أنك تريد حذف هذا الدواء؟",
+    "@areYouSureYouWantToDeleteThisMedication": {
+        "description": "Confirmation message for deleting a medication"
+    },
+    "noDosesInCategory": "لا توجد جرعات في هذه الفئة.",
+    "@noDosesInCategory": {
+        "description": "Message when there are no doses in a category"
+    },
+    "status": "الحالة",
+    "@status": {
+        "description": "Status"
+    },
+    "confirmAction": "تأكيد الإجراء",
+    "@confirmAction": {
+        "description": "Confirm action dialog title"
+    },
+    "areYouSureYouWantToMarkThisDoseAs": "هل أنت متأكد أنك تريد تحديد هذه الجرعة كـ {status}؟",
+    "@areYouSureYouWantToMarkThisDoseAs": {
+        "description": "Confirmation message for marking a dose status",
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "confirm": "تأكيد",
+    "@confirm": {
+        "description": "Confirm button"
+    },
+    "dailyDose": "يوميًا في {time}",
+    "@dailyDose": {
+        "description": "Daily dose",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "specificDaysDose": "في {days} في {time}",
+    "@specificDaysDose": {
+        "description": "Dose on specific days",
+        "placeholders": {
+            "days": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "intervalDose": "كل {interval} ساعات، في {time}",
+    "@intervalDose": {
+        "description": "Dose at an interval",
+        "placeholders": {
+            "interval": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "oneTimeDose": "جرعة لمرة واحدة في {date} في {time}",
+    "@oneTimeDose": {
+        "description": "One-time dose",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "medicationDosage": "{dosage} {unit}",
+    "@medicationDosage": {
+        "description": "Medication dosage",
+        "placeholders": {
+            "dosage": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "doseAtTime": "{dosage} {unit} في {time}",
+    "@doseAtTime": {
+        "description": "Dose at a specific time",
+        "placeholders": {
+            "dosage": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "startDateLabel": "البداية: {date}",
+    "@startDateLabel": {
+        "description": "Start date label",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "endDateLabel": "النهاية: {date}",
+    "@endDateLabel": {
+        "description": "End date label",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "mondayShort": "إث",
+    "@mondayShort": {
+        "description": "Short name for Monday"
+    },
+    "tuesdayShort": "ثل",
+    "@tuesdayShort": {
+        "description": "Short name for Tuesday"
+    },
+    "wednesdayShort": "أر",
+    "@wednesdayShort": {
+        "description": "Short name for Wednesday"
+    },
+    "thursdayShort": "خم",
+    "@thursdayShort": {
+        "description": "Short name for Thursday"
+    },
+    "fridayShort": "جم",
+    "@fridayShort": {
+        "description": "Short name for Friday"
+    },
+    "saturdayShort": "سب",
+    "@saturdayShort": {
+        "description": "Short name for Saturday"
+    },
+    "sundayShort": "أح",
+    "@sundayShort": {
+        "description": "Short name for Sunday"
+    },
+    "scheduled": "مجدول",
+    "@scheduled": {
+        "description": "Scheduled status"
+    },
+    "duration": "المدة",
+    "@duration": {
+        "description": "Duration"
+    },
+    "start": "البداية",
+    "@start": {
+        "description": "Start"
+    },
+    "end": "النهاية",
+    "@end": {
+        "description": "End"
+    },
+    "ongoing": "مستمر",
+    "@ongoing": {
+        "description": "Ongoing status"
+    },
+    "onDays": "في {days} في {time}",
+    "@onDays": {
+        "description": "On specific days",
+        "placeholders": {
+            "days": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "arabic": "العربية",
+    "@arabic": {
+        "description": "Arabic language"
+    },
+    "loading": "جار التحميل...",
+    "@loading": {
+        "description": "Loading indicator"
+    },
+    "pleaseAddTime": "الرجاء إضافة وقت",
+    "@pleaseAddTime": {
+        "description": "Validation error message for time"
+    },
+    "clear": "مسح",
+    "@clear": {
+        "description": "Clear button"
+    },
+    "pills": "حبوب",
+    "@pills": {
+        "description": "Pills"
+    },
+    "oneTime": "مرة واحدة",
+    "@oneTime": {
+        "description": "One-time schedule type"
+    },
+    "weekdays": "أيام الأسبوع",
+    "@weekdays": {
+        "description": "Weekdays schedule type"
+    },
+    "dateTime": "التاريخ والوقت",
+    "@dateTime": {
+        "description": "Date and time"
+    },
+    "monday": "الاثنين",
+    "@monday": {
+        "description": "Monday"
+    },
+    "tuesday": "الثلاثاء",
+    "@tuesday": {
+        "description": "Tuesday"
+    },
+    "wednesday": "الأربعاء",
+    "@wednesday": {
+        "description": "Wednesday"
+    },
+    "thursday": "الخميس",
+    "@thursday": {
+        "description": "Thursday"
+    },
+    "friday": "الجمعة",
+    "@friday": {
+        "description": "Friday"
+    },
+    "saturday": "السبت",
+    "@saturday": {
+        "description": "Saturday"
+    },
+    "sunday": "الأحد",
+    "@sunday": {
+        "description": "Sunday"
+    },
+    "medicationHistory": "سجل الأدوية",
+    "@medicationHistory": {
+        "description": "Medication history screen title"
+    },
+    "noDoseHistoryYet": "لا يوجد سجل جرعات حتى الآن.",
+    "@noDoseHistoryYet": {
+        "description": "Message when there is no dose history"
+    },
+    "today": "اليوم",
+    "@today": {
+        "description": "Today"
+    },
+    "yesterday": "الأمس",
+    "@yesterday": {
+        "description": "Yesterday"
+    },
+    "pending": "معلقة",
+    "@pending": {
+        "description": "Pending dose status"
+    },
+    "privacyPolicy": "سياسة الخصوصية",
+    "@privacyPolicy": {
+        "description": "Privacy policy"
+    },
+    "appVersion": "إصدار التطبيق",
+    "@appVersion": {
+        "description": "App version"
+    },
+    "themeMode": "وضع المظهر",
+    "@themeMode": {
+        "description": "Theme mode setting"
+    },
+    "appearance": "المظهر",
+    "@appearance": {
+        "description": "Appearance setting"
+    },
+    "about": "حول",
+    "@about": {
+        "description": "About screen title"
+    },
+    "languageName": "العربية",
+    "@languageName": {
+        "description": "The name of the language"
+    },
+    "couldNotLaunchUrl": "تعذر فتح الرابط",
+    "@couldNotLaunchUrl": {
+        "description": "Error message when a URL can't be launched"
+    }
 }

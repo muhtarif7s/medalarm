@@ -100,431 +100,701 @@ abstract class AppLocalizations {
     Locale('es')
   ];
 
-  /// No description provided for @addMedication.
+  /// Add medication button
   ///
   /// In en, this message translates to:
   /// **'Add Medication'**
   String get addMedication;
 
-  /// No description provided for @medicationName.
+  /// Medication name text field label
   ///
   /// In en, this message translates to:
   /// **'Medication Name'**
   String get medicationName;
 
-  /// No description provided for @pleaseEnterName.
+  /// Validation error message for medication name
   ///
   /// In en, this message translates to:
   /// **'Please enter a medication name'**
   String get pleaseEnterName;
 
-  /// No description provided for @dosage.
+  /// Dosage text field label
   ///
   /// In en, this message translates to:
   /// **'Dosage'**
   String get dosage;
 
-  /// No description provided for @pleaseEnterDosage.
+  /// Validation error message for dosage
   ///
   /// In en, this message translates to:
   /// **'Please enter a dosage'**
   String get pleaseEnterDosage;
 
-  /// No description provided for @invalidNumber.
+  /// Validation error message for an invalid number
   ///
   /// In en, this message translates to:
   /// **'Invalid number'**
   String get invalidNumber;
 
-  /// No description provided for @unitExample.
+  /// Example for unit text field
   ///
   /// In en, this message translates to:
   /// **'Unit (e.g., mg, ml)'**
   String get unitExample;
 
-  /// No description provided for @pleaseEnterUnit.
+  /// Validation error message for unit
   ///
   /// In en, this message translates to:
   /// **'Please enter a unit'**
   String get pleaseEnterUnit;
 
-  /// No description provided for @stock.
+  /// Stock text field label
   ///
   /// In en, this message translates to:
   /// **'Stock'**
   String get stock;
 
-  /// No description provided for @invalidStock.
+  /// Validation error message for stock
   ///
   /// In en, this message translates to:
   /// **'Invalid stock'**
   String get invalidStock;
 
-  /// No description provided for @saveMedication.
+  /// Save medication button
   ///
   /// In en, this message translates to:
   /// **'Save Medication'**
   String get saveMedication;
 
-  /// No description provided for @editMedication.
+  /// Edit medication screen title
   ///
   /// In en, this message translates to:
   /// **'Edit Medication'**
   String get editMedication;
 
-  /// No description provided for @deleteMedication.
+  /// Delete medication button
   ///
   /// In en, this message translates to:
   /// **'Delete Medication'**
   String get deleteMedication;
 
-  /// No description provided for @thisActionCannotBeUndone.
+  /// Warning that an action cannot be undone
   ///
   /// In en, this message translates to:
   /// **'This action cannot be undone.'**
   String get thisActionCannotBeUndone;
 
-  /// No description provided for @cancel.
+  /// Cancel button
   ///
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
 
-  /// No description provided for @delete.
+  /// Delete button
   ///
   /// In en, this message translates to:
   /// **'Delete'**
   String get delete;
 
-  /// No description provided for @daily.
+  /// Daily schedule type
   ///
   /// In en, this message translates to:
   /// **'Daily'**
   String get daily;
 
-  /// No description provided for @specificDaysInWeek.
+  /// Specific days in a week schedule type
   ///
   /// In en, this message translates to:
   /// **'Specific days in week'**
   String get specificDaysInWeek;
 
-  /// No description provided for @interval.
+  /// Interval schedule type
   ///
   /// In en, this message translates to:
   /// **'Interval'**
   String get interval;
 
-  /// No description provided for @intervalHours.
+  /// Interval in hours
   ///
   /// In en, this message translates to:
   /// **'Interval in hours'**
   String get intervalHours;
 
-  /// No description provided for @daysOfTheWeek.
+  /// Days of the week
   ///
   /// In en, this message translates to:
   /// **'Days of the week'**
   String get daysOfTheWeek;
 
-  /// No description provided for @times.
+  /// Times for medication
   ///
   /// In en, this message translates to:
   /// **'Times'**
   String get times;
 
-  /// No description provided for @addTime.
+  /// Add time button
   ///
   /// In en, this message translates to:
   /// **'Add Time'**
   String get addTime;
 
-  /// No description provided for @startDate.
+  /// Start date
   ///
   /// In en, this message translates to:
   /// **'Start Date'**
   String get startDate;
 
-  /// No description provided for @endDateOptional.
+  /// End date (optional)
   ///
   /// In en, this message translates to:
   /// **'End Date (Optional)'**
   String get endDateOptional;
 
-  /// No description provided for @notSet.
+  /// Not set
   ///
   /// In en, this message translates to:
   /// **'Not set'**
   String get notSet;
 
-  /// No description provided for @home.
+  /// Home screen title
   ///
   /// In en, this message translates to:
   /// **'Home'**
   String get home;
 
-  /// No description provided for @history.
+  /// History screen title
   ///
   /// In en, this message translates to:
   /// **'History'**
   String get history;
 
-  /// No description provided for @settings.
+  /// Settings screen title
   ///
   /// In en, this message translates to:
   /// **'Settings'**
   String get settings;
 
-  /// No description provided for @medications.
+  /// Medications screen title
   ///
   /// In en, this message translates to:
   /// **'Medications'**
   String get medications;
 
-  /// No description provided for @noMedications.
+  /// Message when there are no medications
   ///
   /// In en, this message translates to:
   /// **'No medications added yet.'**
   String get noMedications;
 
-  /// No description provided for @addYourFirstMedication.
+  /// Message to prompt user to add their first medication
   ///
   /// In en, this message translates to:
   /// **'Add your first medication'**
   String get addYourFirstMedication;
 
-  /// No description provided for @dosesFor.
+  /// Doses for a specific day
   ///
   /// In en, this message translates to:
   /// **'Doses for'**
   String get dosesFor;
 
-  /// No description provided for @noDoses.
+  /// Message when there are no doses for a specific day
   ///
   /// In en, this message translates to:
   /// **'No doses scheduled for this day.'**
   String get noDoses;
 
-  /// No description provided for @all.
+  /// All filter
   ///
   /// In en, this message translates to:
   /// **'All'**
   String get all;
 
-  /// No description provided for @taken.
+  /// Taken dose status
   ///
   /// In en, this message translates to:
   /// **'Taken'**
   String get taken;
 
-  /// No description provided for @missed.
+  /// Missed filter
   ///
   /// In en, this message translates to:
   /// **'Missed'**
   String get missed;
 
-  /// No description provided for @theme.
+  /// Theme setting
   ///
   /// In en, this message translates to:
   /// **'Theme'**
   String get theme;
 
-  /// No description provided for @light.
+  /// Light theme
   ///
   /// In en, this message translates to:
   /// **'Light'**
   String get light;
 
-  /// No description provided for @dark.
+  /// Dark theme
   ///
   /// In en, this message translates to:
   /// **'Dark'**
   String get dark;
 
-  /// No description provided for @system.
+  /// System theme
   ///
   /// In en, this message translates to:
   /// **'System'**
   String get system;
 
-  /// No description provided for @language.
+  /// Language setting
   ///
   /// In en, this message translates to:
   /// **'Language'**
   String get language;
 
-  /// No description provided for @english.
+  /// English language
   ///
   /// In en, this message translates to:
   /// **'English'**
   String get english;
 
-  /// No description provided for @spanish.
+  /// Spanish language
   ///
   /// In en, this message translates to:
   /// **'Spanish'**
   String get spanish;
 
-  /// No description provided for @noRecords.
+  /// Message when there are no records
   ///
   /// In en, this message translates to:
   /// **'No records found.'**
   String get noRecords;
 
-  /// No description provided for @pleaseEnterAValidDosage.
+  /// Validation error message for dosage
   ///
   /// In en, this message translates to:
   /// **'Please enter a valid dosage'**
   String get pleaseEnterAValidDosage;
 
-  /// No description provided for @pleaseEnterAValidStock.
+  /// Validation error message for stock
   ///
   /// In en, this message translates to:
   /// **'Please enter a valid stock'**
   String get pleaseEnterAValidStock;
 
-  /// No description provided for @failedToSaveMedication.
+  /// Error message when saving a medication fails
   ///
   /// In en, this message translates to:
   /// **'Failed to save medication:'**
   String get failedToSaveMedication;
 
-  /// No description provided for @failedToDeleteMedication.
+  /// Error message when deleting a medication fails
   ///
   /// In en, this message translates to:
   /// **'Failed to delete medication:'**
   String get failedToDeleteMedication;
 
-  /// No description provided for @yourMedications.
+  /// Your medications screen title
   ///
   /// In en, this message translates to:
   /// **'Your Medications'**
   String get yourMedications;
 
-  /// No description provided for @noMedicationsYet.
+  /// Message when there are no medications
   ///
   /// In en, this message translates to:
   /// **'No medications yet.'**
   String get noMedicationsYet;
 
-  /// No description provided for @addMedicationToGetStarted.
+  /// Message to prompt user to add a medication
   ///
   /// In en, this message translates to:
   /// **'Add a medication to get started.'**
   String get addMedicationToGetStarted;
 
-  /// No description provided for @take.
+  /// Take button
   ///
   /// In en, this message translates to:
   /// **'Take'**
   String get take;
 
-  /// No description provided for @historyScreenTitle.
+  /// Dose history screen title
   ///
   /// In en, this message translates to:
   /// **'Dose History'**
   String get historyScreenTitle;
 
-  /// No description provided for @noDoseHistoryAvailable.
+  /// Message when no dose history is available
   ///
   /// In en, this message translates to:
   /// **'No dose history available.'**
   String get noDoseHistoryAvailable;
 
-  /// No description provided for @doseAt.
+  /// Dose at a specific time
   ///
   /// In en, this message translates to:
   /// **'Dose at {time}'**
   String doseAt(String time);
 
-  /// No description provided for @doseDetails.
+  /// Dose details
   ///
   /// In en, this message translates to:
   /// **'{dosage} {unit}'**
   String doseDetails(String dosage, String unit);
 
-  /// No description provided for @markAsTaken.
+  /// Mark as taken button
   ///
   /// In en, this message translates to:
   /// **'Mark as Taken'**
   String get markAsTaken;
 
-  /// No description provided for @markAsSkipped.
+  /// Mark as skipped button
   ///
   /// In en, this message translates to:
   /// **'Mark as Skipped'**
   String get markAsSkipped;
 
-  /// No description provided for @markAsPending.
+  /// Mark as pending button
   ///
   /// In en, this message translates to:
   /// **'Mark as Pending'**
   String get markAsPending;
 
-  /// No description provided for @helloWorld.
+  /// The conventional newborn programmer greeting
   ///
   /// In en, this message translates to:
   /// **'Hello World!'**
   String get helloWorld;
 
-  /// No description provided for @confirmDelete.
+  /// Confirm delete dialog title
   ///
   /// In en, this message translates to:
   /// **'Confirm Delete'**
   String get confirmDelete;
 
-  /// No description provided for @areYouSureYouWantToDeleteThisMedication.
+  /// Confirmation message for deleting a medication
   ///
   /// In en, this message translates to:
   /// **'Are you sure you want to delete this medication?'**
   String get areYouSureYouWantToDeleteThisMedication;
 
-  /// No description provided for @noDosesInCategory.
+  /// Message when there are no doses in a category
   ///
   /// In en, this message translates to:
   /// **'No doses in this category.'**
   String get noDosesInCategory;
 
-  /// No description provided for @status.
+  /// Status
   ///
   /// In en, this message translates to:
   /// **'Status'**
   String get status;
 
-  /// No description provided for @confirmAction.
+  /// Confirm action dialog title
   ///
   /// In en, this message translates to:
   /// **'Confirm Action'**
   String get confirmAction;
 
-  /// No description provided for @areYouSureYouWantToMarkThisDoseAs.
+  /// Confirmation message for marking a dose status
   ///
   /// In en, this message translates to:
   /// **'Are you sure you want to mark this dose as {status}?'**
   String areYouSureYouWantToMarkThisDoseAs(String status);
 
-  /// No description provided for @confirm.
+  /// Confirm button
   ///
   /// In en, this message translates to:
   /// **'Confirm'**
   String get confirm;
 
-  /// No description provided for @dailyDose.
+  /// Daily dose
   ///
   /// In en, this message translates to:
   /// **'Daily at {time}'**
   String dailyDose(String time);
 
-  /// No description provided for @specificDaysDose.
+  /// Dose on specific days
   ///
   /// In en, this message translates to:
   /// **'On {days} at {time}'**
   String specificDaysDose(String days, String time);
 
-  /// No description provided for @intervalDose.
+  /// Dose at an interval
   ///
   /// In en, this message translates to:
   /// **'Every {interval} hours, at {time}'**
   String intervalDose(String interval, String time);
+
+  /// One-time dose
+  ///
+  /// In en, this message translates to:
+  /// **'One-time dose on {date} at {time}'**
+  String oneTimeDose(String date, String time);
+
+  /// Medication dosage
+  ///
+  /// In en, this message translates to:
+  /// **'{dosage} {unit}'**
+  String medicationDosage(String dosage, String unit);
+
+  /// Dose at a specific time
+  ///
+  /// In en, this message translates to:
+  /// **'{dosage} {unit} at {time}'**
+  String doseAtTime(String dosage, String unit, String time);
+
+  /// Start date label
+  ///
+  /// In en, this message translates to:
+  /// **'Start: {date}'**
+  String startDateLabel(String date);
+
+  /// End date label
+  ///
+  /// In en, this message translates to:
+  /// **'End: {date}'**
+  String endDateLabel(String date);
+
+  /// Short name for Monday
+  ///
+  /// In en, this message translates to:
+  /// **'Mon'**
+  String get mondayShort;
+
+  /// Short name for Tuesday
+  ///
+  /// In en, this message translates to:
+  /// **'Tue'**
+  String get tuesdayShort;
+
+  /// Short name for Wednesday
+  ///
+  /// In en, this message translates to:
+  /// **'Wed'**
+  String get wednesdayShort;
+
+  /// Short name for Thursday
+  ///
+  /// In en, this message translates to:
+  /// **'Thu'**
+  String get thursdayShort;
+
+  /// Short name for Friday
+  ///
+  /// In en, this message translates to:
+  /// **'Fri'**
+  String get fridayShort;
+
+  /// Short name for Saturday
+  ///
+  /// In en, this message translates to:
+  /// **'Sat'**
+  String get saturdayShort;
+
+  /// Short name for Sunday
+  ///
+  /// In en, this message translates to:
+  /// **'Sun'**
+  String get sundayShort;
+
+  /// Scheduled status
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled'**
+  String get scheduled;
+
+  /// Duration
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get duration;
+
+  /// Start
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get start;
+
+  /// End
+  ///
+  /// In en, this message translates to:
+  /// **'End'**
+  String get end;
+
+  /// Ongoing status
+  ///
+  /// In en, this message translates to:
+  /// **'Ongoing'**
+  String get ongoing;
+
+  /// On specific days
+  ///
+  /// In en, this message translates to:
+  /// **'On {days} at {time}'**
+  String onDays(String days, String time);
+
+  /// Arabic language
+  ///
+  /// In en, this message translates to:
+  /// **'Arabic'**
+  String get arabic;
+
+  /// Loading indicator
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get loading;
+
+  /// Validation error message for time
+  ///
+  /// In en, this message translates to:
+  /// **'Please add a time'**
+  String get pleaseAddTime;
+
+  /// Clear button
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get clear;
+
+  /// Pills
+  ///
+  /// In en, this message translates to:
+  /// **'pills'**
+  String get pills;
+
+  /// One-time schedule type
+  ///
+  /// In en, this message translates to:
+  /// **'One-time'**
+  String get oneTime;
+
+  /// Weekdays schedule type
+  ///
+  /// In en, this message translates to:
+  /// **'Weekdays'**
+  String get weekdays;
+
+  /// Date and time
+  ///
+  /// In en, this message translates to:
+  /// **'Date and Time'**
+  String get dateTime;
+
+  /// Monday
+  ///
+  /// In en, this message translates to:
+  /// **'Monday'**
+  String get monday;
+
+  /// Tuesday
+  ///
+  /// In en, this message translates to:
+  /// **'Tuesday'**
+  String get tuesday;
+
+  /// Wednesday
+  ///
+  /// In en, this message translates to:
+  /// **'Wednesday'**
+  String get wednesday;
+
+  /// Thursday
+  ///
+  /// In en, this message translates to:
+  /// **'Thursday'**
+  String get thursday;
+
+  /// Friday
+  ///
+  /// In en, this message translates to:
+  /// **'Friday'**
+  String get friday;
+
+  /// Saturday
+  ///
+  /// In en, this message translates to:
+  /// **'Saturday'**
+  String get saturday;
+
+  /// Sunday
+  ///
+  /// In en, this message translates to:
+  /// **'Sunday'**
+  String get sunday;
+
+  /// Medication history screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Medication History'**
+  String get medicationHistory;
+
+  /// Message when there is no dose history
+  ///
+  /// In en, this message translates to:
+  /// **'No dose history yet.'**
+  String get noDoseHistoryYet;
+
+  /// Today
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get today;
+
+  /// Yesterday
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get yesterday;
+
+  /// Pending dose status
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get pending;
+
+  /// Privacy policy
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicy;
+
+  /// App version
+  ///
+  /// In en, this message translates to:
+  /// **'App Version'**
+  String get appVersion;
+
+  /// Theme mode setting
+  ///
+  /// In en, this message translates to:
+  /// **'Theme Mode'**
+  String get themeMode;
+
+  /// Appearance setting
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get appearance;
+
+  /// About screen title
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get about;
+
+  /// The name of the language
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get languageName;
+
+  /// Error message when a URL can't be launched
+  ///
+  /// In en, this message translates to:
+  /// **'Could not launch URL'**
+  String get couldNotLaunchUrl;
 }
 
 class _AppLocalizationsDelegate

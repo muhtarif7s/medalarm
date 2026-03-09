@@ -15,19 +15,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get medicationName => 'اسم الدواء';
 
   @override
-  String get pleaseEnterName => 'الرجاء إدخال اسم';
+  String get pleaseEnterName => 'الرجاء إدخال اسم الدواء';
 
   @override
   String get dosage => 'الجرعة';
 
   @override
-  String get pleaseEnterDosage => 'الرجاء إدخال جرعة';
+  String get pleaseEnterDosage => 'يرجى إدخال الجرعة';
 
   @override
   String get invalidNumber => 'رقم غير صالح';
 
   @override
-  String get unitExample => 'الوحدة (مثل ملغ، حبة)';
+  String get unitExample => 'الوحدة (مثل ملجم، مل)';
 
   @override
   String get pleaseEnterUnit => 'الرجاء إدخال وحدة';
@@ -66,7 +66,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get interval => 'فاصل زمني';
 
   @override
-  String get intervalHours => 'الفاصل الزمني (بالساعات)';
+  String get intervalHours => 'الفاصل الزمني بالساعات';
 
   @override
   String get daysOfTheWeek => 'أيام الأسبوع';
@@ -84,7 +84,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get endDateOptional => 'تاريخ الانتهاء (اختياري)';
 
   @override
-  String get notSet => 'غير محدد';
+  String get notSet => 'لم يتم التعيين';
 
   @override
   String get home => 'الرئيسية';
@@ -99,7 +99,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get medications => 'الأدوية';
 
   @override
-  String get noMedications => 'لا توجد أدوية حتى الآن.';
+  String get noMedications => 'لم تتم إضافة أي أدوية حتى الآن.';
 
   @override
   String get addYourFirstMedication => 'أضف دوائك الأول';
@@ -117,10 +117,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get taken => 'تم تناولها';
 
   @override
-  String get missed => 'الفائتة';
+  String get missed => 'تم تفويتها';
 
   @override
-  String get theme => 'السمة';
+  String get theme => 'المظهر';
 
   @override
   String get light => 'فاتح';
@@ -135,19 +135,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get language => 'اللغة';
 
   @override
-  String get english => 'English';
+  String get english => 'الإنجليزية';
 
   @override
   String get spanish => 'الإسبانية';
 
   @override
-  String get noRecords => 'لا توجد سجلات.';
+  String get noRecords => 'لم يتم العثور على سجلات.';
 
   @override
-  String get pleaseEnterAValidDosage => 'يرجى إدخال جرعة صالحة';
+  String get pleaseEnterAValidDosage => 'الرجاء إدخال جرعة صالحة';
 
   @override
-  String get pleaseEnterAValidStock => 'يرجى إدخال مخزون صالح';
+  String get pleaseEnterAValidStock => 'الرجاء إدخال مخزون صالح';
 
   @override
   String get failedToSaveMedication => 'فشل حفظ الدواء:';
@@ -159,7 +159,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get yourMedications => 'أدويتك';
 
   @override
-  String get noMedicationsYet => 'لا توجد أدوية بعد.';
+  String get noMedicationsYet => 'لا توجد أدوية حتى الآن.';
 
   @override
   String get addMedicationToGetStarted => 'أضف دواء للبدء.';
@@ -221,16 +221,163 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String dailyDose(String time) {
-    return 'يوميًا في الساعة $time';
+    return 'يوميًا في $time';
   }
 
   @override
   String specificDaysDose(String days, String time) {
-    return 'في أيام $days الساعة $time';
+    return 'في $days في $time';
   }
 
   @override
   String intervalDose(String interval, String time) {
-    return 'كل $interval ساعات, في $time';
+    return 'كل $interval ساعات، في $time';
   }
+
+  @override
+  String oneTimeDose(String date, String time) {
+    return 'جرعة لمرة واحدة في $date في $time';
+  }
+
+  @override
+  String medicationDosage(String dosage, String unit) {
+    return '$dosage $unit';
+  }
+
+  @override
+  String doseAtTime(String dosage, String unit, String time) {
+    return '$dosage $unit في $time';
+  }
+
+  @override
+  String startDateLabel(String date) {
+    return 'البداية: $date';
+  }
+
+  @override
+  String endDateLabel(String date) {
+    return 'النهاية: $date';
+  }
+
+  @override
+  String get mondayShort => 'إث';
+
+  @override
+  String get tuesdayShort => 'ثل';
+
+  @override
+  String get wednesdayShort => 'أر';
+
+  @override
+  String get thursdayShort => 'خم';
+
+  @override
+  String get fridayShort => 'جم';
+
+  @override
+  String get saturdayShort => 'سب';
+
+  @override
+  String get sundayShort => 'أح';
+
+  @override
+  String get scheduled => 'مجدول';
+
+  @override
+  String get duration => 'المدة';
+
+  @override
+  String get start => 'البداية';
+
+  @override
+  String get end => 'النهاية';
+
+  @override
+  String get ongoing => 'مستمر';
+
+  @override
+  String onDays(String days, String time) {
+    return 'في $days في $time';
+  }
+
+  @override
+  String get arabic => 'العربية';
+
+  @override
+  String get loading => 'جار التحميل...';
+
+  @override
+  String get pleaseAddTime => 'الرجاء إضافة وقت';
+
+  @override
+  String get clear => 'مسح';
+
+  @override
+  String get pills => 'حبوب';
+
+  @override
+  String get oneTime => 'مرة واحدة';
+
+  @override
+  String get weekdays => 'أيام الأسبوع';
+
+  @override
+  String get dateTime => 'التاريخ والوقت';
+
+  @override
+  String get monday => 'الاثنين';
+
+  @override
+  String get tuesday => 'الثلاثاء';
+
+  @override
+  String get wednesday => 'الأربعاء';
+
+  @override
+  String get thursday => 'الخميس';
+
+  @override
+  String get friday => 'الجمعة';
+
+  @override
+  String get saturday => 'السبت';
+
+  @override
+  String get sunday => 'الأحد';
+
+  @override
+  String get medicationHistory => 'سجل الأدوية';
+
+  @override
+  String get noDoseHistoryYet => 'لا يوجد سجل جرعات حتى الآن.';
+
+  @override
+  String get today => 'اليوم';
+
+  @override
+  String get yesterday => 'الأمس';
+
+  @override
+  String get pending => 'معلقة';
+
+  @override
+  String get privacyPolicy => 'سياسة الخصوصية';
+
+  @override
+  String get appVersion => 'إصدار التطبيق';
+
+  @override
+  String get themeMode => 'وضع المظهر';
+
+  @override
+  String get appearance => 'المظهر';
+
+  @override
+  String get about => 'حول';
+
+  @override
+  String get languageName => 'العربية';
+
+  @override
+  String get couldNotLaunchUrl => 'تعذر فتح الرابط';
 }

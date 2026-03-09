@@ -111,7 +111,7 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
                 onSaved: (value) => _stock = int.tryParse(value ?? '0') ?? 0,
               ),
               DropdownButtonFormField<MedicationScheduleType>(
-                value: _scheduleType,
+                initialValue: _scheduleType,
                 items: [
                   DropdownMenuItem(
                     value: MedicationScheduleType.daily,

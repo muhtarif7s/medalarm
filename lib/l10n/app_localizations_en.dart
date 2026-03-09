@@ -233,4 +233,151 @@ class AppLocalizationsEn extends AppLocalizations {
   String intervalDose(String interval, String time) {
     return 'Every $interval hours, at $time';
   }
+
+  @override
+  String oneTimeDose(String date, String time) {
+    return 'One-time dose on $date at $time';
+  }
+
+  @override
+  String medicationDosage(String dosage, String unit) {
+    return '$dosage $unit';
+  }
+
+  @override
+  String doseAtTime(String dosage, String unit, String time) {
+    return '$dosage $unit at $time';
+  }
+
+  @override
+  String startDateLabel(String date) {
+    return 'Start: $date';
+  }
+
+  @override
+  String endDateLabel(String date) {
+    return 'End: $date';
+  }
+
+  @override
+  String get mondayShort => 'Mon';
+
+  @override
+  String get tuesdayShort => 'Tue';
+
+  @override
+  String get wednesdayShort => 'Wed';
+
+  @override
+  String get thursdayShort => 'Thu';
+
+  @override
+  String get fridayShort => 'Fri';
+
+  @override
+  String get saturdayShort => 'Sat';
+
+  @override
+  String get sundayShort => 'Sun';
+
+  @override
+  String get scheduled => 'Scheduled';
+
+  @override
+  String get duration => 'Duration';
+
+  @override
+  String get start => 'Start';
+
+  @override
+  String get end => 'End';
+
+  @override
+  String get ongoing => 'Ongoing';
+
+  @override
+  String onDays(String days, String time) {
+    return 'On $days at $time';
+  }
+
+  @override
+  String get arabic => 'Arabic';
+
+  @override
+  String get loading => 'Loading...';
+
+  @override
+  String get pleaseAddTime => 'Please add a time';
+
+  @override
+  String get clear => 'Clear';
+
+  @override
+  String get pills => 'pills';
+
+  @override
+  String get oneTime => 'One-time';
+
+  @override
+  String get weekdays => 'Weekdays';
+
+  @override
+  String get dateTime => 'Date and Time';
+
+  @override
+  String get monday => 'Monday';
+
+  @override
+  String get tuesday => 'Tuesday';
+
+  @override
+  String get wednesday => 'Wednesday';
+
+  @override
+  String get thursday => 'Thursday';
+
+  @override
+  String get friday => 'Friday';
+
+  @override
+  String get saturday => 'Saturday';
+
+  @override
+  String get sunday => 'Sunday';
+
+  @override
+  String get medicationHistory => 'Medication History';
+
+  @override
+  String get noDoseHistoryYet => 'No dose history yet.';
+
+  @override
+  String get today => 'Today';
+
+  @override
+  String get yesterday => 'Yesterday';
+
+  @override
+  String get pending => 'Pending';
+
+  @override
+  String get privacyPolicy => 'Privacy Policy';
+
+  @override
+  String get appVersion => 'App Version';
+
+  @override
+  String get themeMode => 'Theme Mode';
+
+  @override
+  String get appearance => 'Appearance';
+
+  @override
+  String get about => 'About';
+
+  @override
+  String get languageName => 'English';
+
+  @override
+  String get couldNotLaunchUrl => 'Could not launch URL';
 }

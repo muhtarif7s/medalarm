@@ -1,11 +1,10 @@
 name: myapp
-description: "A new Flutter project."
+description: "A new Flutter project"
 publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.2.3 <4.0.0'
-
+  sdk: '>=3.1.4 <4.0.0'
 dependencies:
   flutter:
     sdk: flutter
@@ -32,6 +31,9 @@ dependencies:
   equatable: ^2.0.5
   shared_preferences: ^2.5.4
   image_picker: ^1.1.2
+  sqflite_common_ffi: ^2.3.2+1
+  sqflite_common_ffi_web: ^0.4.2+1
+
 
 dev_dependencies:
   flutter_test:
@@ -39,7 +41,6 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   mockito: ^5.4.4
   build_runner: ^2.4.8
-  sqflite_common_ffi: ^2.3.2+1
   sqlite3_flutter_libs: ^0.5.20
 
 flutter:
