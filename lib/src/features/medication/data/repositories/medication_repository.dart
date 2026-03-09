@@ -1,24 +1,38 @@
+
+import 'dart:async';
+
 import 'package:myapp/src/features/medication/data/models/medication.dart';
 import 'package:sqflite/sqflite.dart';
 
 class MedicationRepository {
   final Database database;
+  final _medicationsController = StreamController<List<Medication>>.broadcast();
 
   MedicationRepository({required this.database});
 
+  Stream<List<Medication>> get allMedications => _medicationsController.stream;
+
+  Future<void> fetchAllMedications() async {
+    final medications = await _getAllMedicationsFromDb();
+    _medicationsController.add(medications);
+  }
+
   Future<int> addMedication(Medication medication) async {
-    return await database.insert('medications', medication.toMap(),
+    final id = await database.insert('medications', medication.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
+    await fetchAllMedications();
+    return id;
   }
 
   Future<void> updateMedication(Medication medication) async {
     await database.update('medications', medication.toMap(), where: 'id = ?', whereArgs: [medication.id]);
+    await fetchAllMedications();
   }
 
   Future<void> deleteMedication(int id) async {
     await database.delete('medications', where: 'id = ?', whereArgs: [id]);
-    // Also delete associated doses
     await database.delete('doses', where: 'medicationId = ?', whereArgs: [id]);
+    await fetchAllMedications();
   }
 
   Future<Medication?> getMedication(int id) async {
@@ -30,10 +44,14 @@ class MedicationRepository {
     }
   }
 
-  Future<List<Medication>> getAllMedications() async {
+  Future<List<Medication>> _getAllMedicationsFromDb() async {
     final maps = await database.query('medications');
     return List.generate(maps.length, (i) {
       return Medication.fromMap(maps[i]);
     });
+  }
+
+  Future<List<Medication>> getAllMedicationsOnce() async {
+    return await _getAllMedicationsFromDb();
   }
 }

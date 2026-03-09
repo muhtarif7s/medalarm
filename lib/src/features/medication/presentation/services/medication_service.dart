@@ -29,7 +29,7 @@ class MedicationService {
   }
 
   Future<List<Medication>> getAllMedications() async {
-    return await _medicationRepository.getAllMedications();
+    return await _medicationRepository.getAllMedicationsOnce();
   }
 
   Future<Medication?> getMedication(int id) async {

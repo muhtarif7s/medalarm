@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:myapp/l10n/app_localizations.dart';
 import 'package:myapp/src/features/medication/presentation/providers/medication_provider.dart';
 import 'package:myapp/src/features/medication/presentation/widgets/medication_list.dart';
+import 'package:myapp/src/shared/widgets/empty_state.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -11,7 +12,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final medicationProvider = context.watch<MedicationProvider>();
 
     return Scaffold(
       appBar: AppBar(
@@ -25,19 +25,27 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: medicationProvider.medications.isEmpty
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.medical_services_outlined, size: 100, color: Colors.grey),
-                  const SizedBox(height: 20),
-                  Text(l10n.noMedicationsYet, style: Theme.of(context).textTheme.headlineSmall),
-                  Text(l10n.addMedicationToGetStarted, style: Theme.of(context).textTheme.bodyLarge),
-                ],
-              ),
-            )
-          : MedicationList(medications: medicationProvider.medications),
+      body: Consumer<MedicationProvider>(
+        builder: (context, medicationProvider, child) {
+          if (medicationProvider.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (medicationProvider.errorMessage != null) {
+            return Center(child: Text(medicationProvider.errorMessage!));
+          }
+
+          if (medicationProvider.medications.isEmpty) {
+            return EmptyState(
+              icon: Icons.medical_services_outlined,
+              title: l10n.noMedicationsYet,
+              message: l10n.addMedicationToGetStarted,
+            );
+          }
+
+          return MedicationList(medications: medicationProvider.medications);
+        },
+      ),
     );
   }
 }

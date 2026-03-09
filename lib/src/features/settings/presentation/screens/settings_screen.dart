@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/src/features/settings/presentation/providers/profile_provider.dart';
+import 'package:myapp/src/features/settings/presentation/screens/edit_profile_screen.dart';
 import 'package:myapp/src/features/settings/presentation/widgets/settings_row.dart';
 import 'package:myapp/src/features/settings/presentation/widgets/user_profile_header.dart';
+import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -13,71 +16,95 @@ class _SettingsScreenState extends State<SettingsScreen> {
   bool _isNotificationsOn = true;
 
   @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      if (mounted) {
+        context.read<ProfileProvider>().loadProfile();
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
       ),
-      body: ListView(
-        children: [
-          const UserProfileHeader(),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Text('Profile', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          ),
-          SettingsRow(
-            icon: Icons.account_circle_outlined,
-            title: 'Edit Profile',
-            onPress: () {},
-          ),
-          SettingsRow(
-            icon: Icons.security_outlined,
-            title: 'Security',
-            onPress: () {},
-          ),
-          SettingsRow(
-            icon: Icons.language_outlined,
-            title: 'Language',
-            onPress: () {},
-          ),
-          const Divider(),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Text('Notifications', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          ),
-          SettingsRow(
-            icon: Icons.notifications_outlined,
-            title: 'Dose Notifications',
-            hasSwitch: true,
-            isSwitchOn: _isNotificationsOn,
-            onSwitchChange: (value) {
-              setState(() {
-                _isNotificationsOn = value;
-              });
-            },
-          ),
-          SettingsRow(
-            icon: Icons.calendar_today_outlined,
-            title: 'Reminders',
-            onPress: () {},
-          ),
-          const Divider(),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-            child: Text('About', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          ),
-          SettingsRow(
-            icon: Icons.help_outline,
-            title: 'Help',
-            onPress: () {},
-          ),
-          SettingsRow(
-            icon: Icons.info_outline,
-            title: 'Terms and Conditions',
-            subtitle: 'Version 1.0.0',
-            onPress: () {},
-          ),
-        ],
+      body: Consumer<ProfileProvider>(
+        builder: (context, profileProvider, child) {
+          if (profileProvider.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          return ListView(
+            children: [
+              UserProfileHeader(profile: profileProvider.profile),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                child: Text('Profile', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              ),
+              SettingsRow(
+                icon: Icons.account_circle_outlined,
+                title: 'Edit Profile',
+                onPress: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const EditProfileScreen(),
+                    ),
+                  );
+                },
+              ),
+              SettingsRow(
+                icon: Icons.security_outlined,
+                title: 'Security',
+                onPress: () {},
+              ),
+              SettingsRow(
+                icon: Icons.language_outlined,
+                title: 'Language',
+                onPress: () {},
+              ),
+              const Divider(),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                child: Text('Notifications', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              ),
+              SettingsRow(
+                icon: Icons.notifications_outlined,
+                title: 'Dose Notifications',
+                hasSwitch: true,
+                isSwitchOn: _isNotificationsOn,
+                onSwitchChange: (value) {
+                  setState(() {
+                    _isNotificationsOn = value;
+                  });
+                },
+              ),
+              SettingsRow(
+                icon: Icons.calendar_today_outlined,
+                title: 'Reminders',
+                onPress: () {},
+              ),
+              const Divider(),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                child: Text('About', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              ),
+              SettingsRow(
+                icon: Icons.help_outline,
+                title: 'Help',
+                onPress: () {},
+              ),
+              SettingsRow(
+                icon: Icons.info_outline,
+                title: 'Terms and Conditions',
+                subtitle: 'Version 1.0.0',
+                onPress: () {},
+              ),
+            ],
+          );
+        },
       ),
     );
   }

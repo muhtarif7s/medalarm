@@ -19,6 +19,8 @@ void main() {
     setUp(() {
       mockMedicationRepository = MockMedicationRepository();
       mockDoseScheduleRepository = MockDoseScheduleRepository();
+      when(mockMedicationRepository.allMedications).thenAnswer((_) => Stream.value([]));
+      when(mockMedicationRepository.fetchAllMedications()).thenAnswer((_) async {});
       medicationProvider = MedicationProvider(mockMedicationRepository, mockDoseScheduleRepository);
     });
 
@@ -48,10 +50,16 @@ void main() {
           startDate: DateTime.now(),
         ),
       ];
-      when(mockMedicationRepository.getAllMedications()).thenAnswer((_) async => medications);
+      when(mockMedicationRepository.allMedications).thenAnswer((_) => Stream.value(medications));
+      // Re-initialize the provider to pick up the new stub.
+      medicationProvider = MedicationProvider(mockMedicationRepository, mockDoseScheduleRepository);
+
 
       // Act
-      await medicationProvider.loadMedications();
+      // The medications are loaded in the constructor, so no need to call loadMedications()
+      
+      // We need to wait for the stream to emit and the provider to notify listeners.
+      await Future.delayed(Duration.zero);
 
       // Assert
       expect(medicationProvider.medications, medications);

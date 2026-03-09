@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:myapp/src/features/medication/data/models/medication.dart';
 import 'package:myapp/src/features/medication/presentation/providers/medication_provider.dart';
+import 'package:myapp/src/features/medication/presentation/widgets/medication_details.dart';
+import 'package:myapp/src/shared/widgets/empty_state.dart';
 import 'package:provider/provider.dart';
 
 class MedicationDetailsScreen extends StatelessWidget {
@@ -11,37 +11,32 @@ class MedicationDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final medication = context.watch<MedicationProvider>().getMedicationById(medicationId);
-
-    if (medication == null) {
-      return Scaffold(
-        appBar: AppBar(),
-        body: const Center(
-          child: Text('Medication not found.'),
-        ),
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(
-        title: Text(medication.name),
+        title: const Text('Medication Details'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Dosage: ${medication.dosage} ${medication.unit}'),
-            Text('Schedule Type: ${medication.scheduleType.toString().split('.').last}'),
-            if (medication.scheduleType == MedicationScheduleType.specificDays)
-              Text('Days of Week: ${medication.daysOfWeek?.join(', ')}'),
-            if (medication.scheduleType == MedicationScheduleType.interval)
-              Text('Interval: Every ${medication.interval} days'),
-            Text('Start Date: ${DateFormat.yMd().format(medication.startDate)}'),
-            if (medication.endDate != null)
-              Text('End Date: ${DateFormat.yMd().format(medication.endDate!)}'),
-          ],
-        ),
+      body: Consumer<MedicationProvider>(
+        builder: (context, medicationProvider, child) {
+          if (medicationProvider.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (medicationProvider.errorMessage != null) {
+            return Center(child: Text(medicationProvider.errorMessage!));
+          }
+
+          final medication = medicationProvider.getMedicationById(medicationId);
+
+          if (medication == null) {
+            return const EmptyState(
+              icon: Icons.error_outline,
+              title: 'Medication not found',
+              message: 'The requested medication could not be found.',
+            );
+          }
+
+          return MedicationDetails(medication: medication);
+        },
       ),
     );
   }

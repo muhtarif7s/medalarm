@@ -4,7 +4,9 @@ import 'package:myapp/l10n/app_localizations.dart';
 import 'package:myapp/src/navigation/app_router.dart';
 import 'package:myapp/src/features/medication/data/repositories/medication_repository.dart';
 import 'package:myapp/src/features/medication/presentation/providers/medication_provider.dart';
+import 'package:myapp/src/features/settings/data/repositories/profile_repository.dart';
 import 'package:myapp/src/features/settings/presentation/providers/locale_provider.dart';
+import 'package:myapp/src/features/settings/presentation/providers/profile_provider.dart';
 import 'package:myapp/src/features/settings/presentation/providers/settings_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,7 +21,7 @@ Future<void> main() async {
   try {
     database = await openDatabase(
       'medications.db',
-      version: 2,
+      version: 3,
       onCreate: (db, version) {
         db.execute(
           'CREATE TABLE medications(id INTEGER PRIMARY KEY, name TEXT, dosage REAL, unit TEXT, scheduleType TEXT, times TEXT, stock INTEGER, remainingDoses INTEGER, startDate TEXT, endDate TEXT, weekdays TEXT)',
@@ -30,6 +32,9 @@ Future<void> main() async {
         db.execute(
           'CREATE TABLE doses(id INTEGER PRIMARY KEY, medicationId INTEGER, time TEXT)',
         );
+        db.execute(
+          'CREATE TABLE profile(id INTEGER PRIMARY KEY, name TEXT, age INTEGER, weight REAL, height REAL)',
+        );
       },
       onUpgrade: (db, oldVersion, newVersion) {
         if (oldVersion < 2) {
@@ -38,6 +43,11 @@ Future<void> main() async {
           db.execute('ALTER TABLE dose_schedules ADD COLUMN status TEXT');
           db.execute(
             'CREATE TABLE doses(id INTEGER PRIMARY KEY, medicationId INTEGER, time TEXT)',
+          );
+        }
+        if (oldVersion < 3) {
+          db.execute(
+            'CREATE TABLE profile(id INTEGER PRIMARY KEY, name TEXT, age INTEGER, weight REAL, height REAL)',
           );
         }
       },
@@ -90,6 +100,11 @@ class MyApp extends StatelessWidget {
             DoseScheduleRepository(database: database!),
           ),
         ),
+        ChangeNotifierProvider(
+          create: (_) => ProfileProvider(
+            ProfileRepository(database: database!),
+          ),
+        ),
       ],
       child: Consumer<SettingsProvider>(
         builder: (context, settingsProvider, child) {
@@ -119,6 +134,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 class LocaleProviderImpl extends ChangeNotifier implements LocaleProvider {
   LocaleProviderImpl(this._sharedPreferences);
 
@@ -153,4 +169,3 @@ class LocaleProviderImpl extends ChangeNotifier implements LocaleProvider {
     }
   }
 }
-

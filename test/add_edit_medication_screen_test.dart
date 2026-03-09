@@ -20,6 +20,9 @@ void main() {
     setUp(() {
       mockMedicationRepository = MockMedicationRepository();
       mockDoseScheduleRepository = MockDoseScheduleRepository();
+      when(mockMedicationRepository.allMedications).thenAnswer((_) => Stream.value([]));
+      when(mockMedicationRepository.fetchAllMedications()).thenAnswer((_) async {});
+
       router = GoRouter(
         routes: [
           GoRoute(
@@ -48,7 +51,7 @@ void main() {
         remainingDoses: 10,
         startDate: DateTime.now(),
       );
-      when(mockMedicationRepository.addMedication(any)).thenAnswer((_) async => Future.value());
+      when(mockMedicationRepository.addMedication(any)).thenAnswer((_) async => 1);
 
       // Act
       await tester.pumpWidget(

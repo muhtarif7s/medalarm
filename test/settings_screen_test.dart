@@ -3,10 +3,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:myapp/l10n/app_localizations.dart';
 import 'package:myapp/src/features/settings/presentation/providers/locale_provider.dart';
+import 'package:myapp/src/features/settings/presentation/providers/profile_provider.dart';
 import 'package:myapp/src/features/settings/presentation/providers/settings_provider.dart';
 import 'package:myapp/src/features/settings/presentation/screens/settings_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:myapp/src/features/settings/data/repositories/profile_repository.dart';
 
 class MockLocaleProvider extends Mock implements LocaleProvider {
   @override
@@ -19,14 +21,20 @@ class MockLocaleProvider extends Mock implements LocaleProvider {
   String getLangName(String langCode) => 'English';
 }
 
+class MockProfileRepository extends Mock implements ProfileRepository {}
+
 void main() {
   group('SettingsScreen', () {
     late SettingsProvider settingsProvider;
     late MockLocaleProvider mockLocaleProvider;
+    late ProfileProvider profileProvider;
+    late MockProfileRepository mockProfileRepository;
 
     setUp(() {
       settingsProvider = SettingsProvider();
       mockLocaleProvider = MockLocaleProvider();
+      mockProfileRepository = MockProfileRepository();
+      profileProvider = ProfileProvider(mockProfileRepository);
     });
 
     testWidgets('should display the settings screen', (WidgetTester tester) async {
@@ -36,6 +44,7 @@ void main() {
           providers: [
             ChangeNotifierProvider.value(value: settingsProvider),
             ChangeNotifierProvider<LocaleProvider>.value(value: mockLocaleProvider),
+            ChangeNotifierProvider.value(value: profileProvider),
           ],
           child: const MaterialApp(
             home: SettingsScreen(),

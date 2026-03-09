@@ -47,7 +47,8 @@ void main() {
           startDate: DateTime.now(),
         ),
       ];
-      when(mockMedicationRepository.getAllMedications()).thenAnswer((_) async => medications);
+      when(mockMedicationRepository.allMedications).thenAnswer((_) => Stream.value(medications));
+      when(mockMedicationRepository.fetchAllMedications()).thenAnswer((_) async {});
 
       final doseSchedules = medications.map((medication) => DoseSchedule(
         id: medication.id!,

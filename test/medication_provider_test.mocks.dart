@@ -6,7 +6,6 @@
 import 'dart:async' as _i4;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:myapp/src/database/database_helper.dart' as _i2;
 import 'package:myapp/src/features/doses/data/models/dose.dart' as _i8;
 import 'package:myapp/src/features/doses/data/models/dose_schedule.dart' as _i7;
 import 'package:myapp/src/features/doses/data/repositories/dose_schedule_repository.dart'
@@ -15,6 +14,7 @@ import 'package:myapp/src/features/medication/data/models/medication.dart'
     as _i5;
 import 'package:myapp/src/features/medication/data/repositories/medication_repository.dart'
     as _i3;
+import 'package:sqflite/sqflite.dart' as _i2;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -31,9 +31,8 @@ import 'package:myapp/src/features/medication/data/repositories/medication_repos
 // ignore_for_file: subtype_of_sealed_class
 // ignore_for_file: invalid_use_of_internal_member
 
-class _FakeDatabaseHelper_0 extends _i1.SmartFake
-    implements _i2.DatabaseHelper {
-  _FakeDatabaseHelper_0(
+class _FakeDatabase_0 extends _i1.SmartFake implements _i2.Database {
+  _FakeDatabase_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -52,13 +51,29 @@ class MockMedicationRepository extends _i1.Mock
   }
 
   @override
-  _i2.DatabaseHelper get dbHelper => (super.noSuchMethod(
-        Invocation.getter(#dbHelper),
-        returnValue: _FakeDatabaseHelper_0(
+  _i2.Database get database => (super.noSuchMethod(
+        Invocation.getter(#database),
+        returnValue: _FakeDatabase_0(
           this,
-          Invocation.getter(#dbHelper),
+          Invocation.getter(#database),
         ),
-      ) as _i2.DatabaseHelper);
+      ) as _i2.Database);
+
+  @override
+  _i4.Stream<List<_i5.Medication>> get allMedications => (super.noSuchMethod(
+        Invocation.getter(#allMedications),
+        returnValue: _i4.Stream<List<_i5.Medication>>.empty(),
+      ) as _i4.Stream<List<_i5.Medication>>);
+
+  @override
+  _i4.Future<void> fetchAllMedications() => (super.noSuchMethod(
+        Invocation.method(
+          #fetchAllMedications,
+          [],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 
   @override
   _i4.Future<int> addMedication(_i5.Medication? medication) =>
@@ -101,9 +116,10 @@ class MockMedicationRepository extends _i1.Mock
       ) as _i4.Future<_i5.Medication?>);
 
   @override
-  _i4.Future<List<_i5.Medication>> getAllMedications() => (super.noSuchMethod(
+  _i4.Future<List<_i5.Medication>> getAllMedicationsOnce() =>
+      (super.noSuchMethod(
         Invocation.method(
-          #getAllMedications,
+          #getAllMedicationsOnce,
           [],
         ),
         returnValue: _i4.Future<List<_i5.Medication>>.value(<_i5.Medication>[]),
@@ -120,13 +136,13 @@ class MockDoseScheduleRepository extends _i1.Mock
   }
 
   @override
-  _i2.DatabaseHelper get dbHelper => (super.noSuchMethod(
-        Invocation.getter(#dbHelper),
-        returnValue: _FakeDatabaseHelper_0(
+  _i2.Database get database => (super.noSuchMethod(
+        Invocation.getter(#database),
+        returnValue: _FakeDatabase_0(
           this,
-          Invocation.getter(#dbHelper),
+          Invocation.getter(#database),
         ),
-      ) as _i2.DatabaseHelper);
+      ) as _i2.Database);
 
   @override
   _i4.Future<void> createDoseSchedulesForMedication(

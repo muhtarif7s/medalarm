@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:myapp/src/features/doses/data/models/dose.dart';
 import 'package:myapp/src/features/doses/data/repositories/dose_schedule_repository.dart';
@@ -8,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class MedicationProvider with ChangeNotifier {
   final MedicationRepository _medicationRepository;
   final DoseScheduleRepository _doseScheduleRepository;
+  late StreamSubscription<List<Medication>> _medicationSubscription;
 
   List<Medication> _medications = [];
   bool _isLoading = false;
@@ -17,7 +20,13 @@ class MedicationProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
 
-  MedicationProvider(this._medicationRepository, this._doseScheduleRepository);
+  MedicationProvider(this._medicationRepository, this._doseScheduleRepository) {
+    _medicationSubscription = _medicationRepository.allMedications.listen((medications) {
+      _medications = medications;
+      _updateRemainingDoses();
+      notifyListeners();
+    });
+  }
 
   Medication? getMedicationById(String id) {
     try {
@@ -35,7 +44,7 @@ class MedicationProvider with ChangeNotifier {
       final today = DateTime.now().toIso8601String().substring(0, 10);
 
       if (lastReset != today) {
-        final medications = await _medicationRepository.getAllMedications();
+        final medications = await _medicationRepository.getAllMedicationsOnce();
         for (final medication in medications) {
           final updatedMedication = medication.copyWith(
             takenToday: 0,
@@ -56,8 +65,7 @@ class MedicationProvider with ChangeNotifier {
     notifyListeners();
     try {
       await resetMedicationStatusIfNeeded();
-      _medications = await _medicationRepository.getAllMedications();
-      await _updateRemainingDoses();
+      await _medicationRepository.fetchAllMedications();
     } catch (e) {
       _errorMessage = 'Failed to load medications: $e';
     } finally {
@@ -69,7 +77,6 @@ class MedicationProvider with ChangeNotifier {
   Future<void> addMedication(Medication medication) async {
     try {
       await _medicationRepository.addMedication(medication);
-      await loadMedications();
     } catch (e) {
       _errorMessage = 'Failed to add medication: $e';
       notifyListeners();
@@ -79,7 +86,6 @@ class MedicationProvider with ChangeNotifier {
   Future<void> updateMedication(Medication medication) async {
     try {
       await _medicationRepository.updateMedication(medication);
-      await loadMedications();
     } catch (e) {
       _errorMessage = 'Failed to update medication: $e';
       notifyListeners();
@@ -89,7 +95,6 @@ class MedicationProvider with ChangeNotifier {
   Future<void> deleteMedication(int id) async {
     try {
       await _medicationRepository.deleteMedication(id);
-      await loadMedications();
     } catch (e) {
       _errorMessage = 'Failed to delete medication: $e';
       notifyListeners();
@@ -122,6 +127,11 @@ class MedicationProvider with ChangeNotifier {
     } catch (e) {
       _errorMessage = 'Failed to update remaining doses: $e';
     }
-    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _medicationSubscription.cancel();
+    super.dispose();
   }
 }

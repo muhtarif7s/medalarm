@@ -7,7 +7,6 @@ import 'dart:async' as _i4;
 import 'dart:ui' as _i9;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:myapp/src/database/database_helper.dart' as _i2;
 import 'package:myapp/src/features/doses/data/models/dose.dart' as _i7;
 import 'package:myapp/src/features/doses/data/models/dose_schedule.dart' as _i6;
 import 'package:myapp/src/features/doses/data/repositories/dose_schedule_repository.dart'
@@ -16,6 +15,7 @@ import 'package:myapp/src/features/medication/data/models/medication.dart'
     as _i5;
 import 'package:myapp/src/features/medication/presentation/providers/medication_provider.dart'
     as _i8;
+import 'package:sqflite/sqflite.dart' as _i2;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -32,9 +32,8 @@ import 'package:myapp/src/features/medication/presentation/providers/medication_
 // ignore_for_file: subtype_of_sealed_class
 // ignore_for_file: invalid_use_of_internal_member
 
-class _FakeDatabaseHelper_0 extends _i1.SmartFake
-    implements _i2.DatabaseHelper {
-  _FakeDatabaseHelper_0(
+class _FakeDatabase_0 extends _i1.SmartFake implements _i2.Database {
+  _FakeDatabase_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -53,13 +52,13 @@ class MockDoseScheduleRepository extends _i1.Mock
   }
 
   @override
-  _i2.DatabaseHelper get dbHelper => (super.noSuchMethod(
-        Invocation.getter(#dbHelper),
-        returnValue: _FakeDatabaseHelper_0(
+  _i2.Database get database => (super.noSuchMethod(
+        Invocation.getter(#database),
+        returnValue: _FakeDatabase_0(
           this,
-          Invocation.getter(#dbHelper),
+          Invocation.getter(#database),
         ),
-      ) as _i2.DatabaseHelper);
+      ) as _i2.Database);
 
   @override
   _i4.Future<void> createDoseSchedulesForMedication(
@@ -184,6 +183,13 @@ class MockMedicationProvider extends _i1.Mock
       ) as bool);
 
   @override
+  _i5.Medication? getMedicationById(String? id) =>
+      (super.noSuchMethod(Invocation.method(
+        #getMedicationById,
+        [id],
+      )) as _i5.Medication?);
+
+  @override
   _i4.Future<void> resetMedicationStatusIfNeeded() => (super.noSuchMethod(
         Invocation.method(
           #resetMedicationStatusIfNeeded,
@@ -245,6 +251,15 @@ class MockMedicationProvider extends _i1.Mock
       ) as _i4.Future<_i5.Medication?>);
 
   @override
+  void dispose() => super.noSuchMethod(
+        Invocation.method(
+          #dispose,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   void addListener(_i9.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
@@ -258,15 +273,6 @@ class MockMedicationProvider extends _i1.Mock
         Invocation.method(
           #removeListener,
           [listener],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void dispose() => super.noSuchMethod(
-        Invocation.method(
-          #dispose,
-          [],
         ),
         returnValueForMissingStub: null,
       );
