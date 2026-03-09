@@ -1,223 +1,156 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:myapp/src/features/doses/data/repositories/dose_schedule_repository.dart';
-import 'package:myapp/src/features/doses/presentation/providers/dose_provider.dart';
-import 'package:myapp/src/features/main/presentation/screens/main_screen.dart';
-import 'package:myapp/src/features/medication/data/repositories/medication_repository.dart';
-import 'package:myapp/src/features/medication/presentation/services/dose_service.dart';
-import 'package:myapp/src/features/medication/presentation/services/notification_service.dart';
-import 'package:myapp/src/features/medication/scheduling_service.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:myapp/l10n/app_localizations.dart';
+import 'package:myapp/src/features/home/presentation/screens/home_screen.dart';
+import 'package:myapp/src/features/medication/data/repositories/medication_repository.dart';
 import 'package:myapp/src/features/medication/presentation/providers/medication_provider.dart';
-import 'package:myapp/src/features/settings/presentation/providers/settings_provider.dart';
 import 'package:myapp/src/features/settings/presentation/providers/locale_provider.dart';
+import 'package:myapp/src/features/settings/presentation/providers/settings_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqflite.dart';
 
-void main() async {
+import 'src/features/doses/data/repositories/dose_schedule_repository.dart';
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final notificationService = NotificationService();
-  await notificationService.init();
+  Database? database;
+  try {
+    database = await openDatabase(
+      'medications.db',
+      version: 2,
+      onCreate: (db, version) {
+        db.execute(
+          'CREATE TABLE medications(id INTEGER PRIMARY KEY, name TEXT, dosage REAL, unit TEXT, scheduleType TEXT, times TEXT, stock INTEGER, remainingDoses INTEGER, startDate TEXT, endDate TEXT, weekdays TEXT)',
+        );
+        db.execute(
+          'CREATE TABLE dose_schedules(id INTEGER PRIMARY KEY, medicationId INTEGER, scheduledTime TEXT, status TEXT)',
+        );
+        db.execute(
+          'CREATE TABLE doses(id INTEGER PRIMARY KEY, medicationId INTEGER, time TEXT)',
+        );
+      },
+      onUpgrade: (db, oldVersion, newVersion) {
+        if (oldVersion < 2) {
+          db.execute('ALTER TABLE medications ADD COLUMN endDate TEXT');
+          db.execute('ALTER TABLE medications ADD COLUMN weekdays TEXT');
+          db.execute('ALTER TABLE dose_schedules ADD COLUMN status TEXT');
+          db.execute(
+            'CREATE TABLE doses(id INTEGER PRIMARY KEY, medicationId INTEGER, time TEXT)',
+          );
+        }
+      },
+    );
+  } catch (e) {
+    runApp(const MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Text('Error: Database could not be initialized.'),
+        ),
+      ),
+    ));
+    return;
+  }
 
-  final medicationRepository = MedicationRepository();
-  final doseScheduleRepository = DoseScheduleRepository();
-  final schedulingService = SchedulingService();
-  final doseService = DoseService(
-    doseScheduleRepository,
-    schedulingService,
-    notificationService,
-    medicationRepository,
-  );
-
-  Timer.periodic(const Duration(minutes: 1), (timer) {
-    doseService.checkMissedDoses();
-  });
+  final sharedPreferences = await SharedPreferences.getInstance();
 
   runApp(
-    MultiProvider(
-      providers: [
-        Provider<DoseService>.value(value: doseService),
-        ChangeNotifierProvider(create: (_) => LocaleProvider()),
-        ChangeNotifierProvider(create: (_) => SettingsProvider()),
-        ChangeNotifierProvider(
-          create: (context) => MedicationProvider(
-            medicationRepository,
-            doseScheduleRepository,
-          )..loadMedications(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => DoseProvider(
-            doseScheduleRepository,
-            context.read<MedicationProvider>(),
-          ),
-        ),
-      ],
-      child: const MyApp(),
+    MyApp(
+      database: database,
+      sharedPreferences: sharedPreferences,
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.database, required this.sharedPreferences});
+
+  final Database? database;
+  final SharedPreferences sharedPreferences;
 
   @override
   Widget build(BuildContext context) {
-    // Define the core colors for the medical theme
-    const primaryColor = Color(0xFF007AFF); // Medical Blue
-    const secondaryColor = Color(0xFF34C759); // Success Green
-    const errorColor = Color(0xFFFF3B30); // Soft Red for warnings
-
-    // --- Light Theme ---
-    final lightColorScheme = ColorScheme.fromSeed(
-      seedColor: primaryColor,
-      brightness: Brightness.light,
-      primary: primaryColor,
-      secondary: secondaryColor,
-      error: errorColor,
-      surface: const Color(0xFFFFFFFF),
-      onSurface: const Color(0xFF000000),
+    if (database == null) {
+      return const MaterialApp(
+        home: Scaffold(
+          body: Center(
+            child: Text('Error: Database could not be initialized.'),
+          ),
+        ),
+      );
+    }
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => SettingsProvider()),
+        ChangeNotifierProvider(create: (_) => LocaleProviderImpl(sharedPreferences)),
+        ChangeNotifierProvider(
+          create: (_) => MedicationProvider(
+            MedicationRepository(database: database!),
+            DoseScheduleRepository(database: database!),
+          ),
+        ),
+      ],
+      child: Consumer<SettingsProvider>(
+        builder: (context, settingsProvider, child) {
+          final localeProvider = Provider.of<LocaleProvider>(context);
+          return MaterialApp(
+            title: 'Medication-Tracker',
+            theme: ThemeData.light(),
+            darkTheme: ThemeData.dark().copyWith(
+              colorScheme: const ColorScheme.dark(
+                primary: Colors.teal,
+                secondary: Colors.tealAccent,
+              ),
+            ),
+            themeMode: settingsProvider.themeMode,
+            locale: localeProvider.locale,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: const HomeScreen(),
+          );
+        },
+      ),
     );
+  }
+}
 
-    final lightTheme = ThemeData(
-      useMaterial3: true,
-      colorScheme: lightColorScheme,
-      textTheme: GoogleFonts.latoTextTheme(ThemeData.light().textTheme),
-      appBarTheme: AppBarTheme(
-        backgroundColor: lightColorScheme.surface,
-        elevation: 0,
-        centerTitle: true,
-        titleTextStyle: GoogleFonts.lato(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: lightColorScheme.onSurface),
-        iconTheme: IconThemeData(color: lightColorScheme.onSurface),
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: lightColorScheme.primary,
-          foregroundColor: lightColorScheme.onPrimary,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-        ),
-      ),
-      textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-          foregroundColor: lightColorScheme.primary,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-      ),
-      outlinedButtonTheme: OutlinedButtonThemeData(
-        style: OutlinedButton.styleFrom(
-          foregroundColor: lightColorScheme.primary,
-          side: BorderSide(color: lightColorScheme.primary.withAlpha(128)),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        ),
-      ),
-      cardTheme: CardThemeData(
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-          side: BorderSide(color: lightColorScheme.outline, width: 1),
-        ),
-        color: lightColorScheme.surface,
-      ),
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: lightColorScheme.primary,
-        foregroundColor: lightColorScheme.onPrimary,
-      ),
-      scaffoldBackgroundColor: const Color(0xFFF9F9F9),
-    );
+class LocaleProviderImpl extends ChangeNotifier implements LocaleProvider {
+  LocaleProviderImpl(this._sharedPreferences);
 
-    // --- Dark Theme ---
-    final darkColorScheme = ColorScheme.fromSeed(
-      seedColor: primaryColor,
-      brightness: Brightness.dark,
-      primary: primaryColor,
-      secondary: secondaryColor,
-      error: errorColor,
-      surface: const Color(0xFF121212),
-      onSurface: const Color(0xFFFFFFFF),
-    );
+  final SharedPreferences _sharedPreferences;
 
-    final darkTheme = ThemeData(
-      useMaterial3: true,
-      colorScheme: darkColorScheme,
-      textTheme: GoogleFonts.latoTextTheme(ThemeData.dark().textTheme),
-      appBarTheme: AppBarTheme(
-        backgroundColor: darkColorScheme.surface,
-        elevation: 0,
-        centerTitle: true,
-        titleTextStyle: GoogleFonts.lato(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: darkColorScheme.onSurface),
-        iconTheme: IconThemeData(color: darkColorScheme.onSurface),
-      ),
-      elevatedButtonTheme: ElevatedButtonThemeData(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: darkColorScheme.primary,
-          foregroundColor: darkColorScheme.onPrimary,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-        ),
-      ),
-      textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-          foregroundColor: darkColorScheme.primary,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-      ),
-      outlinedButtonTheme: OutlinedButtonThemeData(
-        style: OutlinedButton.styleFrom(
-          foregroundColor: darkColorScheme.primary,
-          side: BorderSide(color: darkColorScheme.primary.withAlpha(128)),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-        ),
-      ),
-      cardTheme: CardThemeData(
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-          side: BorderSide(color: darkColorScheme.outline, width: 1),
-        ),
-        color: darkColorScheme.surface,
-      ),
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: darkColorScheme.primary,
-        foregroundColor: darkColorScheme.onPrimary,
-      ),
-      scaffoldBackgroundColor: const Color(0xFF000000),
-    );
+  @override
+  Locale? get locale {
+    final langCode = _sharedPreferences.getString('langCode');
+    if (langCode == null) {
+      return null;
+    }
+    return Locale(langCode);
+  }
 
-    return Consumer<SettingsProvider>(
-      builder: (context, settingsProvider, child) {
-        return MaterialApp(
-          title: 'MedAlarm',
-          theme: lightTheme,
-          darkTheme: darkTheme,
-          themeMode: settingsProvider.themeMode,
-          locale: Provider.of<LocaleProvider>(context).locale,
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: const [
-            Locale('en', ''),
-            Locale('ar', ''),
-          ],
-          home: const MainScreen(),
-          debugShowCheckedModeBanner: false,
-        );
-      },
-    );
+  @override
+  void setLocale(Locale locale) {
+    _sharedPreferences.setString('langCode', locale.languageCode);
+    notifyListeners();
+  }
+
+  @override
+  String getLangName(String langCode) {
+    switch (langCode) {
+      case 'en':
+        return 'English';
+      case 'es':
+        return 'Español';
+      case 'ar':
+        return 'العربية';
+      default:
+        return 'English';
+    }
   }
 }

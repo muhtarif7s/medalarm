@@ -1,57 +1,52 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+
 import 'package:myapp/src/features/medication/data/models/medication.dart';
+import 'package:myapp/src/services/database_service.dart';
+import 'package:myapp/src/features/doses/data/models/dose.dart';
+import 'package:myapp/src/features/medication/data/models/day_of_week.dart';
 
 class SchedulingService {
-  List<DateTime> calculateScheduledTimes(Medication medication) {
-    final List<DateTime> scheduledTimes = [];
-    final now = DateTime.now();
-    var currentDate = medication.startDate;
+  final DatabaseService _dbService = SqfliteDatabaseService();
 
-    if (currentDate.isBefore(now)) {
-      currentDate = DateTime(now.year, now.month, now.day);
+  Future<void> scheduleDosesForMedication(Medication medication) async {
+    final now = DateTime.now();
+    if (medication.endDate != null && medication.endDate!.isBefore(now)) {
+      return;
     }
 
-    final endDate = medication.endDate ?? currentDate.add(const Duration(days: 365 * 5)); // Default to 5 years if no end date
+    final List<DateTime> scheduledTimes = [];
 
-    while (currentDate.isBefore(endDate) || currentDate.isAtSameMomentAs(endDate)) {
-      bool shouldSchedule = false;
-      switch (medication.scheduleType) {
-        case MedicationScheduleType.daily:
-          shouldSchedule = true;
-          break;
-        case MedicationScheduleType.weekdays:
-          if (medication.weekdays != null && medication.weekdays!.contains(currentDate.weekday)) {
-            shouldSchedule = true;
-          }
-          break;
-        case MedicationScheduleType.interval:
-          if (medication.interval != null) {
-            final difference = currentDate.difference(medication.startDate).inDays;
-            if (difference % medication.interval! == 0) {
-              shouldSchedule = true;
-            }
-          }
-          break;
-      }
-
-      if (shouldSchedule) {
+    switch (medication.scheduleType) {
+      case MedicationScheduleType.daily:
         for (final time in medication.times) {
-          final scheduledTime = DateTime(
-            currentDate.year,
-            currentDate.month,
-            currentDate.day,
-            time.hour,
-            time.minute,
-          );
+          final scheduledTime = DateTime(now.year, now.month, now.day, time.hour, time.minute);
           if (scheduledTime.isAfter(now)) {
             scheduledTimes.add(scheduledTime);
           }
         }
-      }
-
-      currentDate = currentDate.add(const Duration(days: 1));
+        break;
+      case MedicationScheduleType.specificDays:
+        if (medication.daysOfWeek!.contains(DayOfWeek.values[now.weekday - 1])) {
+          for (final time in medication.times) {
+            final scheduledTime = DateTime(now.year, now.month, now.day, time.hour, time.minute);
+            if (scheduledTime.isAfter(now)) {
+              scheduledTimes.add(scheduledTime);
+            }
+          }
+        }
+        break;
+      case MedicationScheduleType.interval:
+        // Implement interval scheduling logic here
+        break;
     }
 
-    return scheduledTimes;
+    for (final scheduledTime in scheduledTimes) {
+      final dose = Dose(
+        medicationId: medication.id!,
+        time: scheduledTime,
+        status: DoseStatus.pending,
+      );
+      await _dbService.insertDose(dose);
+    }
   }
 }

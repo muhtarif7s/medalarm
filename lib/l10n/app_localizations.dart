@@ -7,6 +7,7 @@ import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_ar.dart';
 import 'app_localizations_en.dart';
+import 'app_localizations_es.dart';
 
 // ignore_for_file: type=lint
 
@@ -95,182 +96,15 @@ abstract class AppLocalizations {
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('ar'),
-    Locale('en')
+    Locale('en'),
+    Locale('es')
   ];
-
-  /// No description provided for @helloWorld.
-  ///
-  /// In en, this message translates to:
-  /// **'Hello World!'**
-  String get helloWorld;
-
-  /// No description provided for @settings.
-  ///
-  /// In en, this message translates to:
-  /// **'Settings'**
-  String get settings;
-
-  /// No description provided for @language.
-  ///
-  /// In en, this message translates to:
-  /// **'Language'**
-  String get language;
-
-  /// No description provided for @languageName.
-  ///
-  /// In en, this message translates to:
-  /// **'English'**
-  String get languageName;
-
-  /// No description provided for @appearance.
-  ///
-  /// In en, this message translates to:
-  /// **'Appearance'**
-  String get appearance;
-
-  /// No description provided for @about.
-  ///
-  /// In en, this message translates to:
-  /// **'About'**
-  String get about;
-
-  /// No description provided for @themeMode.
-  ///
-  /// In en, this message translates to:
-  /// **'Theme Mode'**
-  String get themeMode;
-
-  /// No description provided for @light.
-  ///
-  /// In en, this message translates to:
-  /// **'Light'**
-  String get light;
-
-  /// No description provided for @dark.
-  ///
-  /// In en, this message translates to:
-  /// **'Dark'**
-  String get dark;
-
-  /// No description provided for @system.
-  ///
-  /// In en, this message translates to:
-  /// **'System'**
-  String get system;
-
-  /// No description provided for @appVersion.
-  ///
-  /// In en, this message translates to:
-  /// **'App Version'**
-  String get appVersion;
-
-  /// No description provided for @privacyPolicy.
-  ///
-  /// In en, this message translates to:
-  /// **'Privacy Policy'**
-  String get privacyPolicy;
-
-  /// No description provided for @couldNotLaunchUrl.
-  ///
-  /// In en, this message translates to:
-  /// **'Could not launch URL'**
-  String get couldNotLaunchUrl;
-
-  /// No description provided for @oneTime.
-  ///
-  /// In en, this message translates to:
-  /// **'One-time'**
-  String get oneTime;
-
-  /// No description provided for @daily.
-  ///
-  /// In en, this message translates to:
-  /// **'Daily'**
-  String get daily;
-
-  /// No description provided for @weekdays.
-  ///
-  /// In en, this message translates to:
-  /// **'Weekdays'**
-  String get weekdays;
-
-  /// No description provided for @interval.
-  ///
-  /// In en, this message translates to:
-  /// **'Interval'**
-  String get interval;
-
-  /// No description provided for @dateTime.
-  ///
-  /// In en, this message translates to:
-  /// **'Date & Time'**
-  String get dateTime;
-
-  /// No description provided for @monday.
-  ///
-  /// In en, this message translates to:
-  /// **'Monday'**
-  String get monday;
-
-  /// No description provided for @tuesday.
-  ///
-  /// In en, this message translates to:
-  /// **'Tuesday'**
-  String get tuesday;
-
-  /// No description provided for @wednesday.
-  ///
-  /// In en, this message translates to:
-  /// **'Wednesday'**
-  String get wednesday;
-
-  /// No description provided for @thursday.
-  ///
-  /// In en, this message translates to:
-  /// **'Thursday'**
-  String get thursday;
-
-  /// No description provided for @friday.
-  ///
-  /// In en, this message translates to:
-  /// **'Friday'**
-  String get friday;
-
-  /// No description provided for @saturday.
-  ///
-  /// In en, this message translates to:
-  /// **'Saturday'**
-  String get saturday;
-
-  /// No description provided for @sunday.
-  ///
-  /// In en, this message translates to:
-  /// **'Sunday'**
-  String get sunday;
-
-  /// No description provided for @editMedication.
-  ///
-  /// In en, this message translates to:
-  /// **'Edit Medication'**
-  String get editMedication;
 
   /// No description provided for @addMedication.
   ///
   /// In en, this message translates to:
   /// **'Add Medication'**
   String get addMedication;
-
-  /// No description provided for @deleteMedication.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete Medication'**
-  String get deleteMedication;
-
-  /// No description provided for @saveMedication.
-  ///
-  /// In en, this message translates to:
-  /// **'Save Medication'**
-  String get saveMedication;
 
   /// No description provided for @medicationName.
   ///
@@ -281,7 +115,7 @@ abstract class AppLocalizations {
   /// No description provided for @pleaseEnterName.
   ///
   /// In en, this message translates to:
-  /// **'Please enter a name'**
+  /// **'Please enter a medication name'**
   String get pleaseEnterName;
 
   /// No description provided for @dosage.
@@ -289,6 +123,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Dosage'**
   String get dosage;
+
+  /// No description provided for @pleaseEnterDosage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a dosage'**
+  String get pleaseEnterDosage;
 
   /// No description provided for @invalidNumber.
   ///
@@ -299,7 +139,7 @@ abstract class AppLocalizations {
   /// No description provided for @unitExample.
   ///
   /// In en, this message translates to:
-  /// **'Unit (e.g., mg, pill)'**
+  /// **'Unit (e.g., mg, ml)'**
   String get unitExample;
 
   /// No description provided for @pleaseEnterUnit.
@@ -308,23 +148,83 @@ abstract class AppLocalizations {
   /// **'Please enter a unit'**
   String get pleaseEnterUnit;
 
-  /// No description provided for @scheduleType.
+  /// No description provided for @stock.
   ///
   /// In en, this message translates to:
-  /// **'Schedule Type'**
-  String get scheduleType;
+  /// **'Stock'**
+  String get stock;
 
-  /// No description provided for @daysOfTheWeek.
+  /// No description provided for @invalidStock.
   ///
   /// In en, this message translates to:
-  /// **'Days of the Week'**
-  String get daysOfTheWeek;
+  /// **'Invalid stock'**
+  String get invalidStock;
+
+  /// No description provided for @saveMedication.
+  ///
+  /// In en, this message translates to:
+  /// **'Save Medication'**
+  String get saveMedication;
+
+  /// No description provided for @editMedication.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Medication'**
+  String get editMedication;
+
+  /// No description provided for @deleteMedication.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Medication'**
+  String get deleteMedication;
+
+  /// No description provided for @thisActionCannotBeUndone.
+  ///
+  /// In en, this message translates to:
+  /// **'This action cannot be undone.'**
+  String get thisActionCannotBeUndone;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get delete;
+
+  /// No description provided for @daily.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily'**
+  String get daily;
+
+  /// No description provided for @specificDaysInWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Specific days in week'**
+  String get specificDaysInWeek;
+
+  /// No description provided for @interval.
+  ///
+  /// In en, this message translates to:
+  /// **'Interval'**
+  String get interval;
 
   /// No description provided for @intervalHours.
   ///
   /// In en, this message translates to:
-  /// **'Interval (hours)'**
+  /// **'Interval in hours'**
   String get intervalHours;
+
+  /// No description provided for @daysOfTheWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Days of the week'**
+  String get daysOfTheWeek;
 
   /// No description provided for @times.
   ///
@@ -353,50 +253,62 @@ abstract class AppLocalizations {
   /// No description provided for @notSet.
   ///
   /// In en, this message translates to:
-  /// **'Not Set'**
+  /// **'Not set'**
   String get notSet;
 
-  /// No description provided for @thisActionCannotBeUndone.
+  /// No description provided for @home.
   ///
   /// In en, this message translates to:
-  /// **'This action cannot be undone.'**
-  String get thisActionCannotBeUndone;
+  /// **'Home'**
+  String get home;
 
-  /// No description provided for @cancel.
+  /// No description provided for @history.
   ///
   /// In en, this message translates to:
-  /// **'Cancel'**
-  String get cancel;
+  /// **'History'**
+  String get history;
 
-  /// No description provided for @delete.
+  /// No description provided for @settings.
   ///
   /// In en, this message translates to:
-  /// **'Delete'**
-  String get delete;
+  /// **'Settings'**
+  String get settings;
 
-  /// No description provided for @medicationHistory.
+  /// No description provided for @medications.
   ///
   /// In en, this message translates to:
-  /// **'Medication History'**
-  String get medicationHistory;
+  /// **'Medications'**
+  String get medications;
 
-  /// No description provided for @noDoseHistoryYet.
+  /// No description provided for @noMedications.
   ///
   /// In en, this message translates to:
-  /// **'No dose history yet.'**
-  String get noDoseHistoryYet;
+  /// **'No medications added yet.'**
+  String get noMedications;
 
-  /// No description provided for @today.
+  /// No description provided for @addYourFirstMedication.
   ///
   /// In en, this message translates to:
-  /// **'Today'**
-  String get today;
+  /// **'Add your first medication'**
+  String get addYourFirstMedication;
 
-  /// No description provided for @yesterday.
+  /// No description provided for @dosesFor.
   ///
   /// In en, this message translates to:
-  /// **'Yesterday'**
-  String get yesterday;
+  /// **'Doses for'**
+  String get dosesFor;
+
+  /// No description provided for @noDoses.
+  ///
+  /// In en, this message translates to:
+  /// **'No doses scheduled for this day.'**
+  String get noDoses;
+
+  /// No description provided for @all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get all;
 
   /// No description provided for @taken.
   ///
@@ -404,107 +316,89 @@ abstract class AppLocalizations {
   /// **'Taken'**
   String get taken;
 
-  /// No description provided for @skipped.
+  /// No description provided for @missed.
   ///
   /// In en, this message translates to:
-  /// **'Skipped'**
-  String get skipped;
+  /// **'Missed'**
+  String get missed;
 
-  /// No description provided for @pending.
+  /// No description provided for @theme.
   ///
   /// In en, this message translates to:
-  /// **'Pending'**
-  String get pending;
+  /// **'Theme'**
+  String get theme;
 
-  /// No description provided for @oneTimeDose.
+  /// No description provided for @light.
   ///
   /// In en, this message translates to:
-  /// **'One-time dose on {date} at {time}'**
-  String oneTimeDose(Object date, Object time);
+  /// **'Light'**
+  String get light;
 
-  /// No description provided for @dailyDose.
+  /// No description provided for @dark.
   ///
   /// In en, this message translates to:
-  /// **'Daily at {time}'**
-  String dailyDose(Object time);
+  /// **'Dark'**
+  String get dark;
 
-  /// No description provided for @specificDaysDose.
+  /// No description provided for @system.
   ///
   /// In en, this message translates to:
-  /// **'{days} at {time}'**
-  String specificDaysDose(Object days, Object time);
+  /// **'System'**
+  String get system;
 
-  /// No description provided for @intervalDose.
+  /// No description provided for @language.
   ///
   /// In en, this message translates to:
-  /// **'Every {interval} hours at {time}'**
-  String intervalDose(Object interval, Object time);
+  /// **'Language'**
+  String get language;
 
-  /// No description provided for @medicationDosage.
+  /// No description provided for @english.
   ///
   /// In en, this message translates to:
-  /// **'{dosage} {unit}'**
-  String medicationDosage(Object dosage, Object unit);
+  /// **'English'**
+  String get english;
 
-  /// No description provided for @doseAtTime.
+  /// No description provided for @spanish.
   ///
   /// In en, this message translates to:
-  /// **'{dosage} {unit} at {time}'**
-  String doseAtTime(Object dosage, Object time, Object unit);
+  /// **'Spanish'**
+  String get spanish;
 
-  /// No description provided for @startDateLabel.
+  /// No description provided for @noRecords.
   ///
   /// In en, this message translates to:
-  /// **'Start: {date}'**
-  String startDateLabel(Object date);
+  /// **'No records found.'**
+  String get noRecords;
 
-  /// No description provided for @endDateLabel.
+  /// No description provided for @pleaseEnterAValidDosage.
   ///
   /// In en, this message translates to:
-  /// **'End: {date}'**
-  String endDateLabel(Object date);
+  /// **'Please enter a valid dosage'**
+  String get pleaseEnterAValidDosage;
 
-  /// No description provided for @mondayShort.
+  /// No description provided for @pleaseEnterAValidStock.
   ///
   /// In en, this message translates to:
-  /// **'Mon'**
-  String get mondayShort;
+  /// **'Please enter a valid stock'**
+  String get pleaseEnterAValidStock;
 
-  /// No description provided for @tuesdayShort.
+  /// No description provided for @failedToSaveMedication.
   ///
   /// In en, this message translates to:
-  /// **'Tue'**
-  String get tuesdayShort;
+  /// **'Failed to save medication:'**
+  String get failedToSaveMedication;
 
-  /// No description provided for @wednesdayShort.
+  /// No description provided for @failedToDeleteMedication.
   ///
   /// In en, this message translates to:
-  /// **'Wed'**
-  String get wednesdayShort;
+  /// **'Failed to delete medication:'**
+  String get failedToDeleteMedication;
 
-  /// No description provided for @thursdayShort.
+  /// No description provided for @yourMedications.
   ///
   /// In en, this message translates to:
-  /// **'Thu'**
-  String get thursdayShort;
-
-  /// No description provided for @fridayShort.
-  ///
-  /// In en, this message translates to:
-  /// **'Fri'**
-  String get fridayShort;
-
-  /// No description provided for @saturdayShort.
-  ///
-  /// In en, this message translates to:
-  /// **'Sat'**
-  String get saturdayShort;
-
-  /// No description provided for @sundayShort.
-  ///
-  /// In en, this message translates to:
-  /// **'Sun'**
-  String get sundayShort;
+  /// **'Your Medications'**
+  String get yourMedications;
 
   /// No description provided for @noMedicationsYet.
   ///
@@ -518,6 +412,60 @@ abstract class AppLocalizations {
   /// **'Add a medication to get started.'**
   String get addMedicationToGetStarted;
 
+  /// No description provided for @take.
+  ///
+  /// In en, this message translates to:
+  /// **'Take'**
+  String get take;
+
+  /// No description provided for @historyScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Dose History'**
+  String get historyScreenTitle;
+
+  /// No description provided for @noDoseHistoryAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No dose history available.'**
+  String get noDoseHistoryAvailable;
+
+  /// No description provided for @doseAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Dose at {time}'**
+  String doseAt(String time);
+
+  /// No description provided for @doseDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'{dosage} {unit}'**
+  String doseDetails(String dosage, String unit);
+
+  /// No description provided for @markAsTaken.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as Taken'**
+  String get markAsTaken;
+
+  /// No description provided for @markAsSkipped.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as Skipped'**
+  String get markAsSkipped;
+
+  /// No description provided for @markAsPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as Pending'**
+  String get markAsPending;
+
+  /// No description provided for @helloWorld.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello World!'**
+  String get helloWorld;
+
   /// No description provided for @confirmDelete.
   ///
   /// In en, this message translates to:
@@ -529,54 +477,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to delete this medication?'**
   String get areYouSureYouWantToDeleteThisMedication;
-
-  /// No description provided for @doseHistory.
-  ///
-  /// In en, this message translates to:
-  /// **'Dose History'**
-  String get doseHistory;
-
-  /// No description provided for @noDoseHistoryAvailable.
-  ///
-  /// In en, this message translates to:
-  /// **'No dose history available.'**
-  String get noDoseHistoryAvailable;
-
-  /// No description provided for @scheduled.
-  ///
-  /// In en, this message translates to:
-  /// **'Scheduled'**
-  String get scheduled;
-
-  /// No description provided for @duration.
-  ///
-  /// In en, this message translates to:
-  /// **'Duration'**
-  String get duration;
-
-  /// No description provided for @start.
-  ///
-  /// In en, this message translates to:
-  /// **'Start'**
-  String get start;
-
-  /// No description provided for @end.
-  ///
-  /// In en, this message translates to:
-  /// **'End'**
-  String get end;
-
-  /// No description provided for @ongoing.
-  ///
-  /// In en, this message translates to:
-  /// **'Ongoing'**
-  String get ongoing;
-
-  /// No description provided for @onDays.
-  ///
-  /// In en, this message translates to:
-  /// **'On {days} at {time}'**
-  String onDays(Object days, Object time);
 
   /// No description provided for @noDosesInCategory.
   ///
@@ -600,7 +500,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Are you sure you want to mark this dose as {status}?'**
-  String areYouSureYouWantToMarkThisDoseAs(Object status);
+  String areYouSureYouWantToMarkThisDoseAs(String status);
 
   /// No description provided for @confirm.
   ///
@@ -608,101 +508,23 @@ abstract class AppLocalizations {
   /// **'Confirm'**
   String get confirm;
 
-  /// No description provided for @markAsTaken.
+  /// No description provided for @dailyDose.
   ///
   /// In en, this message translates to:
-  /// **'Mark as Taken'**
-  String get markAsTaken;
+  /// **'Daily at {time}'**
+  String dailyDose(String time);
 
-  /// No description provided for @markAsSkipped.
+  /// No description provided for @specificDaysDose.
   ///
   /// In en, this message translates to:
-  /// **'Mark as Skipped'**
-  String get markAsSkipped;
+  /// **'On {days} at {time}'**
+  String specificDaysDose(String days, String time);
 
-  /// No description provided for @english.
+  /// No description provided for @intervalDose.
   ///
   /// In en, this message translates to:
-  /// **'English'**
-  String get english;
-
-  /// No description provided for @arabic.
-  ///
-  /// In en, this message translates to:
-  /// **'العربية'**
-  String get arabic;
-
-  /// No description provided for @loading.
-  ///
-  /// In en, this message translates to:
-  /// **'...'**
-  String get loading;
-
-  /// No description provided for @pleaseAddTime.
-  ///
-  /// In en, this message translates to:
-  /// **'Please add a time'**
-  String get pleaseAddTime;
-
-  /// No description provided for @clear.
-  ///
-  /// In en, this message translates to:
-  /// **'Clear'**
-  String get clear;
-
-  /// No description provided for @pleaseEnterDosage.
-  ///
-  /// In en, this message translates to:
-  /// **'Please enter a dosage'**
-  String get pleaseEnterDosage;
-
-  /// No description provided for @pills.
-  ///
-  /// In en, this message translates to:
-  /// **'pills'**
-  String get pills;
-
-  /// No description provided for @yourMedications.
-  ///
-  /// In en, this message translates to:
-  /// **'Your Medications'**
-  String get yourMedications;
-
-  /// No description provided for @take.
-  ///
-  /// In en, this message translates to:
-  /// **'Take'**
-  String get take;
-
-  /// No description provided for @historyScreenTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'History'**
-  String get historyScreenTitle;
-
-  /// No description provided for @doseAt.
-  ///
-  /// In en, this message translates to:
-  /// **'Dose at {time}'**
-  String doseAt(Object time);
-
-  /// No description provided for @doseDetails.
-  ///
-  /// In en, this message translates to:
-  /// **'{dosage} {unit}'**
-  String doseDetails(Object dosage, Object unit);
-
-  /// No description provided for @markAsPending.
-  ///
-  /// In en, this message translates to:
-  /// **'Mark as Pending'**
-  String get markAsPending;
-
-  /// No description provided for @stock.
-  ///
-  /// In en, this message translates to:
-  /// **'Stock'**
-  String get stock;
+  /// **'Every {interval} hours, at {time}'**
+  String intervalDose(String interval, String time);
 }
 
 class _AppLocalizationsDelegate
@@ -716,7 +538,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['ar', 'en'].contains(locale.languageCode);
+      <String>['ar', 'en', 'es'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -729,6 +551,8 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsAr();
     case 'en':
       return AppLocalizationsEn();
+    case 'es':
+      return AppLocalizationsEs();
   }
 
   throw FlutterError(

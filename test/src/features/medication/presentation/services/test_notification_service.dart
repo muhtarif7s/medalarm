@@ -1,67 +1,58 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:myapp/src/features/medication/presentation/services/notification_service.dart';
-import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
+
+class MockFlutterLocalNotificationsPlugin extends Mock
+    implements FlutterLocalNotificationsPlugin {}
 
 void main() {
-  group('NotificationService', () {
-    late NotificationService notificationService;
-    late FlutterLocalNotificationsPlugin mockNotificationsPlugin;
+  late NotificationService notificationService;
+  late MockFlutterLocalNotificationsPlugin mockFlutterLocalNotificationsPlugin;
 
-    setUp(() {
-      notificationService = NotificationService();
-      mockNotificationsPlugin = FlutterLocalNotificationsPlugin();
-      tz.initializeTimeZones();
-    });
+  setUp(() {
+    notificationService = NotificationService();
+    mockFlutterLocalNotificationsPlugin = MockFlutterLocalNotificationsPlugin();
+    tz.initializeTimeZones();
+  });
 
-    test('scheduleNotification schedules a notification', () async {
-      // GIVEN
-      const id = 1;
-      const title = 'Test Title';
-      const body = 'Test Body';
-      final scheduledTime = DateTime.now().add(const Duration(seconds: 10));
+  test('should schedule a notification', () async {
+    // Arrange
+    final id = 1;
+    final title = 'Test Title';
+    final body = 'Test Body';
+    final scheduledDate = DateTime.now().add(const Duration(seconds: 5));
 
-      // WHEN
-      await notificationService.scheduleNotification(id, title, body, scheduledTime);
+    // Act
+    await notificationService.scheduleNotification(
+      id: id,
+      title: title,
+      body: body,
+      scheduledDate: scheduledDate,
+    );
 
-      // THEN
-      final pendingNotifications = await mockNotificationsPlugin.pendingNotificationRequests();
-      expect(pendingNotifications.length, 1);
-      expect(pendingNotifications.first.id, id);
-      expect(pendingNotifications.first.title, title);
-      expect(pendingNotifications.first.body, body);
-    });
+    // Assert
+    verify(mockFlutterLocalNotificationsPlugin.zonedSchedule(
+      id,
+      title,
+      body,
+      tz.TZDateTime.from(scheduledDate, tz.local),
+      const NotificationDetails(),
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+    )).called(1);
+  });
 
-    test('showNotification shows a notification', () async {
-      // GIVEN
-      const id = 1;
-      const title = 'Test Title';
-      const body = 'Test Body';
+  test('should cancel a notification', () async {
+    // Arrange
+    final id = 1;
 
-      // WHEN
-      await notificationService.showNotification(id, title, body);
+    // Act
+    await notificationService.cancelNotification(id);
 
-      // THEN
-      // Since show a notification is immediate, we can't easily test it.
-      // We will trust the flutter_local_notifications library to work correctly.
-    });
-
-    test('cancelNotification cancels a notification', () async {
-      // GIVEN
-      const id = 1;
-      const title = 'Test Title';
-      const body = 'Test Body';
-      final scheduledTime = DateTime.now().add(const Duration(seconds: 10));
-      await notificationService.scheduleNotification(id, title, body, scheduledTime);
-
-      // WHEN
-      await notificationService.cancelNotification(id);
-
-      // THEN
-      final pendingNotifications = await mockNotificationsPlugin.pendingNotificationRequests();
-      expect(pendingNotifications.length, 0);
-    });
+    // Assert
+    verify(mockFlutterLocalNotificationsPlugin.cancel(id)).called(1);
   });
 }

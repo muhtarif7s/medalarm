@@ -9,91 +9,7 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
-  String get helloWorld => 'مرحبًا بالعالم!';
-
-  @override
-  String get settings => 'الإعدادات';
-
-  @override
-  String get language => 'اللغة';
-
-  @override
-  String get languageName => 'العربية';
-
-  @override
-  String get appearance => 'المظهر';
-
-  @override
-  String get about => 'حول';
-
-  @override
-  String get themeMode => 'وضع السمة';
-
-  @override
-  String get light => 'فاتح';
-
-  @override
-  String get dark => 'داكن';
-
-  @override
-  String get system => 'النظام';
-
-  @override
-  String get appVersion => 'إصدار التطبيق';
-
-  @override
-  String get privacyPolicy => 'سياسة الخصوصية';
-
-  @override
-  String get couldNotLaunchUrl => 'لا يمكن فتح الرابط';
-
-  @override
-  String get oneTime => 'مرة واحدة';
-
-  @override
-  String get daily => 'يوميًا';
-
-  @override
-  String get weekdays => 'أيام الأسبوع';
-
-  @override
-  String get interval => 'فاصل زمني';
-
-  @override
-  String get dateTime => 'التاريخ والوقت';
-
-  @override
-  String get monday => 'الاثنين';
-
-  @override
-  String get tuesday => 'الثلاثاء';
-
-  @override
-  String get wednesday => 'الأربعاء';
-
-  @override
-  String get thursday => 'الخميس';
-
-  @override
-  String get friday => 'الجمعة';
-
-  @override
-  String get saturday => 'السبت';
-
-  @override
-  String get sunday => 'الأحد';
-
-  @override
-  String get editMedication => 'تعديل الدواء';
-
-  @override
   String get addMedication => 'إضافة دواء';
-
-  @override
-  String get deleteMedication => 'حذف الدواء';
-
-  @override
-  String get saveMedication => 'حفظ الدواء';
 
   @override
   String get medicationName => 'اسم الدواء';
@@ -105,6 +21,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get dosage => 'الجرعة';
 
   @override
+  String get pleaseEnterDosage => 'الرجاء إدخال جرعة';
+
+  @override
   String get invalidNumber => 'رقم غير صالح';
 
   @override
@@ -114,13 +33,43 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pleaseEnterUnit => 'الرجاء إدخال وحدة';
 
   @override
-  String get scheduleType => 'نوع الجدول';
+  String get stock => 'المخزون';
 
   @override
-  String get daysOfTheWeek => 'أيام الأسبوع';
+  String get invalidStock => 'مخزون غير صالح';
+
+  @override
+  String get saveMedication => 'حفظ الدواء';
+
+  @override
+  String get editMedication => 'تعديل الدواء';
+
+  @override
+  String get deleteMedication => 'حذف الدواء';
+
+  @override
+  String get thisActionCannotBeUndone => 'لا يمكن التراجع عن هذا الإجراء.';
+
+  @override
+  String get cancel => 'إلغاء';
+
+  @override
+  String get delete => 'حذف';
+
+  @override
+  String get daily => 'يوميًا';
+
+  @override
+  String get specificDaysInWeek => 'أيام محددة في الأسبوع';
+
+  @override
+  String get interval => 'فاصل زمني';
 
   @override
   String get intervalHours => 'الفاصل الزمني (بالساعات)';
+
+  @override
+  String get daysOfTheWeek => 'أيام الأسبوع';
 
   @override
   String get times => 'الأوقات';
@@ -138,95 +87,76 @@ class AppLocalizationsAr extends AppLocalizations {
   String get notSet => 'غير محدد';
 
   @override
-  String get thisActionCannotBeUndone => 'لا يمكن التراجع عن هذا الإجراء.';
+  String get home => 'الرئيسية';
 
   @override
-  String get cancel => 'إلغاء';
+  String get history => 'السجل';
 
   @override
-  String get delete => 'حذف';
+  String get settings => 'الإعدادات';
 
   @override
-  String get medicationHistory => 'سجل الأدوية';
+  String get medications => 'الأدوية';
 
   @override
-  String get noDoseHistoryYet => 'لا يوجد سجل جرعات حتى الآن.';
+  String get noMedications => 'لا توجد أدوية حتى الآن.';
 
   @override
-  String get today => 'اليوم';
+  String get addYourFirstMedication => 'أضف دوائك الأول';
 
   @override
-  String get yesterday => 'الأمس';
+  String get dosesFor => 'جرعات لـ';
+
+  @override
+  String get noDoses => 'لا توجد جرعات مجدولة لهذا اليوم.';
+
+  @override
+  String get all => 'الكل';
 
   @override
   String get taken => 'تم تناولها';
 
   @override
-  String get skipped => 'تم تخطيها';
+  String get missed => 'الفائتة';
 
   @override
-  String get pending => 'معلقة';
+  String get theme => 'السمة';
 
   @override
-  String oneTimeDose(Object date, Object time) {
-    return 'جرعة لمرة واحدة في $date الساعة $time';
-  }
+  String get light => 'فاتح';
 
   @override
-  String dailyDose(Object time) {
-    return 'يوميًا في الساعة $time';
-  }
+  String get dark => 'داكن';
 
   @override
-  String specificDaysDose(Object days, Object time) {
-    return '$days في الساعة $time';
-  }
+  String get system => 'النظام';
 
   @override
-  String intervalDose(Object interval, Object time) {
-    return 'كل $interval ساعات في الساعة $time';
-  }
+  String get language => 'اللغة';
 
   @override
-  String medicationDosage(Object dosage, Object unit) {
-    return '$dosage $unit';
-  }
+  String get english => 'English';
 
   @override
-  String doseAtTime(Object dosage, Object time, Object unit) {
-    return '$dosage $unit في الساعة $time';
-  }
+  String get spanish => 'الإسبانية';
 
   @override
-  String startDateLabel(Object date) {
-    return 'البداية: $date';
-  }
+  String get noRecords => 'لا توجد سجلات.';
 
   @override
-  String endDateLabel(Object date) {
-    return 'النهاية: $date';
-  }
+  String get pleaseEnterAValidDosage => 'يرجى إدخال جرعة صالحة';
 
   @override
-  String get mondayShort => 'إث';
+  String get pleaseEnterAValidStock => 'يرجى إدخال مخزون صالح';
 
   @override
-  String get tuesdayShort => 'ثل';
+  String get failedToSaveMedication => 'فشل حفظ الدواء:';
 
   @override
-  String get wednesdayShort => 'أر';
+  String get failedToDeleteMedication => 'فشل حذف الدواء:';
 
   @override
-  String get thursdayShort => 'خم';
-
-  @override
-  String get fridayShort => 'جم';
-
-  @override
-  String get saturdayShort => 'سب';
-
-  @override
-  String get sundayShort => 'أح';
+  String get yourMedications => 'أدويتك';
 
   @override
   String get noMedicationsYet => 'لا توجد أدوية بعد.';
@@ -235,37 +165,42 @@ class AppLocalizationsAr extends AppLocalizations {
   String get addMedicationToGetStarted => 'أضف دواء للبدء.';
 
   @override
-  String get confirmDelete => 'تأكيد الحذف';
+  String get take => 'تناول';
 
   @override
-  String get areYouSureYouWantToDeleteThisMedication =>
-      'هل أنت متأكد أنك تريد حذف هذا الدواء؟';
-
-  @override
-  String get doseHistory => 'سجل الجرعات';
+  String get historyScreenTitle => 'سجل الجرعات';
 
   @override
   String get noDoseHistoryAvailable => 'لا يوجد سجل جرعات متاح.';
 
   @override
-  String get scheduled => 'مجدول';
-
-  @override
-  String get duration => 'المدة';
-
-  @override
-  String get start => 'البداية';
-
-  @override
-  String get end => 'النهاية';
-
-  @override
-  String get ongoing => 'مستمر';
-
-  @override
-  String onDays(Object days, Object time) {
-    return 'في أيام $days الساعة $time';
+  String doseAt(String time) {
+    return 'جرعة في $time';
   }
+
+  @override
+  String doseDetails(String dosage, String unit) {
+    return '$dosage $unit';
+  }
+
+  @override
+  String get markAsTaken => 'وضع علامة كـ تم تناولها';
+
+  @override
+  String get markAsSkipped => 'وضع علامة كـ تم تخطيها';
+
+  @override
+  String get markAsPending => 'وضع علامة كـ معلقة';
+
+  @override
+  String get helloWorld => 'مرحبًا بالعالم!';
+
+  @override
+  String get confirmDelete => 'تأكيد الحذف';
+
+  @override
+  String get areYouSureYouWantToDeleteThisMedication =>
+      'هل أنت متأكد أنك تريد حذف هذا الدواء؟';
 
   @override
   String get noDosesInCategory => 'لا توجد جرعات في هذه الفئة.';
@@ -277,7 +212,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get confirmAction => 'تأكيد الإجراء';
 
   @override
-  String areYouSureYouWantToMarkThisDoseAs(Object status) {
+  String areYouSureYouWantToMarkThisDoseAs(String status) {
     return 'هل أنت متأكد أنك تريد تحديد هذه الجرعة كـ $status؟';
   }
 
@@ -285,54 +220,17 @@ class AppLocalizationsAr extends AppLocalizations {
   String get confirm => 'تأكيد';
 
   @override
-  String get markAsTaken => 'وضع علامة كـ تم تناولها';
-
-  @override
-  String get markAsSkipped => 'وضع علامة كـ تم تخطيها';
-
-  @override
-  String get english => 'English';
-
-  @override
-  String get arabic => 'العربية';
-
-  @override
-  String get loading => '...';
-
-  @override
-  String get pleaseAddTime => 'الرجاء إضافة وقت';
-
-  @override
-  String get clear => 'مسح';
-
-  @override
-  String get pleaseEnterDosage => 'الرجاء إدخال جرعة';
-
-  @override
-  String get pills => 'حبوب';
-
-  @override
-  String get yourMedications => 'أدويتك';
-
-  @override
-  String get take => 'تناول';
-
-  @override
-  String get historyScreenTitle => 'السجل';
-
-  @override
-  String doseAt(Object time) {
-    return 'جرعة في $time';
+  String dailyDose(String time) {
+    return 'يوميًا في الساعة $time';
   }
 
   @override
-  String doseDetails(Object dosage, Object unit) {
-    return '$dosage $unit';
+  String specificDaysDose(String days, String time) {
+    return 'في أيام $days الساعة $time';
   }
 
   @override
-  String get markAsPending => 'وضع علامة كـ معلقة';
-
-  @override
-  String get stock => 'المخزون';
+  String intervalDose(String interval, String time) {
+    return 'كل $interval ساعات, في $time';
+  }
 }

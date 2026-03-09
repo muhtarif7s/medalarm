@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:myapp/l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
+import 'package:myapp/src/features/medication/data/models/day_of_week.dart';
 import 'package:myapp/src/features/medication/data/models/medication.dart';
 import 'package:myapp/src/features/medication/presentation/providers/medication_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart' as date_picker;
-import 'package:toggle_switch/toggle_switch.dart';
 
 class AddEditMedicationScreen extends StatefulWidget {
   final Medication? medication;
@@ -19,281 +17,188 @@ class AddEditMedicationScreen extends StatefulWidget {
 
 class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
   final _formKey = GlobalKey<FormState>();
-  late TextEditingController _nameController;
-  late TextEditingController _dosageController;
-  late TextEditingController _unitController;
-  late TextEditingController _stockController;
-  late TextEditingController _intervalController;
-
+  late String _name;
+  late double _dosage;
+  late String _unit;
+  late int _stock;
   late MedicationScheduleType _scheduleType;
   late List<TimeOfDay> _times;
-  late List<int> _weekdays;
+  late int? _interval;
+  late List<DayOfWeek>? _daysOfWeek;
   late DateTime _startDate;
   late DateTime? _endDate;
 
   @override
   void initState() {
     super.initState();
-    final initialMed = widget.medication;
-
-    _nameController = TextEditingController(text: initialMed?.name);
-    _dosageController = TextEditingController(text: initialMed?.dosage.toString());
-    _unitController = TextEditingController(text: initialMed?.unit);
-    _stockController = TextEditingController(text: initialMed?.stock.toString());
-    _intervalController = TextEditingController(text: initialMed?.interval?.toString() ?? '24');
-
-    _scheduleType = initialMed?.scheduleType ?? MedicationScheduleType.daily;
-    _times = initialMed?.times ?? [const TimeOfDay(hour: 8, minute: 0)];
-    _weekdays = initialMed?.weekdays ?? [];
-    _startDate = initialMed?.startDate ?? DateTime.now();
-    _endDate = initialMed?.endDate;
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _dosageController.dispose();
-    _unitController.dispose();
-    _stockController.dispose();
-    _intervalController.dispose();
-    super.dispose();
-  }
-
-  void _saveForm() {
-    if (_formKey.currentState!.validate()) {
-      final medication = Medication(
-        id: widget.medication?.id,
-        name: _nameController.text,
-        dosage: double.parse(_dosageController.text),
-        unit: _unitController.text,
-        stock: int.parse(_stockController.text),
-        scheduleType: _scheduleType,
-        times: _times,
-        weekdays: _scheduleType == MedicationScheduleType.weekdays ? _weekdays : null,
-        interval: _scheduleType == MedicationScheduleType.interval ? int.parse(_intervalController.text) : null,
-        startDate: _startDate,
-        endDate: _endDate,
-        remainingDoses: int.parse(_stockController.text),
-      );
-
-      final provider = Provider.of<MedicationProvider>(context, listen: false);
-      if (widget.medication == null) {
-        provider.addMedication(medication);
-      } else {
-        provider.updateMedication(medication);
-      }
-      context.pop();
-    }
-  }
-
-  void _deleteMedication() {
-    if (widget.medication != null) {
-      Provider.of<MedicationProvider>(context, listen: false).deleteMedication(widget.medication!.id!);
-      context.go('/'); // Use go to reset the navigation stack after deletion
-    }
+    _name = widget.medication?.name ?? '';
+    _dosage = widget.medication?.dosage ?? 0.0;
+    _unit = widget.medication?.unit ?? '';
+    _stock = widget.medication?.stock ?? 0;
+    _scheduleType = widget.medication?.scheduleType ?? MedicationScheduleType.daily;
+    _times = widget.medication?.times ?? [TimeOfDay.now()];
+    _interval = widget.medication?.interval;
+    _daysOfWeek = widget.medication?.daysOfWeek;
+    _startDate = widget.medication?.startDate ?? DateTime.now();
+    _endDate = widget.medication?.endDate;
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final isEditMode = widget.medication != null;
-
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.pop(),
-        ),
-        title: Text(isEditMode ? l10n.editMedication : l10n.addMedication),
+        title: Text(widget.medication == null ? l10n.addMedication : l10n.editMedication),
         actions: [
-          if (isEditMode)
+          if (widget.medication != null)
             IconButton(
-              icon: const Icon(Icons.delete_outline),
-              onPressed: _showDeleteConfirmationDialog,
-              tooltip: l10n.deleteMedication,
+              icon: const Icon(Icons.delete),
+              onPressed: () => _confirmDelete(context),
             ),
-          IconButton(
-            icon: const Icon(Icons.save_alt_outlined),
-            onPressed: _saveForm,
-            tooltip: l10n.saveMedication,
-          ),
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16),
         child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildMedicationDetails(l10n),
-              const SizedBox(height: 24),
-              _buildScheduleTypeSelector(l10n),
+              TextFormField(
+                initialValue: _name,
+                decoration: InputDecoration(labelText: l10n.medicationName),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return l10n.pleaseEnterName;
+                  }
+                  return null;
+                },
+                onSaved: (value) => _name = value ?? '',
+              ),
+              TextFormField(
+                initialValue: _dosage.toString(),
+                decoration: InputDecoration(labelText: l10n.dosage),
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value == null || double.tryParse(value) == null) {
+                    return l10n.invalidNumber;
+                  }
+                  return null;
+                },
+                onSaved: (value) => _dosage = double.tryParse(value ?? '0.0') ?? 0.0,
+              ),
+              TextFormField(
+                initialValue: _unit,
+                decoration: InputDecoration(labelText: l10n.unitExample),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return l10n.pleaseEnterUnit;
+                  }
+                  return null;
+                },
+                onSaved: (value) => _unit = value ?? '',
+              ),
+              TextFormField(
+                initialValue: _stock.toString(),
+                decoration: InputDecoration(labelText: l10n.stock),
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value == null || int.tryParse(value) == null) {
+                    return l10n.invalidNumber;
+                  }
+                  return null;
+                },
+                onSaved: (value) => _stock = int.tryParse(value ?? '0') ?? 0,
+              ),
+              DropdownButtonFormField<MedicationScheduleType>(
+                value: _scheduleType,
+                items: [
+                  DropdownMenuItem(
+                    value: MedicationScheduleType.daily,
+                    child: Text(l10n.daily),
+                  ),
+                  DropdownMenuItem(
+                    value: MedicationScheduleType.specificDays,
+                    child: Text(l10n.specificDaysInWeek),
+                  ),
+                  DropdownMenuItem(
+                    value: MedicationScheduleType.interval,
+                    child: Text(l10n.interval),
+                  ),
+                ],
+                onChanged: (value) {
+                  if (mounted) {
+                    setState(() {
+                      _scheduleType = value ?? MedicationScheduleType.daily;
+                    });
+                  }
+                },
+              ),
+              if (_scheduleType == MedicationScheduleType.specificDays)
+                _buildDaysOfWeekSelector(),
+              if (_scheduleType == MedicationScheduleType.interval)
+                TextFormField(
+                  initialValue: _interval?.toString() ?? '',
+                  decoration: InputDecoration(labelText: l10n.intervalHours),
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || int.tryParse(value) == null) {
+                      return l10n.invalidNumber;
+                    }
+                    return null;
+                  },
+                  onSaved: (value) => _interval = int.tryParse(value ?? '0'),
+                ),
+              _buildTimesList(),
               const SizedBox(height: 16),
-              _buildScheduleDetails(l10n),
+              _buildStartDateSelector(),
               const SizedBox(height: 16),
-              _buildTimePickers(l10n),
-              const SizedBox(height: 24),
-              _buildDatePickers(l10n),
+              _buildEndDateSelector(),
             ],
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _saveMedication,
+        child: const Icon(Icons.save),
+      ),
     );
   }
 
-  Widget _buildMedicationDetails(AppLocalizations l10n) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TextFormField(
-          controller: _nameController,
-          decoration: InputDecoration(labelText: l10n.medicationName, border: const OutlineInputBorder()),
-          validator: (value) => value == null || value.isEmpty ? l10n.pleaseEnterName : null,
-        ),
-        const SizedBox(height: 16),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: TextFormField(
-                controller: _dosageController,
-                decoration: InputDecoration(labelText: l10n.dosage, border: const OutlineInputBorder()),
-                keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                validator: (value) => value == null || double.tryParse(value) == null ? l10n.invalidNumber : null,
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: TextFormField(
-                controller: _unitController,
-                decoration: InputDecoration(labelText: l10n.unitExample, border: const OutlineInputBorder()),
-                validator: (value) => value == null || value.isEmpty ? l10n.pleaseEnterUnit : null,
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 16),
-        TextFormField(
-          controller: _stockController,
-          decoration: InputDecoration(labelText: l10n.stock, border: const OutlineInputBorder()),
-          keyboardType: TextInputType.number,
-          validator: (value) => value == null || int.tryParse(value) == null ? l10n.invalidNumber : null,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildScheduleTypeSelector(AppLocalizations l10n) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(l10n.scheduleType, style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: 8),
-        DropdownButtonFormField<MedicationScheduleType>(
-          value: _scheduleType,
-          items: [
-            DropdownMenuItem(value: MedicationScheduleType.daily, child: Text(l10n.daily)),
-            DropdownMenuItem(value: MedicationScheduleType.weekdays, child: Text(l10n.weekdays)),
-            DropdownMenuItem(value: MedicationScheduleType.interval, child: Text(l10n.interval)),
-          ],
-          onChanged: (value) {
-            if (value != null) {
-              setState(() {
-                _scheduleType = value;
-              });
-            }
-          },
-          decoration: const InputDecoration(border: OutlineInputBorder()),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildScheduleDetails(AppLocalizations l10n) {
-    switch (_scheduleType) {
-      case MedicationScheduleType.daily:
-        return const SizedBox.shrink();
-      case MedicationScheduleType.weekdays:
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildDaySelector(l10n),
-            const SizedBox(height: 16),
-          ],
-        );
-      case MedicationScheduleType.interval:
-        return _buildIntervalPicker(l10n);
-    }
-  }
-
-  Widget _buildDaySelector(AppLocalizations l10n) {
-    final days = [
-      l10n.mondayShort,
-      l10n.tuesdayShort,
-      l10n.wednesdayShort,
-      l10n.thursdayShort,
-      l10n.fridayShort,
-      l10n.saturdayShort,
-      l10n.sundayShort
-    ];
-
-    // Correctly build the list of active border colors
-    List<List<Color>> activeBgColors = [];
-    for (int i = 0; i < 7; i++) {
-      if (_weekdays.contains(i + 1)) {
-        activeBgColors.add([Theme.of(context).colorScheme.primary]);
-      } else {
-        activeBgColors.add([Colors.grey[300]!]); // Inactive color
-      }
-    }
+  Widget _buildDaysOfWeekSelector() {
+    final l10n = AppLocalizations.of(context)!;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(l10n.daysOfTheWeek, style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: 8),
-        ToggleSwitch(
-          minWidth: 50.0,
-          cornerRadius: 20.0,
-          activeFgColor: Colors.white,
-          inactiveBgColor: Colors.grey[300],
-          inactiveFgColor: Colors.black,
-          initialLabelIndex: null, // No initial selection
-          activeBgColors: activeBgColors,
-          labels: days,
-          onToggle: (index) {
-            if (index == null) return;
-            setState(() {
-              final day = index + 1; // 1 for Monday, ..., 7 for Sunday
-              if (_weekdays.contains(day)) {
-                _weekdays.remove(day);
-              } else {
-                _weekdays.add(day);
-                _weekdays.sort();
-              }
-            });
-          },
+        Wrap(
+          spacing: 8,
+          children: DayOfWeek.values.map((day) {
+            return ChoiceChip(
+              label: Text(day.toString().split('.').last),
+              selected: _daysOfWeek?.contains(day) ?? false,
+              onSelected: (selected) {
+                if (mounted) {
+                  setState(() {
+                    if (selected) {
+                      _daysOfWeek = [...?_daysOfWeek, day];
+                    } else {
+                      _daysOfWeek = _daysOfWeek?.where((d) => d != day).toList();
+                    }
+                  });
+                }
+              },
+            );
+          }).toList(),
         ),
       ],
     );
   }
 
-  Widget _buildIntervalPicker(AppLocalizations l10n) {
-    return TextFormField(
-      controller: _intervalController,
-      decoration: InputDecoration(labelText: l10n.intervalHours, border: const OutlineInputBorder()),
-      keyboardType: TextInputType.number,
-      validator: (value) {
-        if (value == null || int.tryParse(value) == null || int.parse(value) <= 0) {
-          return l10n.invalidNumber;
-        }
-        return null;
-      },
-    );
-  }
+  Widget _buildTimesList() {
+    final l10n = AppLocalizations.of(context)!;
 
-  Widget _buildTimePickers(AppLocalizations l10n) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -304,130 +209,197 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
           return Row(
             children: [
               Expanded(
-                child: TextButton(
-                  onPressed: () => _pickTime(index),
-                  child: Text(time.format(context)),
-                ),
+                child: Text(time.format(context)),
               ),
-              if (_times.length > 1)
-                IconButton(
-                  icon: const Icon(Icons.remove_circle_outline),
-                  onPressed: () {
+              IconButton(
+                icon: const Icon(Icons.edit),
+                onPressed: () async {
+                  final newTime = await showTimePicker(context: context, initialTime: time);
+                  if (newTime != null) {
+                    if (mounted) {
+                      setState(() {
+                        _times[index] = newTime;
+                      });
+                    }
+                  }
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: () {
+                  if (mounted) {
                     setState(() {
                       _times.removeAt(index);
                     });
-                  },
-                ),
+                  }
+                },
+              ),
             ],
           );
         }),
-        TextButton.icon(
-          icon: const Icon(Icons.add),
-          label: Text(l10n.addTime),
-          onPressed: () {
-            setState(() {
-              _times.add(const TimeOfDay(hour: 12, minute: 0));
-            });
+        TextButton(
+          onPressed: () async {
+            final newTime = await showTimePicker(
+              context: context,
+              initialTime: TimeOfDay.now(),
+            );
+            if (newTime != null) {
+              if (mounted) {
+                setState(() {
+                  _times.add(newTime);
+                });
+              }
+            }
           },
+          child: Text(l10n.addTime),
         ),
       ],
     );
   }
 
-  Future<void> _pickTime(int index) async {
-    final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: _times[index],
-    );
-    if (picked != null && picked != _times[index]) {
-      setState(() {
-        _times[index] = picked;
-      });
-    }
-  }
-
-  Widget _buildDatePickers(AppLocalizations l10n) {
-    final dateFormat = DateFormat.yMMMd(l10n.localeName);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(l10n.startDate, style: Theme.of(context).textTheme.titleMedium),
-            TextButton.icon(
-              icon: const Icon(Icons.calendar_today_outlined),
-              onPressed: () => _pickDate(true),
-              label: Text(dateFormat.format(_startDate)),
-            ),
-            const SizedBox(height: 16),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(l10n.endDateOptional, style: Theme.of(context).textTheme.titleMedium),
-            if (_endDate != null)
-              TextButton.icon(
-                icon: const Icon(Icons.clear, size: 18),
-                label: Text(l10n.clear),
-                onPressed: () => setState(() => _endDate = null),
-              )
-          ],
-        ),
-        TextButton.icon(
-          icon: const Icon(Icons.calendar_today_outlined),
-          onPressed: () => _pickDate(false),
-          label: Text(_endDate != null ? dateFormat.format(_endDate!) : l10n.notSet),
-        ),
-      ],
-    );
-  }
-
-  Future<void> _pickDate(bool isStartDate) async {
-    final DateTime? picked = await date_picker.DatePicker.showDatePicker(
-      context,
-      showTitleActions: true,
-      minTime: DateTime(2000),
-      maxTime: DateTime(2101),
-      currentTime: isStartDate ? _startDate : (_endDate ?? DateTime.now()),
-    );
-    if (picked != null) {
-      setState(() {
-        if (isStartDate) {
-          _startDate = picked;
-          if (_endDate != null && _endDate!.isBefore(_startDate)) {
-            _endDate = _startDate; // Ensure end date is not before start date
-          }
-        } else {
-          _endDate = picked;
-        }
-      });
-    }
-  }
-
-  Future<void> _showDeleteConfirmationDialog() async {
+  Widget _buildStartDateSelector() {
     final l10n = AppLocalizations.of(context)!;
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(l10n.deleteMedication),
-          content: SingleChildScrollView(child: ListBody(children: <Widget>[Text(l10n.thisActionCannotBeUndone)])),
-          actions: <Widget>[
-            TextButton(child: Text(l10n.cancel), onPressed: () => Navigator.of(context).pop()),
-            TextButton(
-              style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.error),
-              child: Text(l10n.delete),
-              onPressed: () {
-                Navigator.of(context).pop();
-                _deleteMedication();
-              },
-            ),
-          ],
+
+    return Row(
+      children: [
+        Expanded(
+          child: Text('${l10n.startDate}: ${DateFormat.yMd().format(_startDate)}'),
+        ),
+        TextButton(
+          onPressed: () async {
+            final newDate = await showDatePicker(
+              context: context,
+              initialDate: _startDate,
+              firstDate: DateTime(2000),
+              lastDate: DateTime(2100),
+            );
+            if (newDate != null) {
+              if (mounted) {
+                setState(() {
+                  _startDate = newDate;
+                });
+              }
+            }
+          },
+          child: const Text('Select'),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildEndDateSelector() {
+    final l10n = AppLocalizations.of(context)!;
+
+    return Row(
+      children: [
+        Expanded(
+          child: Text('${l10n.endDateOptional}: ${_endDate != null ? DateFormat.yMd().format(_endDate!) : l10n.notSet}'),
+        ),
+        TextButton(
+          onPressed: () async {
+            final newDate = await showDatePicker(
+              context: context,
+              initialDate: _endDate ?? _startDate,
+              firstDate: _startDate,
+              lastDate: DateTime(2100),
+            );
+            if (newDate != null) {
+              if (mounted) {
+                setState(() {
+                  _endDate = newDate;
+                });
+              }
+            }
+          },
+          child: const Text('Select'),
+        ),
+        if (_endDate != null)
+          IconButton(
+            icon: const Icon(Icons.clear),
+            onPressed: () {
+              if (mounted) {
+                setState(() {
+                  _endDate = null;
+                });
+              }
+            },
+          ),
+      ],
+    );
+  }
+
+  void _saveMedication() async {
+    if (_formKey.currentState?.validate() ?? false) {
+      _formKey.currentState?.save();
+      final l10n = AppLocalizations.of(context)!;
+      final provider = Provider.of<MedicationProvider>(context, listen: false);
+      final navigator = Navigator.of(context);
+      final messenger = ScaffoldMessenger.of(context);
+
+      try {
+        final medication = Medication(
+          id: widget.medication?.id,
+          name: _name,
+          dosage: _dosage,
+          unit: _unit,
+          stock: _stock,
+          scheduleType: _scheduleType,
+          times: _times,
+          interval: _interval,
+          daysOfWeek: _daysOfWeek,
+          startDate: _startDate,
+          endDate: _endDate,
+          remainingDoses: widget.medication?.remainingDoses ?? _stock,
         );
-      },
+        if (widget.medication == null) {
+          await provider.addMedication(medication);
+        } else {
+          await provider.updateMedication(medication);
+        }
+
+        navigator.pop();
+      } catch (e) {
+        messenger.showSnackBar(
+          SnackBar(content: Text('${l10n.failedToSaveMedication} $e')),
+        );
+      }
+    }
+  }
+
+  void _confirmDelete(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final provider = Provider.of<MedicationProvider>(context, listen: false);
+    final navigator = Navigator.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.deleteMedication),
+        content: Text(l10n.thisActionCannotBeUndone),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(l10n.cancel),
+          ),
+          TextButton(
+            onPressed: () async {
+              try {
+                if (widget.medication?.id != null) {
+                  await provider.deleteMedication(widget.medication!.id!);
+                }
+                navigator.pop();
+                navigator.pop();
+              } catch (e) {
+                messenger.showSnackBar(
+                  SnackBar(content: Text('${l10n.failedToDeleteMedication} $e')),
+                );
+              }
+            },
+            child: Text(l10n.delete, style: const TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
     );
   }
 }

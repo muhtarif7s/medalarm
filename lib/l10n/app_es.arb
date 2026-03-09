@@ -1,0 +1,174 @@
+{
+  "helloWorld": "¡Hola Mundo!",
+  "settings": "Ajustes",
+  "language": "Idioma",
+  "languageName": "Español",
+  "appearance": "Apariencia",
+  "about": "Acerca de",
+  "themeMode": "Modo de tema",
+  "light": "Claro",
+  "dark": "Oscuro",
+  "system": "Sistema",
+  "appVersion": "Versión de la aplicación",
+  "privacyPolicy": "Política de privacidad",
+  "couldNotLaunchUrl": "No se pudo abrir la URL",
+  "oneTime": "Una vez",
+  "daily": "Diario",
+  "weekdays": "Días de la semana",
+  "interval": "Intervalo",
+  "dateTime": "Fecha y Hora",
+  "monday": "Lunes",
+  "tuesday": "Martes",
+  "wednesday": "Miércoles",
+  "thursday": "Jueves",
+  "friday": "Viernes",
+  "saturday": "Sábado",
+  "sunday": "Domingo",
+  "editMedication": "Editar Medicamento",
+  "addMedicine": "Agregar Medicamento",
+  "deleteMedication": "Eliminar Medicamento",
+  "saveMedication": "Guardar Medicamento",
+  "medicationName": "Nombre del Medicamento",
+  "pleaseEnterName": "Por favor, ingrese un nombre",
+  "dosage": "Dosis",
+  "invalidNumber": "Número inválido",
+  "unitExample": "Unidad (ej. mg, pastilla)",
+  "pleaseEnterUnit": "Por favor, ingrese una unidad",
+  "scheduleType": "Tipo de horario",
+  "daysOfTheWeek": "Días de la semana",
+  "intervalHours": "Intervalo (horas)",
+  "times": "Horas",
+  "addTime": "Agregar hora",
+  "startDate": "Fecha de inicio",
+  "endDateOptional": "Fecha de finalización (Opcional)",
+  "notSet": "No establecido",
+  "thisActionCannotBeUndone": "Esta acción no se puede deshacer.",
+  "cancel": "Cancelar",
+  "delete": "Eliminar",
+  "medicationHistory": "Historial de Medicamentos",
+  "noDoseHistoryYet": "Aún no hay historial de dosis.",
+  "today": "Hoy",
+  "yesterday": "Ayer",
+  "taken": "Tomada",
+  "skipped": "Omitida",
+  "pending": "Pendiente",
+  "oneTimeDose": "Dosis única el {date} a las {time}",
+  "medicationDosage": "{dosage} {unit}",
+  "doseAtTime": "{dosage} {unit} a las {time}",
+  "startDateLabel": "Inicio: {date}",
+  "endDateLabel": "Fin: {date}",
+  "mondayShort": "Lun",
+  "tuesdayShort": "Mar",
+  "wednesdayShort": "Mié",
+  "thursdayShort": "Jue",
+  "fridayShort": "Vie",
+  "saturdayShort": "Sáb",
+  "sundayShort": "Dom",
+  "noMedicationsYet": "Aún no hay medicamentos.",
+  "addMedicationToGetStarted": "Agregue un medicamento para comenzar.",
+  "confirmDelete": "Confirmar eliminación",
+  "areYouSureYouWantToDeleteThisMedication": "¿Estás seguro de que quieres eliminar este medicamento?",
+  "doseHistory": "Historial de dosis",
+  "noDoseHistoryAvailable": "No hay historial de dosis disponible.",
+  "scheduled": "Programada",
+  "duration": "Duración",
+  "start": "Inicio",
+  "end": "Fin",
+  "ongoing": "En curso",
+  "onDays": "En {days} a las {time}",
+  "noDosesInCategory": "No hay dosis en esta categoría.",
+  "status": "Estado",
+  "confirmAction": "Confirmar acción",
+  "areYouSureYouWantToMarkThisDoseAs": "¿Estás seguro de que quieres marcar esta dosis como {status}?",
+   "@areYouSureYouWantToMarkThisDoseAs": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "confirm": "Confirmar",
+  "markAsTaken": "Marcar como tomada",
+  "markAsSkipped": "Marcar como omitida",
+  "english": "Inglés",
+  "arabic": "العربية",
+  "loading": "...",
+  "pleaseAddTime": "Por favor, agregue una hora",
+  "clear": "Limpiar",
+  "pleaseEnterDosage": "Por favor, ingrese una dosis",
+  "pills": "pastillas",
+  "yourMedications": "Tus Medicamentos",
+  "take": "Tomar",
+  "historyScreenTitle": "Historial de Dosis",
+  "doseAt": "Dosis a las {time}",
+  "@doseAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "doseDetails": "{dosage} {unit}",
+  "@doseDetails": {
+    "placeholders": {
+      "dosage": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "dailyDose": "Diariamente a las {time}",
+  "@dailyDose": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "specificDaysDose": "En {days} a las {time}",
+  "@specificDaysDose": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "intervalDose": "Cada {interval} horas, a las {time}",
+  "@intervalDose": {
+    "placeholders": {
+      "interval": {
+        "type": "String"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "markAsPending": "Marcar como pendiente",
+  "stock": "Existencias",
+  "specificDaysInWeek": "Días específicos de la semana",
+  "invalidDosage": "Dosis inválida",
+  "invalidStock": "Existencias inválidas",
+  "failedToSaveMedication": "Error al guardar el medicamento:",
+  "failedToDeleteMedication": "Error al eliminar el medicamento:",
+  "addMedication": "Agregar Medicamento",
+  "home": "Inicio",
+  "history": "Historial",
+  "medications": "Medicamentos",
+  "noMedications": "No hay medicamentos todavía.",
+  "addYourFirstMedication": "Agrega tu primer medicamento",
+  "dosesFor": "Dosis para",
+  "noDoses": "No hay dosis programadas para este día.",
+  "all": "Todo",
+  "missed": "Omitidas",
+  "theme": "Tema",
+  "spanish": "Español",
+  "noRecords": "No hay registros.",
+  "pleaseEnterAValidDosage": "Por favor, ingrese una dosis válida",
+  "pleaseEnterAValidStock": "Por favor, ingrese existencias válidas"
+}

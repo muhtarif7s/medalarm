@@ -25,7 +25,7 @@
     "saturday": "السبت",
     "sunday": "الأحد",
     "editMedication": "تعديل الدواء",
-    "addMedication": "إضافة دواء",
+    "addMedicine": "إضافة دواء",
     "deleteMedication": "حذف الدواء",
     "saveMedication": "حفظ الدواء",
     "medicationName": "اسم الدواء",
@@ -53,9 +53,6 @@
     "skipped": "تم تخطيها",
     "pending": "معلقة",
     "oneTimeDose": "جرعة لمرة واحدة في {date} الساعة {time}",
-    "dailyDose": "يوميًا في الساعة {time}",
-    "specificDaysDose": "{days} في الساعة {time}",
-    "intervalDose": "كل {interval} ساعات في الساعة {time}",
     "medicationDosage": "{dosage} {unit}",
     "doseAtTime": "{dosage} {unit} في الساعة {time}",
     "startDateLabel": "البداية: {date}",
@@ -83,6 +80,13 @@
     "status": "الحالة",
     "confirmAction": "تأكيد الإجراء",
     "areYouSureYouWantToMarkThisDoseAs": "هل أنت متأكد أنك تريد تحديد هذه الجرعة كـ {status}؟",
+     "@areYouSureYouWantToMarkThisDoseAs": {
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
     "confirm": "تأكيد",
     "markAsTaken": "وضع علامة كـ تم تناولها",
     "markAsSkipped": "وضع علامة كـ تم تخطيها",
@@ -95,20 +99,76 @@
     "pills": "حبوب",
     "yourMedications": "أدويتك",
     "take": "تناول",
-    "historyScreenTitle": "السجل",
+    "historyScreenTitle": "سجل الجرعات",
     "doseAt": "جرعة في {time}",
     "@doseAt": {
         "placeholders": {
-            "time": {}
+            "time": {
+                "type": "String"
+            }
         }
     },
     "doseDetails": "{dosage} {unit}",
     "@doseDetails": {
         "placeholders": {
-            "dosage": {},
-            "unit": {}
+            "dosage": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
         }
     },
+    "dailyDose": "يوميًا في الساعة {time}",
+    "@dailyDose": {
+      "placeholders": {
+        "time": {
+          "type": "String"
+        }
+      }
+    },
+    "specificDaysDose": "في أيام {days} الساعة {time}",
+    "@specificDaysDose": {
+      "placeholders": {
+        "days": {
+          "type": "String"
+        },
+        "time": {
+          "type": "String"
+        }
+      }
+    },
+    "intervalDose": "كل {interval} ساعات, في {time}",
+    "@intervalDose": {
+      "placeholders": {
+        "interval": {
+          "type": "String"
+        },
+        "time": {
+          "type": "String"
+        }
+      }
+    },
     "markAsPending": "وضع علامة كـ معلقة",
-    "stock": "المخزون"
+    "stock": "المخزون",
+    "invalidDosage": "جرعة غير صالحة",
+    "invalidStock": "مخزون غير صالح",
+    "failedToSaveMedication": "فشل حفظ الدواء:",
+    "failedToDeleteMedication": "فشل حذف الدواء:",
+    "addMedication": "إضافة دواء",
+    "specificDaysInWeek": "أيام محددة في الأسبوع",
+    "home": "الرئيسية",
+    "history": "السجل",
+    "medications": "الأدوية",
+    "noMedications": "لا توجد أدوية حتى الآن.",
+    "addYourFirstMedication": "أضف دوائك الأول",
+    "dosesFor": "جرعات لـ",
+    "noDoses": "لا توجد جرعات مجدولة لهذا اليوم.",
+    "all": "الكل",
+    "missed": "الفائتة",
+    "theme": "السمة",
+    "spanish": "الإسبانية",
+    "noRecords": "لا توجد سجلات.",
+    "pleaseEnterAValidDosage": "يرجى إدخال جرعة صالحة",
+    "pleaseEnterAValidStock": "يرجى إدخال مخزون صالح"
 }

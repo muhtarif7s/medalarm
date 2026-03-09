@@ -8,8 +8,8 @@ class DailyResetService {
   Future<void> resetAllMedicationsTakenToday() async {
     final medications = await _medicationService.getAllMedications();
     for (final medication in medications) {
-      if (medication.takenToday) {
-        final updatedMedication = medication.copyWith(takenToday: false);
+      if (medication.takenToday > 0) {
+        final updatedMedication = medication.copyWith(takenToday: 0);
         await _medicationService.updateMedication(updatedMedication);
       }
     }

@@ -6,7 +6,7 @@ import 'package:mockito/mockito.dart';
 import 'package:myapp/l10n/app_localizations.dart';
 import 'package:myapp/src/features/medication/data/models/medication.dart';
 import 'package:myapp/src/features/medication/presentation/providers/medication_provider.dart';
-import 'package:myapp/src/features/medication/presentation/screens/home_screen.dart';
+import 'package:myapp/src/features/home/presentation/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -19,6 +19,9 @@ class MockMedicationProvider extends ChangeNotifier implements MedicationProvide
 
   @override
   bool get isLoading => false;
+
+  @override
+  String? get errorMessage => null;
 
   @override
   Future<void> loadMedications() async {}
@@ -69,7 +72,7 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('Add Medication'));
+    await tester.tap(find.byIcon(Icons.add));
     await tester.pumpAndSettle();
 
     verify(mockGoRouter.push('/add_medication')).called(1);

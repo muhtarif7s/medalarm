@@ -1,79 +1,88 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:go_router/go_router.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:myapp/l10n/app_localizations.dart';
-import 'package:myapp/src/features/doses/data/models/dose.dart';
 import 'package:myapp/src/features/doses/data/models/dose_schedule.dart';
-import 'package:myapp/src/features/doses/presentation/providers/dose_provider.dart';
 import 'package:myapp/src/features/medication/data/models/medication.dart';
-import 'package:myapp/src/features/history/presentation/screens/history_screen.dart';
+import 'package:myapp/src/features/medication/presentation/providers/medication_provider.dart';
+import 'package:myapp/src/features/medication/presentation/screens/history_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
-import 'history_screen_test.mocks.dart';
-import 'utils/test_go_router.dart';
+import 'medication_provider_test.mocks.dart';
 
-class MockDoseProvider extends Mock implements DoseProvider {
-  @override
-  Map<DateTime, List<DoseSchedule>> get groupedDosesByDay => {};
-
-  @override
-  Future<void> loadDoses() => Future.value();
-
-  @override
-  bool get isLoading => false;
-
-  @override
-  Future<Medication?> medicationForDose(DoseSchedule dose) async {
-    return Medication(
-      id: 1,
-      name: 'Aspirin',
-      dosage: 100,
-      unit: 'mg',
-      scheduleType: MedicationScheduleType.daily,
-      times: [const TimeOfDay(hour: 8, minute: 0)],
-      startDate: DateTime.now(),
-      stock: 10,
-      remainingDoses: 10,
-    );
-  }
-}
-
-@GenerateMocks([GoRouter])
 void main() {
-  setUpAll(() {
-    sqfliteFfiInit();
-    databaseFactory = databaseFactoryFfi;
-  });
+  group('HistoryScreen', () {
+    late MockMedicationRepository mockMedicationRepository;
+    late MockDoseScheduleRepository mockDoseScheduleRepository;
 
-  testWidgets('T2.6: On the "History" screen, tap the back arrow to return to the home screen', (WidgetTester tester) async {
-    final mockGoRouter = MockGoRouter();
-    final mockDoseProvider = MockDoseProvider();
+    setUp(() {
+      mockMedicationRepository = MockMedicationRepository();
+      mockDoseScheduleRepository = MockDoseScheduleRepository();
+    });
 
-    await tester.pumpWidget(
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider<DoseProvider>(
-            create: (_) => mockDoseProvider,
-          ),
-        ],
-        child: MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: TestGoRouter(
-            goRouter: mockGoRouter,
-            child: const HistoryScreen(),
+    testWidgets('should display the list of medications', (WidgetTester tester) async {
+      // Arrange
+      final medications = [
+        Medication(
+          id: 1,
+          name: 'Medication 1',
+          dosage: 1.0,
+          unit: 'mg',
+          scheduleType: MedicationScheduleType.daily,
+          times: const [TimeOfDay(hour: 8, minute: 0)],
+          stock: 10,
+          remainingDoses: 10,
+          startDate: DateTime.now(),
+        ),
+        Medication(
+          id: 2,
+          name: 'Medication 2',
+          dosage: 2.0,
+          unit: 'mg',
+          scheduleType: MedicationScheduleType.daily,
+          times: const [TimeOfDay(hour: 8, minute: 0)],
+          stock: 20,
+          remainingDoses: 20,
+          startDate: DateTime.now(),
+        ),
+      ];
+      when(mockMedicationRepository.getAllMedications()).thenAnswer((_) async => medications);
+
+      final doseSchedules = medications.map((medication) => DoseSchedule(
+        id: medication.id!,
+        medicationId: medication.id!,
+        scheduledTime: DateTime(2024, 1, 1, medication.times.first.hour, medication.times.first.minute),
+      )).toList();
+      when(mockDoseScheduleRepository.getDoseSchedulesForMedication(any)).thenAnswer((_) async => doseSchedules);
+
+      // Act
+      await tester.pumpWidget(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider(
+              create: (_) => MedicationProvider(mockMedicationRepository, mockDoseScheduleRepository),
+            ),
+          ],
+          child: const MaterialApp(
+            home: HistoryScreen(),
+            localizationsDelegates: [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: [
+              Locale('en', ''),
+            ],
           ),
         ),
-      ),
-    );
-    await tester.pumpAndSettle();
+      );
+      await tester.pumpAndSettle();
 
-    await tester.tap(find.byTooltip('Back'));
-    await tester.pumpAndSettle();
-
-    verify(mockGoRouter.pop()).called(1);
+      // Assert
+      expect(find.text('Medication 1'), findsOneWidget);
+      expect(find.text('Medication 2'), findsOneWidget);
+    });
   });
 }

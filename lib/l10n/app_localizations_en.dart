@@ -9,118 +9,67 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get helloWorld => 'Hello World!';
-
-  @override
-  String get settings => 'Settings';
-
-  @override
-  String get language => 'Language';
-
-  @override
-  String get languageName => 'English';
-
-  @override
-  String get appearance => 'Appearance';
-
-  @override
-  String get about => 'About';
-
-  @override
-  String get themeMode => 'Theme Mode';
-
-  @override
-  String get light => 'Light';
-
-  @override
-  String get dark => 'Dark';
-
-  @override
-  String get system => 'System';
-
-  @override
-  String get appVersion => 'App Version';
-
-  @override
-  String get privacyPolicy => 'Privacy Policy';
-
-  @override
-  String get couldNotLaunchUrl => 'Could not launch URL';
-
-  @override
-  String get oneTime => 'One-time';
-
-  @override
-  String get daily => 'Daily';
-
-  @override
-  String get weekdays => 'Weekdays';
-
-  @override
-  String get interval => 'Interval';
-
-  @override
-  String get dateTime => 'Date & Time';
-
-  @override
-  String get monday => 'Monday';
-
-  @override
-  String get tuesday => 'Tuesday';
-
-  @override
-  String get wednesday => 'Wednesday';
-
-  @override
-  String get thursday => 'Thursday';
-
-  @override
-  String get friday => 'Friday';
-
-  @override
-  String get saturday => 'Saturday';
-
-  @override
-  String get sunday => 'Sunday';
-
-  @override
-  String get editMedication => 'Edit Medication';
-
-  @override
   String get addMedication => 'Add Medication';
-
-  @override
-  String get deleteMedication => 'Delete Medication';
-
-  @override
-  String get saveMedication => 'Save Medication';
 
   @override
   String get medicationName => 'Medication Name';
 
   @override
-  String get pleaseEnterName => 'Please enter a name';
+  String get pleaseEnterName => 'Please enter a medication name';
 
   @override
   String get dosage => 'Dosage';
 
   @override
+  String get pleaseEnterDosage => 'Please enter a dosage';
+
+  @override
   String get invalidNumber => 'Invalid number';
 
   @override
-  String get unitExample => 'Unit (e.g., mg, pill)';
+  String get unitExample => 'Unit (e.g., mg, ml)';
 
   @override
   String get pleaseEnterUnit => 'Please enter a unit';
 
   @override
-  String get scheduleType => 'Schedule Type';
+  String get stock => 'Stock';
 
   @override
-  String get daysOfTheWeek => 'Days of the Week';
+  String get invalidStock => 'Invalid stock';
 
   @override
-  String get intervalHours => 'Interval (hours)';
+  String get saveMedication => 'Save Medication';
+
+  @override
+  String get editMedication => 'Edit Medication';
+
+  @override
+  String get deleteMedication => 'Delete Medication';
+
+  @override
+  String get thisActionCannotBeUndone => 'This action cannot be undone.';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get daily => 'Daily';
+
+  @override
+  String get specificDaysInWeek => 'Specific days in week';
+
+  @override
+  String get interval => 'Interval';
+
+  @override
+  String get intervalHours => 'Interval in hours';
+
+  @override
+  String get daysOfTheWeek => 'Days of the week';
 
   @override
   String get times => 'Times';
@@ -135,98 +84,79 @@ class AppLocalizationsEn extends AppLocalizations {
   String get endDateOptional => 'End Date (Optional)';
 
   @override
-  String get notSet => 'Not Set';
+  String get notSet => 'Not set';
 
   @override
-  String get thisActionCannotBeUndone => 'This action cannot be undone.';
+  String get home => 'Home';
 
   @override
-  String get cancel => 'Cancel';
+  String get history => 'History';
 
   @override
-  String get delete => 'Delete';
+  String get settings => 'Settings';
 
   @override
-  String get medicationHistory => 'Medication History';
+  String get medications => 'Medications';
 
   @override
-  String get noDoseHistoryYet => 'No dose history yet.';
+  String get noMedications => 'No medications added yet.';
 
   @override
-  String get today => 'Today';
+  String get addYourFirstMedication => 'Add your first medication';
 
   @override
-  String get yesterday => 'Yesterday';
+  String get dosesFor => 'Doses for';
+
+  @override
+  String get noDoses => 'No doses scheduled for this day.';
+
+  @override
+  String get all => 'All';
 
   @override
   String get taken => 'Taken';
 
   @override
-  String get skipped => 'Skipped';
+  String get missed => 'Missed';
 
   @override
-  String get pending => 'Pending';
+  String get theme => 'Theme';
 
   @override
-  String oneTimeDose(Object date, Object time) {
-    return 'One-time dose on $date at $time';
-  }
+  String get light => 'Light';
 
   @override
-  String dailyDose(Object time) {
-    return 'Daily at $time';
-  }
+  String get dark => 'Dark';
 
   @override
-  String specificDaysDose(Object days, Object time) {
-    return '$days at $time';
-  }
+  String get system => 'System';
 
   @override
-  String intervalDose(Object interval, Object time) {
-    return 'Every $interval hours at $time';
-  }
+  String get language => 'Language';
 
   @override
-  String medicationDosage(Object dosage, Object unit) {
-    return '$dosage $unit';
-  }
+  String get english => 'English';
 
   @override
-  String doseAtTime(Object dosage, Object time, Object unit) {
-    return '$dosage $unit at $time';
-  }
+  String get spanish => 'Spanish';
 
   @override
-  String startDateLabel(Object date) {
-    return 'Start: $date';
-  }
+  String get noRecords => 'No records found.';
 
   @override
-  String endDateLabel(Object date) {
-    return 'End: $date';
-  }
+  String get pleaseEnterAValidDosage => 'Please enter a valid dosage';
 
   @override
-  String get mondayShort => 'Mon';
+  String get pleaseEnterAValidStock => 'Please enter a valid stock';
 
   @override
-  String get tuesdayShort => 'Tue';
+  String get failedToSaveMedication => 'Failed to save medication:';
 
   @override
-  String get wednesdayShort => 'Wed';
+  String get failedToDeleteMedication => 'Failed to delete medication:';
 
   @override
-  String get thursdayShort => 'Thu';
-
-  @override
-  String get fridayShort => 'Fri';
-
-  @override
-  String get saturdayShort => 'Sat';
-
-  @override
-  String get sundayShort => 'Sun';
+  String get yourMedications => 'Your Medications';
 
   @override
   String get noMedicationsYet => 'No medications yet.';
@@ -235,37 +165,42 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addMedicationToGetStarted => 'Add a medication to get started.';
 
   @override
-  String get confirmDelete => 'Confirm Delete';
+  String get take => 'Take';
 
   @override
-  String get areYouSureYouWantToDeleteThisMedication =>
-      'Are you sure you want to delete this medication?';
-
-  @override
-  String get doseHistory => 'Dose History';
+  String get historyScreenTitle => 'Dose History';
 
   @override
   String get noDoseHistoryAvailable => 'No dose history available.';
 
   @override
-  String get scheduled => 'Scheduled';
-
-  @override
-  String get duration => 'Duration';
-
-  @override
-  String get start => 'Start';
-
-  @override
-  String get end => 'End';
-
-  @override
-  String get ongoing => 'Ongoing';
-
-  @override
-  String onDays(Object days, Object time) {
-    return 'On $days at $time';
+  String doseAt(String time) {
+    return 'Dose at $time';
   }
+
+  @override
+  String doseDetails(String dosage, String unit) {
+    return '$dosage $unit';
+  }
+
+  @override
+  String get markAsTaken => 'Mark as Taken';
+
+  @override
+  String get markAsSkipped => 'Mark as Skipped';
+
+  @override
+  String get markAsPending => 'Mark as Pending';
+
+  @override
+  String get helloWorld => 'Hello World!';
+
+  @override
+  String get confirmDelete => 'Confirm Delete';
+
+  @override
+  String get areYouSureYouWantToDeleteThisMedication =>
+      'Are you sure you want to delete this medication?';
 
   @override
   String get noDosesInCategory => 'No doses in this category.';
@@ -277,7 +212,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get confirmAction => 'Confirm Action';
 
   @override
-  String areYouSureYouWantToMarkThisDoseAs(Object status) {
+  String areYouSureYouWantToMarkThisDoseAs(String status) {
     return 'Are you sure you want to mark this dose as $status?';
   }
 
@@ -285,54 +220,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get confirm => 'Confirm';
 
   @override
-  String get markAsTaken => 'Mark as Taken';
-
-  @override
-  String get markAsSkipped => 'Mark as Skipped';
-
-  @override
-  String get english => 'English';
-
-  @override
-  String get arabic => 'العربية';
-
-  @override
-  String get loading => '...';
-
-  @override
-  String get pleaseAddTime => 'Please add a time';
-
-  @override
-  String get clear => 'Clear';
-
-  @override
-  String get pleaseEnterDosage => 'Please enter a dosage';
-
-  @override
-  String get pills => 'pills';
-
-  @override
-  String get yourMedications => 'Your Medications';
-
-  @override
-  String get take => 'Take';
-
-  @override
-  String get historyScreenTitle => 'History';
-
-  @override
-  String doseAt(Object time) {
-    return 'Dose at $time';
+  String dailyDose(String time) {
+    return 'Daily at $time';
   }
 
   @override
-  String doseDetails(Object dosage, Object unit) {
-    return '$dosage $unit';
+  String specificDaysDose(String days, String time) {
+    return 'On $days at $time';
   }
 
   @override
-  String get markAsPending => 'Mark as Pending';
-
-  @override
-  String get stock => 'Stock';
+  String intervalDose(String interval, String time) {
+    return 'Every $interval hours, at $time';
+  }
 }

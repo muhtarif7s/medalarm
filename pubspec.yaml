@@ -31,6 +31,7 @@ dependencies:
   toggle_switch: ^2.3.0
   equatable: ^2.0.5
   shared_preferences: ^2.5.4
+  image_picker: ^1.1.2
 
 dev_dependencies:
   flutter_test:

@@ -36,9 +36,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     selected: _filter == 'all',
                     onSelected: (selected) {
                       if (selected) {
-                        setState(() {
-                          _filter = 'all';
-                        });
+                        if(mounted) {
+                          setState(() {
+                            _filter = 'all';
+                          });
+                        }
                       }
                     },
                   ),
@@ -48,9 +50,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     selected: _filter == 'taken',
                     onSelected: (selected) {
                       if (selected) {
-                        setState(() {
-                          _filter = 'taken';
-                        });
+                        if(mounted) {
+                          setState(() {
+                            _filter = 'taken';
+                          });
+                        }
                       }
                     },
                   ),
@@ -60,9 +64,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     selected: _filter == 'skipped',
                     onSelected: (selected) {
                       if (selected) {
-                        setState(() {
-                          _filter = 'skipped';
-                        });
+                        if(mounted) {
+                          setState(() {
+                            _filter = 'skipped';
+                          });
+                        }
                       }
                     },
                   ),
@@ -72,9 +78,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     selected: _filter == 'upcoming',
                     onSelected: (selected) {
                       if (selected) {
-                        setState(() {
-                          _filter = 'upcoming';
-                        });
+                        if(mounted) {
+                          setState(() {
+                            _filter = 'upcoming';
+                          });
+                        }
                       }
                     },
                   ),

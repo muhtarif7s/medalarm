@@ -1,13 +1,15 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp/src/features/doses/data/models/dose.dart';
+import 'package:myapp/src/features/medication/data/models/day_of_week.dart';
 
 enum MedicationScheduleType {
   daily,
-  weekdays,
+  specificDays,
   interval,
 }
 
+@immutable
 class Medication extends Equatable {
   final int? id;
   final String name;
@@ -16,7 +18,7 @@ class Medication extends Equatable {
   final int stock;
   final MedicationScheduleType scheduleType;
   final List<TimeOfDay> times; // A list of times for the doses
-  final List<int>? weekdays; // 1=Monday, 7=Sunday
+  final List<DayOfWeek>? daysOfWeek; // 1=Monday, 7=Sunday
   final int? interval; // In days
   final DateTime startDate;
   final DateTime? endDate;
@@ -34,7 +36,7 @@ class Medication extends Equatable {
     required this.stock,
     required this.scheduleType,
     required this.times,
-    this.weekdays,
+    this.daysOfWeek,
     this.interval,
     required this.startDate,
     this.endDate,
@@ -52,7 +54,7 @@ class Medication extends Equatable {
         stock,
         scheduleType,
         times,
-        weekdays,
+        daysOfWeek,
         interval,
         startDate,
         endDate,
@@ -69,7 +71,7 @@ class Medication extends Equatable {
     int? stock,
     MedicationScheduleType? scheduleType,
     List<TimeOfDay>? times,
-    List<int>? weekdays,
+    List<DayOfWeek>? daysOfWeek,
     int? interval,
     DateTime? startDate,
     DateTime? endDate,
@@ -85,7 +87,7 @@ class Medication extends Equatable {
       stock: stock ?? this.stock,
       scheduleType: scheduleType ?? this.scheduleType,
       times: times ?? this.times,
-      weekdays: weekdays ?? this.weekdays,
+      daysOfWeek: daysOfWeek ?? this.daysOfWeek,
       interval: interval ?? this.interval,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
@@ -104,7 +106,7 @@ class Medication extends Equatable {
       'stock': stock,
       'scheduleType': scheduleType.name,
       'times': times.map((time) => '${time.hour}:${time.minute}').join(','),
-      'weekdays': weekdays?.join(','),
+      'daysOfWeek': daysOfWeek?.map((day) => day.index).join(','),
       'interval': interval,
       'startDate': startDate.toIso8601String(),
       'endDate': endDate?.toIso8601String(),
@@ -132,10 +134,10 @@ class Medication extends Equatable {
                   ))
               .toList() ??
           [],
-      weekdays: (map['weekdays'] as String?)
+      daysOfWeek: (map['daysOfWeek'] as String?)
           ?.split(',')
           .where((s) => s.isNotEmpty)
-          .map(int.parse)
+          .map((s) => DayOfWeek.values[int.parse(s)])
           .toList(),
       interval: map['interval'] as int?,
       startDate: DateTime.parse(map['startDate'] as String),
