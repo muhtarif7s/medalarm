@@ -1,0 +1,35 @@
+.
+├── lib
+│   ├── main.dart
+│   └── src
+│       ├── features
+│       │   ├── add_medicine/...
+│       │   ├── doses/...
+│       │   ├── history/...
+│       │   ├── home/...
+│       │   ├── medication/...
+│       │   └── settings/...
+│       ├── navigation
+│       │   └── app_router.dart
+│       ├── providers
+│       │   └── ...
+│       ├── services
+│       │   └── ...
+│       └── theme_provider.dart
+├── test
+│   ├── add_edit_medication_screen_test.dart
+│   ├── history_screen_test.dart
+│   ├── home_screen_test.dart
+│   ├── medication_provider_test.dart
+│   └── widget_test.dart
+├── integration_test
+│   └── app_test.dart
+├── pubspec.yaml
+├── analysis_options.yaml
+├── README.md
+├── android/ (Platform specific files)
+├── ios/ (Platform specific files)
+├── web/ (Platform specific files)
+├── linux/ (Platform specific files)
+├── macos/ (Platform specific files)
+└── windows/ (Platform specific files)
