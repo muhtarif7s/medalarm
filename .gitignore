@@ -1,29 +1,71 @@
-# Dart/Flutter
+# ========================
+# Flutter/Dart
+# ========================
 .dart_tool/
+.packages
+.pub-cache/
+.flutter-plugins
 .flutter-plugins-dependencies
 .buildlog/
-.packages
 pubspec.lock
 build/
-ios/Flutter/.last_build_id
+generated_plugin_registrant.dart
 
+# ========================
 # IDEs
+# ========================
 .idea/
 *.iml
 *.ipr
 *.iws
 .vscode/
 
+# ========================
 # Logs and temp files
+# ========================
 *.log
 *.swp
 .DS_Store
+*.tmp
+*.temp
 
+# ========================
 # Android
+# ========================
 android/.gradle/
-*.jks
+android/app/*.jks
+android/app/*.keystore
+android/app/build/
 *.apk
 *.aab
 
+# ========================
 # iOS
+# ========================
+ios/Flutter/.last_build_id
+ios/Pods/
+ios/Runner.xcworkspace/
+ios/build/
 *.ipa
+
+# ========================
+# Desktop (macOS, Linux, Windows)
+# ========================
+macos/Flutter/ephemeral/
+macos/Build/
+linux/build/
+windows/build/
+
+# ========================
+# Web
+# ========================
+web/main.dart.js
+web/flutter_service_worker.js
+web/flutter.js
+web/assets/flutter_assets/
+
+# ========================
+# Generated files
+# ========================
+*.g.dart
+*.lock
