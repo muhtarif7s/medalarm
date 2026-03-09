@@ -5,6 +5,9 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
 
+import 'package:flutter/material.dart' as _i7;
+import 'package:flutter_local_notifications/flutter_local_notifications.dart'
+    as _i9;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:myapp/src/database/database_helper.dart' as _i2;
 import 'package:myapp/src/features/medication/data/models/medication.dart'
@@ -14,7 +17,7 @@ import 'package:myapp/src/features/medication/data/repositories/medication_repos
 import 'package:myapp/src/features/medication/presentation/services/dose_service.dart'
     as _i6;
 import 'package:myapp/src/features/medication/presentation/services/notification_service.dart'
-    as _i7;
+    as _i8;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -128,16 +131,61 @@ class MockDoseService extends _i1.Mock implements _i6.DoseService {
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
+
+  @override
+  _i4.Future<void> takeDose(
+    int? doseId,
+    _i7.BuildContext? context,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #takeDose,
+          [
+            doseId,
+            context,
+          ],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+
+  @override
+  _i4.Future<void> skipDose(
+    int? doseId,
+    _i7.BuildContext? context,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #skipDose,
+          [
+            doseId,
+            context,
+          ],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 }
 
 /// A class which mocks [NotificationService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockNotificationService extends _i1.Mock
-    implements _i7.NotificationService {
+    implements _i8.NotificationService {
   MockNotificationService() {
     _i1.throwOnMissingStub(this);
   }
+
+  @override
+  void onDidReceiveNotificationResponse(
+          _i9.NotificationResponse? notificationResponse) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #onDidReceiveNotificationResponse,
+          [notificationResponse],
+        ),
+        returnValueForMissingStub: null,
+      );
 
   @override
   _i4.Future<void> init() => (super.noSuchMethod(

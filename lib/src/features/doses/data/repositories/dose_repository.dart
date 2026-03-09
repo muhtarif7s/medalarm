@@ -20,6 +20,16 @@ class DoseRepository {
     );
   }
 
+  Future<Dose?> getDose(int id) async {
+    final db = await dbHelper.database;
+    final maps = await db.query('doses', where: 'id = ?', whereArgs: [id]);
+    if (maps.isNotEmpty) {
+      return Dose.fromMap(maps.first);
+    } else {
+      return null;
+    }
+  }
+
   Future<List<Dose>> getDosesForMedication(int medicationId) async {
     final db = await dbHelper.database;
     final maps = await db.query(

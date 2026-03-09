@@ -9,35 +9,32 @@ import 'package:myapp/src/features/medication/presentation/widgets/dose_history_
 
 String buildScheduleDescription(
     Medication med, AppLocalizations l10n, BuildContext context) {
-  final timeStrings = med.times
-      .map((t) => t.format(context))
-      .join(', ');
 
   switch (med.scheduleType) {
     case MedicationScheduleType.daily:
-      return l10n.dailyDose(timeStrings);
+      return l10n.daily;
     case MedicationScheduleType.weekdays:
       final days = med.weekdays ?? [];
       final dayNames = days
           .map((d) =>
               [l10n.monday, l10n.tuesday, l10n.wednesday, l10n.thursday, l10n.friday, l10n.saturday, l10n.sunday][d - 1])
           .join(', ');
-      return l10n.onDays(dayNames, timeStrings);
+      return l10n.onDays(dayNames, '');
     case MedicationScheduleType.interval:
-      return l10n.intervalDose(med.interval.toString(), timeStrings);
+      return l10n.intervalDose(med.interval.toString(), '');
   }
 }
 
-class MedicationDetailScreen extends StatefulWidget {
+class MedicationDetailsScreen extends StatefulWidget {
   final Medication medication;
 
-  const MedicationDetailScreen({super.key, required this.medication});
+  const MedicationDetailsScreen({super.key, required this.medication});
 
   @override
-  State<MedicationDetailScreen> createState() => _MedicationDetailScreenState();
+  State<MedicationDetailsScreen> createState() => _MedicationDetailsScreenState();
 }
 
-class _MedicationDetailScreenState extends State<MedicationDetailScreen> {
+class _MedicationDetailsScreenState extends State<MedicationDetailsScreen> {
   @override
   void initState() {
     super.initState();

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:myapp/l10n/app_localizations.dart';
 import 'package:myapp/src/features/add_medicine/presentation/widgets/frequency_selector.dart';
 import 'package:myapp/src/features/add_medicine/presentation/widgets/start_date_selector.dart';
-import 'package:myapp/src/features/add_medicine/presentation/widgets/time_selector.dart';
 import 'package:myapp/src/services/database_service.dart';
 import 'package:myapp/src/features/medication/data/models/medication.dart';
 
@@ -20,7 +19,6 @@ class _AddMedicineFormState extends State<AddMedicineForm> {
   final _unitController = TextEditingController();
 
   MedicationScheduleType _scheduleType = MedicationScheduleType.daily;
-  TimeOfDay _selectedTime = TimeOfDay.now();
   DateTime _selectedDate = DateTime.now();
 
   final DatabaseService _dbService = SqfliteDatabaseService();
@@ -40,8 +38,9 @@ class _AddMedicineFormState extends State<AddMedicineForm> {
         dosage: double.parse(_dosageController.text),
         unit: _unitController.text,
         scheduleType: _scheduleType,
-        times: [_selectedTime],
         startDate: _selectedDate,
+        remainingDoses: int.parse(_dosageController.text),
+        takenToday: false,
       );
       await _dbService.insertMedication(newMedication);
       if (!mounted) return;
@@ -109,14 +108,6 @@ class _AddMedicineFormState extends State<AddMedicineForm> {
               onChanged: (frequency) {
                 setState(() {
                   _scheduleType = MedicationScheduleType.values.byName(frequency);
-                });
-              },
-            ),
-            const SizedBox(height: 16),
-            TimeSelector(
-              onChanged: (time) {
-                setState(() {
-                  _selectedTime = time;
                 });
               },
             ),

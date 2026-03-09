@@ -6,7 +6,6 @@ class Medicine {
   final double stock;
   final int takenToday;
   final int remainingDoses;
-  final String? scheduledTime;
   final bool isCompleted;
   final String startDate;
   final String? endDate;
@@ -20,7 +19,6 @@ class Medicine {
     required this.stock,
     this.takenToday = 0,
     this.remainingDoses = 0,
-    this.scheduledTime,
     this.isCompleted = false,
     required this.startDate,
     this.endDate,
@@ -36,7 +34,6 @@ class Medicine {
       'stock': stock,
       'taken_today': takenToday,
       'remaining_doses': remainingDoses,
-      'scheduled_time': scheduledTime,
       'is_completed': isCompleted ? 1 : 0,
       'startDate': startDate,
       'endDate': endDate,
@@ -53,7 +50,6 @@ class Medicine {
       stock: map['stock'],
       takenToday: map['taken_today'],
       remainingDoses: map['remaining_doses'],
-      scheduledTime: map['scheduled_time'],
       isCompleted: map['is_completed'] == 1,
       startDate: map['startDate'],
       endDate: map['endDate'],

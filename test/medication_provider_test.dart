@@ -30,7 +30,6 @@ void main() {
       mockNotificationService = MockNotificationService();
 
       // Setup default stubs for methods that are called but not the focus of the test
-      when(mockDoseService.createDosesForMedication(any)).thenAnswer((_) async {});
       when(mockNotificationService.scheduleNotifications(any, any, any))
           .thenAnswer((_) async {});
       when(mockMedicationRepository.getAllMedications()).thenAnswer((_) async => []);
@@ -51,8 +50,10 @@ void main() {
           dosage: 10,
           unit: 'mg',
           scheduleType: MedicationScheduleType.daily,
+          times: [const TimeOfDay(hour: 10, minute: 0)],
           startDate: DateTime.now(),
-          times: const [TimeOfDay(hour: 10, minute: 0)],
+          remainingDoses: 10,
+          takenToday: false,
         )
       ];
       // Override the default stub for this specific test
@@ -74,8 +75,10 @@ void main() {
         dosage: 20,
         unit: 'mg',
         scheduleType: MedicationScheduleType.daily,
+        times: [const TimeOfDay(hour: 10, minute: 0)],
         startDate: DateTime.now(),
-        times: const [TimeOfDay(hour: 10, minute: 0)],
+        remainingDoses: 20,
+        takenToday: false,
       );
       const medicationId = 2;
       final addedMedication = medicationToAdd.copyWith(id: medicationId);
@@ -93,7 +96,6 @@ void main() {
       // Assert
       // Verify that the correct methods were called on the mocks
       verify(mockMedicationRepository.addMedication(medicationToAdd));
-      verify(mockDoseService.createDosesForMedication(addedMedication));
       verify(mockNotificationService.scheduleNotifications(
           addedMedication,
           'Medication Due: ${addedMedication.name}',

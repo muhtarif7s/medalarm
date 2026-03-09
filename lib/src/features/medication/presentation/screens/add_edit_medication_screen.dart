@@ -41,7 +41,7 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
     _intervalController = TextEditingController(text: initialMed?.interval?.toString() ?? '24');
 
     _scheduleType = initialMed?.scheduleType ?? MedicationScheduleType.daily;
-    _times = initialMed?.times ?? []; // Start with an empty list for new medications
+    _times = initialMed?.times ?? [const TimeOfDay(hour: 8, minute: 0)];
     _weekdays = initialMed?.weekdays ?? [];
     _startDate = initialMed?.startDate ?? DateTime.now();
     _endDate = initialMed?.endDate;
@@ -58,14 +58,6 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
 
   void _saveForm() {
     if (_formKey.currentState!.validate()) {
-      // Ensure there's at least one time for daily/weekday schedules
-      if ((_scheduleType == MedicationScheduleType.daily || _scheduleType == MedicationScheduleType.weekdays) && _times.isEmpty) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(AppLocalizations.of(context)!.pleaseAddTime)),
-        );
-        return;
-      }
-
       final medication = Medication(
         id: widget.medication?.id,
         name: _nameController.text,
@@ -77,6 +69,8 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
         interval: _scheduleType == MedicationScheduleType.interval ? int.parse(_intervalController.text) : null,
         startDate: _startDate,
         endDate: _endDate,
+        remainingDoses: widget.medication?.remainingDoses ?? int.parse(_dosageController.text),
+        takenToday: widget.medication?.takenToday ?? false,
       );
 
       final provider = Provider.of<MedicationProvider>(context, listen: false);
@@ -134,6 +128,8 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
               _buildScheduleTypeSelector(l10n),
               const SizedBox(height: 16),
               _buildScheduleDetails(l10n),
+              const SizedBox(height: 16),
+              _buildTimePickers(l10n),
               const SizedBox(height: 24),
               _buildDatePickers(l10n),
             ],
@@ -185,7 +181,7 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
         Text(l10n.scheduleType, style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 8),
         DropdownButtonFormField<MedicationScheduleType>(
-          initialValue: _scheduleType,
+          value: _scheduleType,
           items: [
             DropdownMenuItem(value: MedicationScheduleType.daily, child: Text(l10n.daily)),
             DropdownMenuItem(value: MedicationScheduleType.weekdays, child: Text(l10n.weekdays)),
@@ -207,14 +203,13 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
   Widget _buildScheduleDetails(AppLocalizations l10n) {
     switch (_scheduleType) {
       case MedicationScheduleType.daily:
-        return _buildTimesList(l10n, title: l10n.times);
+        return const SizedBox.shrink();
       case MedicationScheduleType.weekdays:
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildDaySelector(l10n),
             const SizedBox(height: 16),
-            _buildTimesList(l10n, title: l10n.times),
           ],
         );
       case MedicationScheduleType.interval:
@@ -274,43 +269,6 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
     );
   }
 
-
-  Widget _buildTimesList(AppLocalizations l10n, {required String title}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(title, style: Theme.of(context).textTheme.titleMedium),
-        Wrap(
-          spacing: 8.0,
-          children: List<Widget>.generate(_times.length, (int index) {
-            return Chip(
-              label: Text(_times[index].format(context)),
-              onDeleted: () {
-                setState(() {
-                  _times.removeAt(index);
-                });
-              },
-            );
-          }),
-        ),
-        TextButton.icon(
-          icon: const Icon(Icons.add_circle_outline),
-          label: Text(l10n.addTime),
-          onPressed: () async {
-            final TimeOfDay? picked = await showTimePicker(context: context, initialTime: TimeOfDay.now());
-            if (picked != null && !_times.contains(picked)) {
-              setState(() {
-                _times.add(picked);
-                // Optional: sort times
-                _times.sort((a, b) => (a.hour * 60 + a.minute) - (b.hour * 60 + b.minute));
-              });
-            }
-          },
-        ),
-      ],
-    );
-  }
-
   Widget _buildIntervalPicker(AppLocalizations l10n) {
     return TextFormField(
       controller: _intervalController,
@@ -323,6 +281,59 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
         return null;
       },
     );
+  }
+
+  Widget _buildTimePickers(AppLocalizations l10n) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(l10n.times, style: Theme.of(context).textTheme.titleMedium),
+        ..._times.asMap().entries.map((entry) {
+          final index = entry.key;
+          final time = entry.value;
+          return Row(
+            children: [
+              Expanded(
+                child: TextButton(
+                  onPressed: () => _pickTime(index),
+                  child: Text(time.format(context)),
+                ),
+              ),
+              if (_times.length > 1)
+                IconButton(
+                  icon: const Icon(Icons.remove_circle_outline),
+                  onPressed: () {
+                    setState(() {
+                      _times.removeAt(index);
+                    });
+                  },
+                ),
+            ],
+          );
+        }),
+        TextButton.icon(
+          icon: const Icon(Icons.add),
+          label: Text(l10n.addTime),
+          onPressed: () {
+            setState(() {
+              _times.add(const TimeOfDay(hour: 12, minute: 0));
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  Future<void> _pickTime(int index) async {
+    final TimeOfDay? picked = await showTimePicker(
+      context: context,
+      initialTime: _times[index],
+    );
+    if (picked != null && picked != _times[index]) {
+      setState(() {
+        _times[index] = picked;
+      });
+    }
   }
 
   Widget _buildDatePickers(AppLocalizations l10n) {

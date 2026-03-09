@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:myapp/src/features/medication/data/models/medication.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService {
   static final NotificationService _instance = NotificationService._internal();
@@ -15,6 +16,7 @@ class NotificationService {
   }
 
   Future<void> init() async {
+    tz.initializeTimeZones();
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
 
@@ -31,11 +33,13 @@ class NotificationService {
 
     try {
       await _notificationsPlugin.initialize(
-        settings: initializationSettings,
+        initializationSettings,
         onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
       );
+      await requestPermissions();
     } catch (e) {
       debugPrint('Failed to initialize notifications: $e');
+      rethrow; // Re-throw the exception to fail the test
     }
   }
 
@@ -57,23 +61,57 @@ class NotificationService {
     }
   }
 
-  Future<void> scheduleNotifications(
-      Medication medication, String title, String body) async {
-    await cancelNotifications(medication.id!);
+  Future<void> scheduleNotification(
+    int id,
+    String title,
+    String body,
+    DateTime scheduledTime,
+  ) async {
+    await _notificationsPlugin.zonedSchedule(
+      id,
+      title,
+      body,
+      tz.TZDateTime.from(scheduledTime, tz.local),
+      const NotificationDetails(
+        android: AndroidNotificationDetails(
+          'your_channel_id', // Replace with your channel ID
+          'your_channel_name', // Replace with your channel name
+          channelDescription: 'your_channel_description', // Replace with your channel description
+          importance: Importance.max,
+          priority: Priority.high,
+          showWhen: false,
+        ),
+        iOS: DarwinNotificationDetails(),
+      ),
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+    );
   }
 
-  Future<void> cancelNotifications(int medicationId) async {
-    for (int i = 0; i < 50; i++) {
-      try {
-        await _notificationsPlugin.cancel(id: _generateNotificationId(medicationId, i));
-      } catch (e) {
-        debugPrint(
-            'Failed to cancel notification ID ${_generateNotificationId(medicationId, i)}: $e');
-      }
-    }
+  Future<void> showNotification(
+    int id,
+    String title,
+    String body,
+  ) async {
+    await _notificationsPlugin.show(
+      id,
+      title,
+      body,
+      const NotificationDetails(
+        android: AndroidNotificationDetails(
+          'your_channel_id', // Replace with your channel ID
+          'your_channel_name', // Replace with your channel name
+          channelDescription: 'your_channel_description', // Replace with your channel description
+          importance: Importance.max,
+          priority: Priority.high,
+          showWhen: false,
+        ),
+        iOS: DarwinNotificationDetails(),
+      ),
+    );
   }
 
-  int _generateNotificationId(int medicationId, int index) {
-    return (medicationId << 8) + index;
+  Future<void> cancelNotification(int id) async {
+    await _notificationsPlugin.cancel(id);
   }
 }

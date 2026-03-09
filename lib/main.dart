@@ -4,17 +4,20 @@ import 'package:myapp/src/features/main/presentation/screens/main_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:myapp/l10n/app_localizations.dart';
+import 'package:myapp/src/features/medication/presentation/providers/medication_provider.dart';
 import 'package:myapp/src/features/settings/presentation/providers/settings_provider.dart';
-import 'package:myapp/src/providers/locale_provider.dart';
+import 'package:myapp/src/features/settings/presentation/providers/locale_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => LocaleProvider()),
         ChangeNotifierProvider(create: (_) => SettingsProvider()),
+        ChangeNotifierProvider(
+            create: (_) => MedicationProvider()..loadMedications()),
       ],
       child: const MyApp(),
     ),
@@ -50,15 +53,18 @@ class MyApp extends StatelessWidget {
         backgroundColor: lightColorScheme.surface,
         elevation: 0,
         centerTitle: true,
-        titleTextStyle:
-            GoogleFonts.lato(fontSize: 20, fontWeight: FontWeight.bold, color: lightColorScheme.onSurface),
+        titleTextStyle: GoogleFonts.lato(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: lightColorScheme.onSurface),
         iconTheme: IconThemeData(color: lightColorScheme.onSurface),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: lightColorScheme.primary,
           foregroundColor: lightColorScheme.onPrimary,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
         ),
       ),
@@ -72,7 +78,8 @@ class MyApp extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           foregroundColor: lightColorScheme.primary,
           side: BorderSide(color: lightColorScheme.primary.withAlpha(128)),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
       ),
       cardTheme: CardThemeData(
@@ -109,15 +116,18 @@ class MyApp extends StatelessWidget {
         backgroundColor: darkColorScheme.surface,
         elevation: 0,
         centerTitle: true,
-        titleTextStyle:
-            GoogleFonts.lato(fontSize: 20, fontWeight: FontWeight.bold, color: darkColorScheme.onSurface),
+        titleTextStyle: GoogleFonts.lato(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: darkColorScheme.onSurface),
         iconTheme: IconThemeData(color: darkColorScheme.onSurface),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: darkColorScheme.primary,
           foregroundColor: darkColorScheme.onPrimary,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
         ),
       ),
@@ -131,7 +141,8 @@ class MyApp extends StatelessWidget {
         style: OutlinedButton.styleFrom(
           foregroundColor: darkColorScheme.primary,
           side: BorderSide(color: darkColorScheme.primary.withAlpha(128)),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         ),
       ),
       cardTheme: CardThemeData(
@@ -148,7 +159,7 @@ class MyApp extends StatelessWidget {
       ),
       scaffoldBackgroundColor: const Color(0xFF000000),
     );
-    
+
     return Consumer<SettingsProvider>(
       builder: (context, settingsProvider, child) {
         return MaterialApp(

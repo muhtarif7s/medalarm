@@ -3,17 +3,18 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i10;
+import 'dart:async' as _i11;
 
-import 'package:flutter/widgets.dart' as _i3;
-import 'package:go_router/src/configuration.dart' as _i2;
-import 'package:go_router/src/delegate.dart' as _i4;
-import 'package:go_router/src/information_provider.dart' as _i5;
-import 'package:go_router/src/match.dart' as _i9;
-import 'package:go_router/src/parser.dart' as _i6;
-import 'package:go_router/src/router.dart' as _i7;
+import 'package:flutter/widgets.dart' as _i4;
+import 'package:go_router/src/configuration.dart' as _i3;
+import 'package:go_router/src/delegate.dart' as _i5;
+import 'package:go_router/src/information_provider.dart' as _i6;
+import 'package:go_router/src/match.dart' as _i10;
+import 'package:go_router/src/parser.dart' as _i7;
+import 'package:go_router/src/router.dart' as _i8;
+import 'package:go_router/src/state.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i8;
+import 'package:mockito/src/dummies.dart' as _i9;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -30,9 +31,8 @@ import 'package:mockito/src/dummies.dart' as _i8;
 // ignore_for_file: subtype_of_sealed_class
 // ignore_for_file: invalid_use_of_internal_member
 
-class _FakeRouteConfiguration_0 extends _i1.SmartFake
-    implements _i2.RouteConfiguration {
-  _FakeRouteConfiguration_0(
+class _FakeGoRouterState_0 extends _i1.SmartFake implements _i2.GoRouterState {
+  _FakeGoRouterState_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -41,9 +41,9 @@ class _FakeRouteConfiguration_0 extends _i1.SmartFake
         );
 }
 
-class _FakeBackButtonDispatcher_1 extends _i1.SmartFake
-    implements _i3.BackButtonDispatcher {
-  _FakeBackButtonDispatcher_1(
+class _FakeRouteConfiguration_1 extends _i1.SmartFake
+    implements _i3.RouteConfiguration {
+  _FakeRouteConfiguration_1(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -52,9 +52,9 @@ class _FakeBackButtonDispatcher_1 extends _i1.SmartFake
         );
 }
 
-class _FakeGoRouterDelegate_2 extends _i1.SmartFake
-    implements _i4.GoRouterDelegate {
-  _FakeGoRouterDelegate_2(
+class _FakeBackButtonDispatcher_2 extends _i1.SmartFake
+    implements _i4.BackButtonDispatcher {
+  _FakeBackButtonDispatcher_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -63,9 +63,9 @@ class _FakeGoRouterDelegate_2 extends _i1.SmartFake
         );
 }
 
-class _FakeGoRouteInformationProvider_3 extends _i1.SmartFake
-    implements _i5.GoRouteInformationProvider {
-  _FakeGoRouteInformationProvider_3(
+class _FakeGoRouterDelegate_3 extends _i1.SmartFake
+    implements _i5.GoRouterDelegate {
+  _FakeGoRouterDelegate_3(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -74,9 +74,20 @@ class _FakeGoRouteInformationProvider_3 extends _i1.SmartFake
         );
 }
 
-class _FakeGoRouteInformationParser_4 extends _i1.SmartFake
-    implements _i6.GoRouteInformationParser {
-  _FakeGoRouteInformationParser_4(
+class _FakeGoRouteInformationProvider_4 extends _i1.SmartFake
+    implements _i6.GoRouteInformationProvider {
+  _FakeGoRouteInformationProvider_4(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeGoRouteInformationParser_5 extends _i1.SmartFake
+    implements _i7.GoRouteInformationParser {
+  _FakeGoRouteInformationParser_5(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -88,73 +99,86 @@ class _FakeGoRouteInformationParser_4 extends _i1.SmartFake
 /// A class which mocks [GoRouter].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
+class MockGoRouter extends _i1.Mock implements _i8.GoRouter {
   @override
-  _i2.RouteConfiguration get configuration => (super.noSuchMethod(
+  _i2.GoRouterState get state => (super.noSuchMethod(
+        Invocation.getter(#state),
+        returnValue: _FakeGoRouterState_0(
+          this,
+          Invocation.getter(#state),
+        ),
+        returnValueForMissingStub: _FakeGoRouterState_0(
+          this,
+          Invocation.getter(#state),
+        ),
+      ) as _i2.GoRouterState);
+
+  @override
+  _i3.RouteConfiguration get configuration => (super.noSuchMethod(
         Invocation.getter(#configuration),
-        returnValue: _FakeRouteConfiguration_0(
+        returnValue: _FakeRouteConfiguration_1(
           this,
           Invocation.getter(#configuration),
         ),
-        returnValueForMissingStub: _FakeRouteConfiguration_0(
+        returnValueForMissingStub: _FakeRouteConfiguration_1(
           this,
           Invocation.getter(#configuration),
         ),
-      ) as _i2.RouteConfiguration);
+      ) as _i3.RouteConfiguration);
 
   @override
-  _i3.BackButtonDispatcher get backButtonDispatcher => (super.noSuchMethod(
+  _i4.BackButtonDispatcher get backButtonDispatcher => (super.noSuchMethod(
         Invocation.getter(#backButtonDispatcher),
-        returnValue: _FakeBackButtonDispatcher_1(
+        returnValue: _FakeBackButtonDispatcher_2(
           this,
           Invocation.getter(#backButtonDispatcher),
         ),
-        returnValueForMissingStub: _FakeBackButtonDispatcher_1(
+        returnValueForMissingStub: _FakeBackButtonDispatcher_2(
           this,
           Invocation.getter(#backButtonDispatcher),
         ),
-      ) as _i3.BackButtonDispatcher);
+      ) as _i4.BackButtonDispatcher);
 
   @override
-  _i4.GoRouterDelegate get routerDelegate => (super.noSuchMethod(
+  _i5.GoRouterDelegate get routerDelegate => (super.noSuchMethod(
         Invocation.getter(#routerDelegate),
-        returnValue: _FakeGoRouterDelegate_2(
+        returnValue: _FakeGoRouterDelegate_3(
           this,
           Invocation.getter(#routerDelegate),
         ),
-        returnValueForMissingStub: _FakeGoRouterDelegate_2(
+        returnValueForMissingStub: _FakeGoRouterDelegate_3(
           this,
           Invocation.getter(#routerDelegate),
         ),
-      ) as _i4.GoRouterDelegate);
+      ) as _i5.GoRouterDelegate);
 
   @override
-  _i5.GoRouteInformationProvider get routeInformationProvider =>
+  _i6.GoRouteInformationProvider get routeInformationProvider =>
       (super.noSuchMethod(
         Invocation.getter(#routeInformationProvider),
-        returnValue: _FakeGoRouteInformationProvider_3(
+        returnValue: _FakeGoRouteInformationProvider_4(
           this,
           Invocation.getter(#routeInformationProvider),
         ),
-        returnValueForMissingStub: _FakeGoRouteInformationProvider_3(
+        returnValueForMissingStub: _FakeGoRouteInformationProvider_4(
           this,
           Invocation.getter(#routeInformationProvider),
         ),
-      ) as _i5.GoRouteInformationProvider);
+      ) as _i6.GoRouteInformationProvider);
 
   @override
-  _i6.GoRouteInformationParser get routeInformationParser =>
+  _i7.GoRouteInformationParser get routeInformationParser =>
       (super.noSuchMethod(
         Invocation.getter(#routeInformationParser),
-        returnValue: _FakeGoRouteInformationParser_4(
+        returnValue: _FakeGoRouteInformationParser_5(
           this,
           Invocation.getter(#routeInformationParser),
         ),
-        returnValueForMissingStub: _FakeGoRouteInformationParser_4(
+        returnValueForMissingStub: _FakeGoRouteInformationParser_5(
           this,
           Invocation.getter(#routeInformationParser),
         ),
-      ) as _i6.GoRouteInformationParser);
+      ) as _i7.GoRouteInformationParser);
 
   @override
   bool get overridePlatformDefaultLocation => (super.noSuchMethod(
@@ -164,7 +188,7 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
       ) as bool);
 
   @override
-  set configuration(_i2.RouteConfiguration? value) => super.noSuchMethod(
+  set configuration(_i3.RouteConfiguration? value) => super.noSuchMethod(
         Invocation.setter(
           #configuration,
           value,
@@ -173,7 +197,7 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
       );
 
   @override
-  set routerDelegate(_i4.GoRouterDelegate? value) => super.noSuchMethod(
+  set routerDelegate(_i5.GoRouterDelegate? value) => super.noSuchMethod(
         Invocation.setter(
           #routerDelegate,
           value,
@@ -182,7 +206,7 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
       );
 
   @override
-  set routeInformationProvider(_i5.GoRouteInformationProvider? value) =>
+  set routeInformationProvider(_i6.GoRouteInformationProvider? value) =>
       super.noSuchMethod(
         Invocation.setter(
           #routeInformationProvider,
@@ -192,7 +216,7 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
       );
 
   @override
-  set routeInformationParser(_i6.GoRouteInformationParser? value) =>
+  set routeInformationParser(_i7.GoRouteInformationParser? value) =>
       super.noSuchMethod(
         Invocation.setter(
           #routeInformationParser,
@@ -216,6 +240,7 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
     String? name, {
     Map<String, String>? pathParameters = const {},
     Map<String, dynamic>? queryParameters = const {},
+    String? fragment,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -224,9 +249,10 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
           {
             #pathParameters: pathParameters,
             #queryParameters: queryParameters,
+            #fragment: fragment,
           },
         ),
-        returnValue: _i8.dummyValue<String>(
+        returnValue: _i9.dummyValue<String>(
           this,
           Invocation.method(
             #namedLocation,
@@ -234,10 +260,11 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
             {
               #pathParameters: pathParameters,
               #queryParameters: queryParameters,
+              #fragment: fragment,
             },
           ),
         ),
-        returnValueForMissingStub: _i8.dummyValue<String>(
+        returnValueForMissingStub: _i9.dummyValue<String>(
           this,
           Invocation.method(
             #namedLocation,
@@ -245,6 +272,7 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
             {
               #pathParameters: pathParameters,
               #queryParameters: queryParameters,
+              #fragment: fragment,
             },
           ),
         ),
@@ -265,7 +293,7 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
       );
 
   @override
-  void restore(_i9.RouteMatchList? matchList) => super.noSuchMethod(
+  void restore(_i10.RouteMatchList? matchList) => super.noSuchMethod(
         Invocation.method(
           #restore,
           [matchList],
@@ -279,6 +307,7 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
     Map<String, String>? pathParameters = const {},
     Map<String, dynamic>? queryParameters = const {},
     Object? extra,
+    String? fragment,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -288,13 +317,14 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
             #pathParameters: pathParameters,
             #queryParameters: queryParameters,
             #extra: extra,
+            #fragment: fragment,
           },
         ),
         returnValueForMissingStub: null,
       );
 
   @override
-  _i10.Future<T?> push<T extends Object?>(
+  _i11.Future<T?> push<T extends Object?>(
     String? location, {
     Object? extra,
   }) =>
@@ -304,12 +334,12 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
           [location],
           {#extra: extra},
         ),
-        returnValue: _i10.Future<T?>.value(),
-        returnValueForMissingStub: _i10.Future<T?>.value(),
-      ) as _i10.Future<T?>);
+        returnValue: _i11.Future<T?>.value(),
+        returnValueForMissingStub: _i11.Future<T?>.value(),
+      ) as _i11.Future<T?>);
 
   @override
-  _i10.Future<T?> pushNamed<T extends Object?>(
+  _i11.Future<T?> pushNamed<T extends Object?>(
     String? name, {
     Map<String, String>? pathParameters = const {},
     Map<String, dynamic>? queryParameters = const {},
@@ -325,12 +355,12 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
             #extra: extra,
           },
         ),
-        returnValue: _i10.Future<T?>.value(),
-        returnValueForMissingStub: _i10.Future<T?>.value(),
-      ) as _i10.Future<T?>);
+        returnValue: _i11.Future<T?>.value(),
+        returnValueForMissingStub: _i11.Future<T?>.value(),
+      ) as _i11.Future<T?>);
 
   @override
-  _i10.Future<T?> pushReplacement<T extends Object?>(
+  _i11.Future<T?> pushReplacement<T extends Object?>(
     String? location, {
     Object? extra,
   }) =>
@@ -340,12 +370,12 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
           [location],
           {#extra: extra},
         ),
-        returnValue: _i10.Future<T?>.value(),
-        returnValueForMissingStub: _i10.Future<T?>.value(),
-      ) as _i10.Future<T?>);
+        returnValue: _i11.Future<T?>.value(),
+        returnValueForMissingStub: _i11.Future<T?>.value(),
+      ) as _i11.Future<T?>);
 
   @override
-  _i10.Future<T?> pushReplacementNamed<T extends Object?>(
+  _i11.Future<T?> pushReplacementNamed<T extends Object?>(
     String? name, {
     Map<String, String>? pathParameters = const {},
     Map<String, dynamic>? queryParameters = const {},
@@ -361,12 +391,12 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
             #extra: extra,
           },
         ),
-        returnValue: _i10.Future<T?>.value(),
-        returnValueForMissingStub: _i10.Future<T?>.value(),
-      ) as _i10.Future<T?>);
+        returnValue: _i11.Future<T?>.value(),
+        returnValueForMissingStub: _i11.Future<T?>.value(),
+      ) as _i11.Future<T?>);
 
   @override
-  _i10.Future<T?> replace<T>(
+  _i11.Future<T?> replace<T>(
     String? location, {
     Object? extra,
   }) =>
@@ -376,12 +406,12 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
           [location],
           {#extra: extra},
         ),
-        returnValue: _i10.Future<T?>.value(),
-        returnValueForMissingStub: _i10.Future<T?>.value(),
-      ) as _i10.Future<T?>);
+        returnValue: _i11.Future<T?>.value(),
+        returnValueForMissingStub: _i11.Future<T?>.value(),
+      ) as _i11.Future<T?>);
 
   @override
-  _i10.Future<T?> replaceNamed<T>(
+  _i11.Future<T?> replaceNamed<T>(
     String? name, {
     Map<String, String>? pathParameters = const {},
     Map<String, dynamic>? queryParameters = const {},
@@ -397,9 +427,9 @@ class MockGoRouter extends _i1.Mock implements _i7.GoRouter {
             #extra: extra,
           },
         ),
-        returnValue: _i10.Future<T?>.value(),
-        returnValueForMissingStub: _i10.Future<T?>.value(),
-      ) as _i10.Future<T?>);
+        returnValue: _i11.Future<T?>.value(),
+        returnValueForMissingStub: _i11.Future<T?>.value(),
+      ) as _i11.Future<T?>);
 
   @override
   void pop<T extends Object?>([T? result]) => super.noSuchMethod(

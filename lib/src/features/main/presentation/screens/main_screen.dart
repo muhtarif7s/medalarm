@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/l10n/app_localizations.dart';
 import 'package:myapp/src/features/add_medicine/presentation/screens/add_medicine_screen.dart';
 import 'package:myapp/src/features/history/presentation/screens/history_screen.dart';
 import 'package:myapp/src/features/home/presentation/screens/home_screen.dart';
