@@ -1,7 +1,0 @@
-.dart_tool/
-build/
-coverage/
-android/.gradle/
-android/app/build/
-ios/Pods/
-.git/
