@@ -3,10 +3,11 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:myapp/l10n/app_localizations.dart';
 import 'package:myapp/src/features/doses/data/models/dose.dart';
+import 'package:myapp/src/features/doses/data/models/dose_schedule.dart';
 import 'package:myapp/src/features/doses/presentation/providers/dose_provider.dart';
 
 class DoseHistoryList extends StatelessWidget {
-  final List<Dose> doses;
+  final List<DoseSchedule> doses;
 
   const DoseHistoryList({super.key, required this.doses});
 
@@ -19,6 +20,8 @@ class DoseHistoryList extends StatelessWidget {
       );
     }
     return ListView.builder(
+      shrinkWrap: true, // Added to allow the ListView to be in a Column
+      physics: const NeverScrollableScrollPhysics(), // Disable scrolling of the list
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       itemCount: doses.length,
       itemBuilder: (context, index) {
@@ -27,7 +30,7 @@ class DoseHistoryList extends StatelessWidget {
           margin: const EdgeInsets.symmetric(vertical: 6.0),
           child: ListTile(
             leading: _buildStatusIcon(dose.status),
-            title: Text(DateFormat.yMMMd().add_jm().format(dose.time)),
+            title: Text(DateFormat.yMMMd().add_jm().format(dose.scheduledTime)),
             subtitle: Text('${l10n.status}: ${dose.status.name}'),
             trailing: _buildPopupMenu(context, dose, l10n),
           ),
@@ -47,7 +50,7 @@ class DoseHistoryList extends StatelessWidget {
     }
   }
 
-  Widget _buildPopupMenu(BuildContext context, Dose dose, AppLocalizations l10n) {
+  Widget _buildPopupMenu(BuildContext context, DoseSchedule dose, AppLocalizations l10n) {
     final doseProvider = Provider.of<DoseProvider>(context, listen: false);
 
     return PopupMenuButton<DoseStatus>(

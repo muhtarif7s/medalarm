@@ -21,9 +21,6 @@ class MockMedicationProvider extends ChangeNotifier implements MedicationProvide
   bool get isLoading => false;
 
   @override
-  Future<void> init() async {}
-
-  @override
   Future<void> loadMedications() async {}
 
   @override
@@ -37,6 +34,9 @@ class MockMedicationProvider extends ChangeNotifier implements MedicationProvide
 
   @override
   Future<Medication?> getMedication(int id) async => null;
+
+  @override
+  Future<void> resetMedicationStatusIfNeeded() async {}
 }
 
 @GenerateNiceMocks([MockSpec<GoRouter>()])

@@ -69,7 +69,6 @@ class MockFlutterLocalNotificationsPlugin extends Fake
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   late NotificationService notificationService;
-  late MockFlutterLocalNotificationsPlugin mockNotificationsPlugin;
 
   const MethodChannel channel = MethodChannel(
     'dexterous.com/flutter/local_notifications',
@@ -88,7 +87,6 @@ void main() {
     });
 
     notificationService = NotificationService();
-    mockNotificationsPlugin = MockFlutterLocalNotificationsPlugin();
     tz.initializeTimeZones();
   });
 

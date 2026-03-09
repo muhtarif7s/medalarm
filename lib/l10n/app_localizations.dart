@@ -673,6 +673,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Take'**
   String get take;
+
+  /// No description provided for @historyScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get historyScreenTitle;
+
+  /// No description provided for @doseAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Dose at {time}'**
+  String doseAt(Object time);
+
+  /// No description provided for @doseDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'{dosage} {unit}'**
+  String doseDetails(Object dosage, Object unit);
+
+  /// No description provided for @markAsPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as Pending'**
+  String get markAsPending;
+
+  /// No description provided for @stock.
+  ///
+  /// In en, this message translates to:
+  /// **'Stock'**
+  String get stock;
 }
 
 class _AppLocalizationsDelegate

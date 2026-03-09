@@ -1,5 +1,5 @@
 
-enum DoseStatus { taken, skipped, pending }
+enum DoseStatus { taken, skipped, pending, missed }
 
 class Dose {
   final int? id;

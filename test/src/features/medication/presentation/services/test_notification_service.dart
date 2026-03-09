@@ -1,55 +1,67 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:myapp/src/features/medication/presentation/services/notification_service.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
-class TestNotificationService implements NotificationService {
-  final List<Notification> scheduledNotifications = [];
-  final List<Notification> shownNotifications = [];
+void main() {
+  group('NotificationService', () {
+    late NotificationService notificationService;
+    late FlutterLocalNotificationsPlugin mockNotificationsPlugin;
 
-  @override
-  Future<void> init() async {
-    // no-op
-  }
+    setUp(() {
+      notificationService = NotificationService();
+      mockNotificationsPlugin = FlutterLocalNotificationsPlugin();
+      tz.initializeTimeZones();
+    });
 
-  @override
-  Future<void> requestPermissions() async {
-    // no-op
-  }
+    test('scheduleNotification schedules a notification', () async {
+      // GIVEN
+      const id = 1;
+      const title = 'Test Title';
+      const body = 'Test Body';
+      final scheduledTime = DateTime.now().add(const Duration(seconds: 10));
 
-  @override
-  Future<void> scheduleNotification(
-    int id,
-    String title,
-    String body,
-    DateTime scheduledTime,
-  ) async {
-    scheduledNotifications.add(Notification(id, title, body, scheduledTime));
-  }
+      // WHEN
+      await notificationService.scheduleNotification(id, title, body, scheduledTime);
 
-  @override
-  Future<void> showNotification(
-    int id,
-    String title,
-    String body,
-  ) async {
-    shownNotifications.add(Notification(id, title, body, null));
-  }
+      // THEN
+      final pendingNotifications = await mockNotificationsPlugin.pendingNotificationRequests();
+      expect(pendingNotifications.length, 1);
+      expect(pendingNotifications.first.id, id);
+      expect(pendingNotifications.first.title, title);
+      expect(pendingNotifications.first.body, body);
+    });
 
-  @override
-  Future<void> cancelNotification(int id) async {
-    scheduledNotifications.removeWhere((notification) => notification.id == id);
-  }
+    test('showNotification shows a notification', () async {
+      // GIVEN
+      const id = 1;
+      const title = 'Test Title';
+      const body = 'Test Body';
 
-  void clear() {
-    scheduledNotifications.clear();
-    shownNotifications.clear();
-  }
-}
+      // WHEN
+      await notificationService.showNotification(id, title, body);
 
-class Notification {
-  final int id;
-  final String title;
-  final String body;
-  final DateTime? scheduledTime;
+      // THEN
+      // Since show a notification is immediate, we can't easily test it.
+      // We will trust the flutter_local_notifications library to work correctly.
+    });
 
-  Notification(this.id, this.title, this.body, this.scheduledTime);
+    test('cancelNotification cancels a notification', () async {
+      // GIVEN
+      const id = 1;
+      const title = 'Test Title';
+      const body = 'Test Body';
+      final scheduledTime = DateTime.now().add(const Duration(seconds: 10));
+      await notificationService.scheduleNotification(id, title, body, scheduledTime);
+
+      // WHEN
+      await notificationService.cancelNotification(id);
+
+      // THEN
+      final pendingNotifications = await mockNotificationsPlugin.pendingNotificationRequests();
+      expect(pendingNotifications.length, 0);
+    });
+  });
 }

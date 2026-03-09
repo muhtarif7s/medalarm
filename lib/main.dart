@@ -1,6 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myapp/src/features/doses/data/repositories/dose_schedule_repository.dart';
+import 'package:myapp/src/features/doses/presentation/providers/dose_provider.dart';
 import 'package:myapp/src/features/main/presentation/screens/main_screen.dart';
+import 'package:myapp/src/features/medication/data/repositories/medication_repository.dart';
+import 'package:myapp/src/features/medication/presentation/services/dose_service.dart';
+import 'package:myapp/src/features/medication/presentation/services/notification_service.dart';
+import 'package:myapp/src/features/medication/scheduling_service.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:myapp/l10n/app_localizations.dart';
@@ -11,13 +19,41 @@ import 'package:myapp/src/features/settings/presentation/providers/locale_provid
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  final notificationService = NotificationService();
+  await notificationService.init();
+
+  final medicationRepository = MedicationRepository();
+  final doseScheduleRepository = DoseScheduleRepository();
+  final schedulingService = SchedulingService();
+  final doseService = DoseService(
+    doseScheduleRepository,
+    schedulingService,
+    notificationService,
+    medicationRepository,
+  );
+
+  Timer.periodic(const Duration(minutes: 1), (timer) {
+    doseService.checkMissedDoses();
+  });
+
   runApp(
     MultiProvider(
       providers: [
+        Provider<DoseService>.value(value: doseService),
         ChangeNotifierProvider(create: (_) => LocaleProvider()),
         ChangeNotifierProvider(create: (_) => SettingsProvider()),
         ChangeNotifierProvider(
-            create: (_) => MedicationProvider()..loadMedications()),
+          create: (context) => MedicationProvider(
+            medicationRepository,
+            doseScheduleRepository,
+          )..loadMedications(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DoseProvider(
+            doseScheduleRepository,
+            context.read<MedicationProvider>(),
+          ),
+        ),
       ],
       child: const MyApp(),
     ),

@@ -21,8 +21,10 @@ class Medication extends Equatable {
   final DateTime startDate;
   final DateTime? endDate;
   final int remainingDoses;
-  final bool takenToday;
+  final int takenToday;
   final List<Dose> doseHistory;
+
+  int get doses => times.length;
 
   const Medication({
     this.id,
@@ -37,7 +39,7 @@ class Medication extends Equatable {
     required this.startDate,
     this.endDate,
     required this.remainingDoses,
-    required this.takenToday,
+    this.takenToday = 0,
     this.doseHistory = const [],
   });
 
@@ -72,7 +74,7 @@ class Medication extends Equatable {
     DateTime? startDate,
     DateTime? endDate,
     int? remainingDoses,
-    bool? takenToday,
+    int? takenToday,
     List<Dose>? doseHistory,
   }) {
     return Medication(
@@ -107,7 +109,7 @@ class Medication extends Equatable {
       'startDate': startDate.toIso8601String(),
       'endDate': endDate?.toIso8601String(),
       'remaining_doses': remainingDoses,
-      'taken_today': takenToday ? 1 : 0,
+      'taken_today': takenToday,
     };
   }
 
@@ -141,7 +143,7 @@ class Medication extends Equatable {
           ? DateTime.parse(map['endDate'] as String)
           : null,
       remainingDoses: map['remaining_doses'] as int? ?? 0,
-      takenToday: (map['taken_today'] as int? ?? 0) == 1,
+      takenToday: map['taken_today'] as int? ?? 0,
     );
   }
 }

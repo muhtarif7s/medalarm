@@ -1,3 +1,4 @@
+
 {
   "helloWorld": "Hello World!",
   "settings": "Settings",
@@ -94,5 +95,21 @@
   "pleaseEnterDosage": "Please enter a dosage",
   "pills": "pills",
   "yourMedications": "Your Medications",
-  "take": "Take"
+  "take": "Take",
+  "historyScreenTitle": "History",
+  "doseAt": "Dose at {time}",
+  "@doseAt": {
+    "placeholders": {
+      "time": {}
+    }
+  },
+  "doseDetails": "{dosage} {unit}",
+  "@doseDetails": {
+    "placeholders": {
+      "dosage": {},
+      "unit": {}
+    }
+  },
+  "markAsPending": "Mark as Pending",
+  "stock": "Stock"
 }

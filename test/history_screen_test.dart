@@ -5,39 +5,40 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:myapp/l10n/app_localizations.dart';
 import 'package:myapp/src/features/doses/data/models/dose.dart';
+import 'package:myapp/src/features/doses/data/models/dose_schedule.dart';
 import 'package:myapp/src/features/doses/presentation/providers/dose_provider.dart';
 import 'package:myapp/src/features/medication/data/models/medication.dart';
-import 'package:myapp/src/features/medication/presentation/screens/history_screen.dart';
+import 'package:myapp/src/features/history/presentation/screens/history_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 import 'history_screen_test.mocks.dart';
 import 'utils/test_go_router.dart';
 
-class MockDoseProvider extends ChangeNotifier implements DoseProvider {
+class MockDoseProvider extends Mock implements DoseProvider {
   @override
-  List<Dose> get doses => [];
+  Map<DateTime, List<DoseSchedule>> get groupedDosesByDay => {};
+
+  @override
+  Future<void> loadDoses() => Future.value();
 
   @override
   bool get isLoading => false;
 
   @override
-  Map<DateTime, List<Dose>> get groupedDosesByDay => {};
-
-  @override
-  Medication? medicationForDose(Dose dose) => null;
-
-  @override
-  Future<void> loadDoses() async {}
-
-  @override
-  Future<void> loadDosesForMedication(int medicationId) async {}
-
-  @override
-  Future<void> updateDoseStatus(Dose dose, DoseStatus status) async {}
-  
-  @override
-  void addListener(VoidCallback listener) {}
+  Future<Medication?> medicationForDose(DoseSchedule dose) async {
+    return Medication(
+      id: 1,
+      name: 'Aspirin',
+      dosage: 100,
+      unit: 'mg',
+      scheduleType: MedicationScheduleType.daily,
+      times: [const TimeOfDay(hour: 8, minute: 0)],
+      startDate: DateTime.now(),
+      stock: 10,
+      remainingDoses: 10,
+    );
+  }
 }
 
 @GenerateMocks([GoRouter])
@@ -70,9 +71,9 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byIcon(Icons.arrow_back));
+    await tester.tap(find.byTooltip('Back'));
     await tester.pumpAndSettle();
 
-    verify(mockGoRouter.go('/')).called(1);
+    verify(mockGoRouter.pop()).called(1);
   });
 }

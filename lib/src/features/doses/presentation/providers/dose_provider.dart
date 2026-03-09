@@ -1,38 +1,39 @@
-import 'package:flutter/material.dart';
-import 'package:myapp/src/features/doses/data/models/dose.dart';
-import 'package:myapp/src/features/doses/data/repositories/dose_repository.dart';
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
+import 'package:myapp/src/features/doses/data/models/dose.dart';
+import 'package:myapp/src/features/doses/data/models/dose_schedule.dart';
+import 'package:myapp/src/features/doses/data/repositories/dose_schedule_repository.dart';
 import 'package:myapp/src/features/medication/data/models/medication.dart';
-import 'package:myapp/src/features/medication/data/repositories/medication_repository.dart';
+import 'package:myapp/src/features/medication/presentation/providers/medication_provider.dart';
 
 class DoseProvider with ChangeNotifier {
-  final DoseRepository _doseRepository = DoseRepository();
-  final MedicationRepository _medicationRepository = MedicationRepository();
+  final DoseScheduleRepository _doseScheduleRepository;
+  final MedicationProvider _medicationProvider;
 
-  List<Dose> _doses = [];
-  Map<int, Medication> _medicationMap = {};
+  DoseProvider(this._doseScheduleRepository, this._medicationProvider);
+
   bool _isLoading = false;
-
-  List<Dose> get doses => _doses;
   bool get isLoading => _isLoading;
-  Medication? medicationForDose(Dose dose) => _medicationMap[dose.medicationId];
 
-  Map<DateTime, List<Dose>> get groupedDosesByDay {
-    return groupBy(_doses, (Dose dose) => DateTime(dose.time.year, dose.time.month, dose.time.day));
+  List<DoseSchedule> _doses = [];
+  List<DoseSchedule> get doses => _doses;
+
+  Map<DateTime, List<DoseSchedule>> get groupedDosesByDay {
+    return groupBy(_doses, (dose) => DateTime(dose.scheduledTime.year, dose.scheduledTime.month, dose.scheduledTime.day));
   }
-
-  DoseProvider();
 
   Future<void> loadDoses() async {
     _isLoading = true;
     notifyListeners();
-    
-    _doses = await _doseRepository.getAllDoses();
-    final medications = await _medicationRepository.getAllMedications();
-    _medicationMap = { for (var med in medications) med.id! : med };
+    _doses = await _doseScheduleRepository.getAllPendingDoseSchedules();
+    _isLoading = false;
+    notifyListeners();
+  }
 
-    _doses.sort((a, b) => b.time.compareTo(a.time));
-
+  Future<void> loadDosesForDay(DateTime date) async {
+    _isLoading = true;
+    notifyListeners();
+    _doses = await _doseScheduleRepository.getDoseSchedulesForDay(date);
     _isLoading = false;
     notifyListeners();
   }
@@ -40,25 +41,26 @@ class DoseProvider with ChangeNotifier {
   Future<void> loadDosesForMedication(int medicationId) async {
     _isLoading = true;
     notifyListeners();
-
-    _doses = await _doseRepository.getDosesForMedication(medicationId);
-    final medication = await _medicationRepository.getMedication(medicationId);
-    if (medication != null) {
-      _medicationMap = {medication.id!: medication};
-    }
-
-    _doses.sort((a, b) => b.time.compareTo(a.time));
-
+    _doses = await _doseScheduleRepository.getDoseSchedulesForMedication(medicationId);
     _isLoading = false;
     notifyListeners();
   }
 
-  Future<void> updateDoseStatus(Dose dose, DoseStatus status) async {
-    await _doseRepository.updateDoseStatus(dose.id!, status);
-    final index = _doses.indexWhere((d) => d.id == dose.id);
-    if (index != -1) {
-      _doses[index] = _doses[index].copyWith(status: status);
-      notifyListeners();
-    }
+  Future<void> takeDose(DoseSchedule dose) async {
+    final updatedDose = dose.copyWith(status: DoseStatus.taken);
+    await _doseScheduleRepository.updateDoseSchedule(updatedDose);
+    await _medicationProvider.loadMedications();
+    await loadDosesForDay(dose.scheduledTime);
+  }
+
+  Future<void> updateDoseStatus(DoseSchedule dose, DoseStatus status) async {
+    final updatedDose = dose.copyWith(status: status);
+    await _doseScheduleRepository.updateDoseSchedule(updatedDose);
+    await _medicationProvider.loadMedications();
+    await loadDosesForDay(dose.scheduledTime);
+  }
+
+  Future<Medication?> medicationForDose(DoseSchedule dose) async {
+    return await _medicationProvider.getMedication(dose.medicationId);
   }
 }

@@ -22,6 +22,7 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
   late TextEditingController _nameController;
   late TextEditingController _dosageController;
   late TextEditingController _unitController;
+  late TextEditingController _stockController;
   late TextEditingController _intervalController;
 
   late MedicationScheduleType _scheduleType;
@@ -38,6 +39,7 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
     _nameController = TextEditingController(text: initialMed?.name);
     _dosageController = TextEditingController(text: initialMed?.dosage.toString());
     _unitController = TextEditingController(text: initialMed?.unit);
+    _stockController = TextEditingController(text: initialMed?.stock.toString());
     _intervalController = TextEditingController(text: initialMed?.interval?.toString() ?? '24');
 
     _scheduleType = initialMed?.scheduleType ?? MedicationScheduleType.daily;
@@ -52,6 +54,7 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
     _nameController.dispose();
     _dosageController.dispose();
     _unitController.dispose();
+    _stockController.dispose();
     _intervalController.dispose();
     super.dispose();
   }
@@ -63,14 +66,14 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
         name: _nameController.text,
         dosage: double.parse(_dosageController.text),
         unit: _unitController.text,
+        stock: int.parse(_stockController.text),
         scheduleType: _scheduleType,
         times: _times,
         weekdays: _scheduleType == MedicationScheduleType.weekdays ? _weekdays : null,
         interval: _scheduleType == MedicationScheduleType.interval ? int.parse(_intervalController.text) : null,
         startDate: _startDate,
         endDate: _endDate,
-        remainingDoses: widget.medication?.remainingDoses ?? int.parse(_dosageController.text),
-        takenToday: widget.medication?.takenToday ?? false,
+        remainingDoses: int.parse(_stockController.text),
       );
 
       final provider = Provider.of<MedicationProvider>(context, listen: false);
@@ -169,6 +172,13 @@ class _AddEditMedicationScreenState extends State<AddEditMedicationScreen> {
               ),
             ),
           ],
+        ),
+        const SizedBox(height: 16),
+        TextFormField(
+          controller: _stockController,
+          decoration: InputDecoration(labelText: l10n.stock, border: const OutlineInputBorder()),
+          keyboardType: TextInputType.number,
+          validator: (value) => value == null || int.tryParse(value) == null ? l10n.invalidNumber : null,
         ),
       ],
     );

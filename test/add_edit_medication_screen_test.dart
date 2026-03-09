@@ -22,9 +22,6 @@ class MockMedicationProvider extends ChangeNotifier implements MedicationProvide
   bool get isLoading => false;
 
   @override
-  Future<void> init() async {}
-
-  @override
   Future<void> loadMedications() async {}
 
   @override
@@ -38,6 +35,9 @@ class MockMedicationProvider extends ChangeNotifier implements MedicationProvide
 
   @override
   Future<Medication?> getMedication(int id) async => null;
+
+  @override
+  Future<void> resetMedicationStatusIfNeeded() async {}
 }
 
 class MockLocaleProvider extends ChangeNotifier implements LocaleProvider {
@@ -52,7 +52,6 @@ class MockLocaleProvider extends ChangeNotifier implements LocaleProvider {
     notifyListeners();
   }
 
-  @override
   String getLangName(String langCode) {
     switch (langCode) {
       case 'en':

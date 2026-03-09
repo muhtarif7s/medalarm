@@ -5,19 +5,16 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
 
-import 'package:flutter/material.dart' as _i7;
-import 'package:flutter_local_notifications/flutter_local_notifications.dart'
-    as _i9;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:myapp/src/database/database_helper.dart' as _i2;
+import 'package:myapp/src/features/doses/data/models/dose.dart' as _i8;
+import 'package:myapp/src/features/doses/data/models/dose_schedule.dart' as _i7;
+import 'package:myapp/src/features/doses/data/repositories/dose_schedule_repository.dart'
+    as _i6;
 import 'package:myapp/src/features/medication/data/models/medication.dart'
     as _i5;
 import 'package:myapp/src/features/medication/data/repositories/medication_repository.dart'
     as _i3;
-import 'package:myapp/src/features/medication/presentation/services/dose_service.dart'
-    as _i6;
-import 'package:myapp/src/features/medication/presentation/services/notification_service.dart'
-    as _i8;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -113,19 +110,30 @@ class MockMedicationRepository extends _i1.Mock
       ) as _i4.Future<List<_i5.Medication>>);
 }
 
-/// A class which mocks [DoseService].
+/// A class which mocks [DoseScheduleRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockDoseService extends _i1.Mock implements _i6.DoseService {
-  MockDoseService() {
+class MockDoseScheduleRepository extends _i1.Mock
+    implements _i6.DoseScheduleRepository {
+  MockDoseScheduleRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<void> createDosesForMedication(_i5.Medication? medication) =>
+  _i2.DatabaseHelper get dbHelper => (super.noSuchMethod(
+        Invocation.getter(#dbHelper),
+        returnValue: _FakeDatabaseHelper_0(
+          this,
+          Invocation.getter(#dbHelper),
+        ),
+      ) as _i2.DatabaseHelper);
+
+  @override
+  _i4.Future<void> createDoseSchedulesForMedication(
+          _i5.Medication? medication) =>
       (super.noSuchMethod(
         Invocation.method(
-          #createDosesForMedication,
+          #createDoseSchedulesForMedication,
           [medication],
         ),
         returnValue: _i4.Future<void>.value(),
@@ -133,16 +141,27 @@ class MockDoseService extends _i1.Mock implements _i6.DoseService {
       ) as _i4.Future<void>);
 
   @override
-  _i4.Future<void> takeDose(
-    int? doseId,
-    _i7.BuildContext? context,
+  _i4.Future<void> updateDoseSchedule(_i7.DoseSchedule? doseSchedule) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateDoseSchedule,
+          [doseSchedule],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+
+  @override
+  _i4.Future<void> updateDoseScheduleStatus(
+    int? id,
+    _i8.DoseStatus? status,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
-          #takeDose,
+          #updateDoseScheduleStatus,
           [
-            doseId,
-            context,
+            id,
+            status,
           ],
         ),
         returnValue: _i4.Future<void>.value(),
@@ -150,90 +169,56 @@ class MockDoseService extends _i1.Mock implements _i6.DoseService {
       ) as _i4.Future<void>);
 
   @override
-  _i4.Future<void> skipDose(
-    int? doseId,
-    _i7.BuildContext? context,
-  ) =>
+  _i4.Future<_i7.DoseSchedule?> getDoseSchedule(int? id) => (super.noSuchMethod(
+        Invocation.method(
+          #getDoseSchedule,
+          [id],
+        ),
+        returnValue: _i4.Future<_i7.DoseSchedule?>.value(),
+      ) as _i4.Future<_i7.DoseSchedule?>);
+
+  @override
+  _i4.Future<List<_i7.DoseSchedule>> getDoseSchedulesForMedication(
+          int? medicationId) =>
       (super.noSuchMethod(
         Invocation.method(
-          #skipDose,
-          [
-            doseId,
-            context,
-          ],
+          #getDoseSchedulesForMedication,
+          [medicationId],
         ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
-}
-
-/// A class which mocks [NotificationService].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockNotificationService extends _i1.Mock
-    implements _i8.NotificationService {
-  MockNotificationService() {
-    _i1.throwOnMissingStub(this);
-  }
+        returnValue:
+            _i4.Future<List<_i7.DoseSchedule>>.value(<_i7.DoseSchedule>[]),
+      ) as _i4.Future<List<_i7.DoseSchedule>>);
 
   @override
-  void onDidReceiveNotificationResponse(
-          _i9.NotificationResponse? notificationResponse) =>
-      super.noSuchMethod(
+  _i4.Future<List<_i7.DoseSchedule>> getAllPendingDoseSchedules() =>
+      (super.noSuchMethod(
         Invocation.method(
-          #onDidReceiveNotificationResponse,
-          [notificationResponse],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  _i4.Future<void> init() => (super.noSuchMethod(
-        Invocation.method(
-          #init,
+          #getAllPendingDoseSchedules,
           [],
         ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
+        returnValue:
+            _i4.Future<List<_i7.DoseSchedule>>.value(<_i7.DoseSchedule>[]),
+      ) as _i4.Future<List<_i7.DoseSchedule>>);
 
   @override
-  _i4.Future<void> requestPermissions() => (super.noSuchMethod(
-        Invocation.method(
-          #requestPermissions,
-          [],
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
-
-  @override
-  _i4.Future<void> scheduleNotifications(
-    _i5.Medication? medication,
-    String? title,
-    String? body,
-  ) =>
+  _i4.Future<void> deleteDoseSchedulesForMedication(int? medicationId) =>
       (super.noSuchMethod(
         Invocation.method(
-          #scheduleNotifications,
-          [
-            medication,
-            title,
-            body,
-          ],
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
-
-  @override
-  _i4.Future<void> cancelNotifications(int? medicationId) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #cancelNotifications,
+          #deleteDoseSchedulesForMedication,
           [medicationId],
         ),
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
+
+  @override
+  _i4.Future<List<_i7.DoseSchedule>> getDoseSchedulesForDay(DateTime? date) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getDoseSchedulesForDay,
+          [date],
+        ),
+        returnValue:
+            _i4.Future<List<_i7.DoseSchedule>>.value(<_i7.DoseSchedule>[]),
+      ) as _i4.Future<List<_i7.DoseSchedule>>);
 }

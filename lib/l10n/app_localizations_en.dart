@@ -316,4 +316,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get take => 'Take';
+
+  @override
+  String get historyScreenTitle => 'History';
+
+  @override
+  String doseAt(Object time) {
+    return 'Dose at $time';
+  }
+
+  @override
+  String doseDetails(Object dosage, Object unit) {
+    return '$dosage $unit';
+  }
+
+  @override
+  String get markAsPending => 'Mark as Pending';
+
+  @override
+  String get stock => 'Stock';
 }

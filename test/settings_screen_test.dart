@@ -29,7 +29,6 @@ class MockSettingsProvider extends ChangeNotifier implements SettingsProvider {
     notifyListeners();
   }
 
-  @override
   Future<void> loadSettings() async {}
 }
 
@@ -45,7 +44,6 @@ class MockLocaleProvider extends ChangeNotifier implements LocaleProvider {
     notifyListeners();
   }
 
-  @override
   String getLangName(String langCode) {
     switch (langCode) {
       case 'en':
