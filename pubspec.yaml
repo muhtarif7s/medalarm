@@ -43,6 +43,7 @@ dev_dependencies:
   mockito: ^5.4.4
   build_runner: ^2.4.8
   sqlite3_flutter_libs: ^0.5.20
+  import_sorter: ^4.6.0
 
 flutter:
   uses-material-design: true

@@ -1,14 +1,18 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockito/mockito.dart';
-import 'package:myapp/l10n/app_localizations.dart';
-import 'package:myapp/src/features/medication/data/models/medication.dart';
-import 'package:myapp/src/features/medication/presentation/providers/medication_provider.dart';
-import 'package:myapp/src/features/medication/presentation/screens/add_edit_medication_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
+// Project imports:
+import 'package:myapp/l10n/app_localizations.dart';
+import 'package:myapp/src/features/medication/models/medication.dart';
+import 'package:myapp/src/features/medication/providers/medication_provider.dart';
+import 'package:myapp/src/features/medication/screens/add_edit_medication_screen.dart';
 import 'medication_provider_test.mocks.dart';
 
 void main() {
@@ -27,14 +31,18 @@ void main() {
         routes: [
           GoRoute(
             path: '/',
-            builder: (context, state) => const Scaffold(),
+            builder: (context, state) => Scaffold(
+              body: ElevatedButton(
+                onPressed: () => context.push('/add-edit-medication'),
+                child: const Text('Go to Add/Edit'),
+              ),
+            ),
           ),
           GoRoute(
             path: '/add-edit-medication',
             builder: (context, state) => const AddEditMedicationScreen(),
           ),
         ],
-        initialLocation: '/add-edit-medication',
       );
     });
 
@@ -75,17 +83,39 @@ void main() {
           ),
         ),
       );
+      await tester.pumpAndSettle();
 
-      await tester.enterText(find.byKey(const Key('medication_name_field')), medication.name);
-      await tester.enterText(find.byKey(const Key('medication_dosage_field')), medication.dosage.toString());
-      await tester.enterText(find.byKey(const Key('medication_unit_field')), medication.unit);
-      await tester.enterText(find.byKey(const Key('medication_stock_field')), medication.stock.toString());
+      await tester.tap(find.text('Go to Add/Edit'));
+      await tester.pumpAndSettle();
 
-      await tester.tap(find.byIcon(Icons.save));
+      await tester.enterText(
+        find.byWidgetPredicate(
+            (widget) => widget is TextField && widget.decoration?.labelText == 'Name'),
+        medication.name,
+      );
+      await tester.enterText(
+        find.byWidgetPredicate(
+            (widget) => widget is TextField && widget.decoration?.labelText == 'Dosage'),
+        medication.dosage.toString(),
+      );
+      await tester.tap(find.text('pill')); // Default value
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(medication.unit).last);
+      await tester.pumpAndSettle();
+      await tester.enterText(
+        find.byWidgetPredicate(
+            (widget) => widget is TextField && widget.decoration?.labelText == 'Stock'),
+        medication.stock.toString(),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.ensureVisible(find.text('Save'));
+      await tester.tap(find.text('Save'));
       await tester.pumpAndSettle();
 
       // Assert
       verify(mockMedicationRepository.addMedication(any)).called(1);
+      expect(find.text('Go to Add/Edit'), findsOneWidget);
     });
   });
 }

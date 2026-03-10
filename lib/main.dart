@@ -1,18 +1,22 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:myapp/l10n/app_localizations.dart';
-import 'package:myapp/src/navigation/app_router.dart';
-import 'package:myapp/src/features/medication/data/repositories/medication_repository.dart';
-import 'package:myapp/src/features/medication/presentation/providers/medication_provider.dart';
-import 'package:myapp/src/features/settings/data/repositories/profile_repository.dart';
-import 'package:myapp/src/features/settings/presentation/providers/locale_provider.dart';
-import 'package:myapp/src/features/settings/presentation/providers/profile_provider.dart';
-import 'package:myapp/src/features/settings/presentation/providers/settings_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 
-import 'src/features/doses/data/repositories/dose_schedule_repository.dart';
+// Project imports:
+import 'package:myapp/l10n/app_localizations.dart';
+import 'package:myapp/src/features/medication/data/repositories/medication_repository.dart';
+import 'package:myapp/src/features/medication/providers/medication_provider.dart';
+import 'package:myapp/src/features/settings/data/repositories/profile_repository.dart';
+import 'package:myapp/src/features/settings/providers/locale_provider.dart';
+import 'package:myapp/src/features/settings/presentation/providers/profile_provider.dart';
+import 'package:myapp/src/features/settings/presentation/providers/settings_provider.dart';
+import 'package:myapp/src/navigation/app_router.dart';
+import 'package:myapp/src/features/doses/data/repositories/dose_schedule_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,10 +25,11 @@ Future<void> main() async {
   try {
     database = await openDatabase(
       'medications.db',
-      version: 3,
+      version: 4, // Bump version to trigger migration
       onCreate: (db, version) {
+        // Correct schema for new installations
         db.execute(
-          'CREATE TABLE medications(id INTEGER PRIMARY KEY, name TEXT, dosage REAL, unit TEXT, scheduleType TEXT, times TEXT, stock INTEGER, remainingDoses INTEGER, startDate TEXT, endDate TEXT, weekdays TEXT)',
+          'CREATE TABLE medications(id INTEGER PRIMARY KEY, name TEXT, dosage REAL, unit TEXT, scheduleType TEXT, times TEXT, stock INTEGER, remaining_doses INTEGER, startDate TEXT, endDate TEXT, daysOfWeek TEXT, interval INTEGER, taken_today INTEGER)',
         );
         db.execute(
           'CREATE TABLE dose_schedules(id INTEGER PRIMARY KEY, medicationId INTEGER, scheduledTime TEXT, status TEXT)',
@@ -36,27 +41,40 @@ Future<void> main() async {
           'CREATE TABLE profile(id INTEGER PRIMARY KEY, name TEXT, age INTEGER, weight REAL, height REAL)',
         );
       },
-      onUpgrade: (db, oldVersion, newVersion) {
+      onUpgrade: (db, oldVersion, newVersion) async {
         if (oldVersion < 2) {
-          db.execute('ALTER TABLE medications ADD COLUMN endDate TEXT');
-          db.execute('ALTER TABLE medications ADD COLUMN weekdays TEXT');
-          db.execute('ALTER TABLE dose_schedules ADD COLUMN status TEXT');
-          db.execute(
+          await db.execute('ALTER TABLE medications ADD COLUMN endDate TEXT');
+          // This migration was faulty, creating `weekdays`. It's fixed in the v4 migration.
+          await db.execute('ALTER TABLE medications ADD COLUMN weekdays TEXT');
+          await db.execute('ALTER TABLE dose_schedules ADD COLUMN status TEXT');
+          await db.execute(
             'CREATE TABLE doses(id INTEGER PRIMARY KEY, medicationId INTEGER, time TEXT)',
           );
         }
         if (oldVersion < 3) {
-          db.execute(
+          await db.execute(
             'CREATE TABLE profile(id INTEGER PRIMARY KEY, name TEXT, age INTEGER, weight REAL, height REAL)',
           );
+        }
+        if (oldVersion < 4) {
+          // Migration to fix schema for existing users
+          await db.transaction((txn) async {
+            // Add missing columns
+            await txn.execute('ALTER TABLE medications ADD COLUMN interval INTEGER');
+            await txn.execute('ALTER TABLE medications ADD COLUMN taken_today INTEGER');
+
+            // Rename columns to match the model
+            await txn.execute('ALTER TABLE medications RENAME COLUMN weekdays TO daysOfWeek');
+            await txn.execute('ALTER TABLE medications RENAME COLUMN remainingDoses TO remaining_doses');
+          });
         }
       },
     );
   } catch (e) {
-    runApp(const MaterialApp(
+    runApp(MaterialApp(
       home: Scaffold(
         body: Center(
-          child: Text('Error: Database could not be initialized.'),
+          child: Text('Error: Database could not be initialized. \n$e'),
         ),
       ),
     ));

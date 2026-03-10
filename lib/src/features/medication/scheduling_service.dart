@@ -1,9 +1,11 @@
+// Dart imports:
 import 'dart:async';
 
-import 'package:myapp/src/features/medication/data/models/medication.dart';
-import 'package:myapp/src/services/database_service.dart';
+// Project imports:
 import 'package:myapp/src/features/doses/data/models/dose.dart';
-import 'package:myapp/src/features/medication/data/models/day_of_week.dart';
+import 'package:myapp/src/features/medication/models/day_of_week.dart';
+import 'package:myapp/src/features/medication/models/medication.dart';
+import 'package:myapp/src/core/services/database_service.dart';
 
 class SchedulingService {
   final DatabaseService _dbService = SqfliteDatabaseService();

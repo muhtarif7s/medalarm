@@ -547,5 +547,45 @@
     "couldNotLaunchUrl": "تعذر فتح الرابط",
     "@couldNotLaunchUrl": {
         "description": "Error message when a URL can't be launched"
+    },
+    "profile": "الملف الشخصي",
+    "@profile": {
+        "description": "Profile setting"
+    },
+    "editProfile": "تعديل الملف الشخصي",
+    "@editProfile": {
+        "description": "Edit profile setting"
+    },
+    "security": "الأمان",
+    "@security": {
+        "description": "Security setting"
+    },
+    "notifications": "الإشعارات",
+    "@notifications": {
+        "description": "Notifications setting"
+    },
+    "doseNotifications": "إشعارات الجرعة",
+    "@doseNotifications": {
+        "description": "Dose notifications setting"
+    },
+    "reminders": "التذكيرات",
+    "@reminders": {
+        "description": "Reminders setting"
+    },
+    "help": "المساعدة",
+    "@help": {
+        "description": "Help setting"
+    },
+    "termsAndConditions": "الشروط والأحكام",
+    "@termsAndConditions": {
+        "description": "Terms and conditions setting"
+    },
+    "version": "الإصدار",
+    "@version": {
+        "description": "Version setting"
+    },
+    "statistics": "الإحصائيات",
+    "@statistics": {
+        "description": "Statistics screen title"
     }
 }

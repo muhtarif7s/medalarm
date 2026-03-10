@@ -1,7 +1,10 @@
+// Package imports:
+import 'package:sqflite/sqflite.dart';
+
+// Project imports:
 import 'package:myapp/src/features/doses/data/models/dose.dart';
 import 'package:myapp/src/features/doses/data/models/dose_schedule.dart';
-import 'package:myapp/src/features/medication/data/models/medication.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:myapp/src/features/medication/models/medication.dart';
 
 class DoseScheduleRepository {
   final Database database;
@@ -12,13 +15,14 @@ class DoseScheduleRepository {
     try {
       final batch = database.batch();
 
-      if (medication.id != null && medication.endDate != null) {
+      if (medication.id != null) {
+        DateTime endDate = medication.endDate ?? medication.startDate.add(const Duration(days: 30));
         for (var date = medication.startDate;
-            date.isBefore(medication.endDate!.add(const Duration(days: 1)));
+            date.isBefore(endDate.add(const Duration(days: 1)));
             date = date.add(const Duration(days: 1))) {
           for (var time in medication.times) {
             batch.insert(
-              'dose_schedule',
+              'dose_schedules',
               DoseSchedule(
                 medicationId: medication.id!,
                 scheduledTime: DateTime(date.year, date.month, date.day, time.hour, time.minute),
@@ -39,7 +43,7 @@ class DoseScheduleRepository {
   Future<void> updateDoseSchedule(DoseSchedule doseSchedule) async {
     try {
       await database.update(
-        'dose_schedule',
+        'dose_schedules',
         doseSchedule.toMap(),
         where: 'id = ?',
         whereArgs: [doseSchedule.id],
@@ -52,7 +56,7 @@ class DoseScheduleRepository {
   Future<void> updateDoseScheduleStatus(int id, DoseStatus status) async {
     try {
       await database.update(
-        'dose_schedule',
+        'dose_schedules',
         {'status': status.name},
         where: 'id = ?',
         whereArgs: [id],
@@ -64,7 +68,7 @@ class DoseScheduleRepository {
 
   Future<DoseSchedule?> getDoseSchedule(int id) async {
     try {
-      final maps = await database.query('dose_schedule', where: 'id = ?', whereArgs: [id]);
+      final maps = await database.query('dose_schedules', where: 'id = ?', whereArgs: [id]);
       if (maps.isNotEmpty) {
         return DoseSchedule.fromMap(maps.first);
       } else {
@@ -79,7 +83,7 @@ class DoseScheduleRepository {
       int medicationId) async {
     try {
       final maps = await database.query(
-        'dose_schedule',
+        'dose_schedules',
         where: 'medicationId = ?',
         whereArgs: [medicationId],
         orderBy: 'scheduledTime DESC',
@@ -90,10 +94,22 @@ class DoseScheduleRepository {
     }
   }
 
+    Future<List<DoseSchedule>> getAllDoseSchedules() async {
+    try {
+      final maps = await database.query(
+        'dose_schedules',
+        orderBy: 'scheduledTime DESC',
+      );
+      return List.generate(maps.length, (i) => DoseSchedule.fromMap(maps[i]));
+    } catch (e) {
+      throw Exception('Failed to get all dose schedules: $e');
+    }
+  }
+
   Future<List<DoseSchedule>> getAllPendingDoseSchedules() async {
     try {
       final maps = await database.query(
-        'dose_schedule',
+        'dose_schedules',
         where: 'status = ?',
         whereArgs: [DoseStatus.pending.name],
         orderBy: 'scheduledTime DESC',
@@ -107,7 +123,7 @@ class DoseScheduleRepository {
   Future<void> deleteDoseSchedulesForMedication(int medicationId) async {
     try {
       await database.delete(
-        'dose_schedule',
+        'dose_schedules',
         where: 'medicationId = ?',
         whereArgs: [medicationId],
       );
@@ -121,7 +137,7 @@ class DoseScheduleRepository {
       final startOfDay = DateTime(date.year, date.month, date.day);
       final endOfDay = startOfDay.add(const Duration(days: 1));
       final maps = await database.query(
-        'dose_schedule',
+        'dose_schedules',
         where: 'scheduledTime >= ? AND scheduledTime < ?',
         whereArgs: [startOfDay.toIso8601String(), endOfDay.toIso8601String()],
         orderBy: 'scheduledTime ASC',

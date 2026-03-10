@@ -547,5 +547,65 @@
     "couldNotLaunchUrl": "Could not launch URL",
     "@couldNotLaunchUrl": {
         "description": "Error message when a URL can't be launched"
+    },
+    "profile": "Profile",
+    "@profile": {
+        "description": "Profile setting"
+    },
+    "editProfile": "Edit Profile",
+    "@editProfile": {
+        "description": "Edit profile setting"
+    },
+    "security": "Security",
+    "@security": {
+        "description": "Security setting"
+    },
+    "notifications": "Notifications",
+    "@notifications": {
+        "description": "Notifications setting"
+    },
+    "doseNotifications": "Dose Notifications",
+    "@doseNotifications": {
+        "description": "Dose notifications setting"
+    },
+    "reminders": "Reminders",
+    "@reminders": {
+        "description": "Reminders setting"
+    },
+    "help": "Help",
+    "@help": {
+        "description": "Help setting"
+    },
+    "termsAndConditions": "Terms and Conditions",
+    "@termsAndConditions": {
+        "description": "Terms and conditions setting"
+    },
+    "version": "Version",
+    "@version": {
+        "description": "Version setting"
+    },
+    "statistics": "Statistics",
+    "@statistics": {
+        "description": "Statistics screen title"
+    },
+    "schedule": "Schedule",
+    "@schedule": {
+        "description": "Schedule"
+    },
+    "endDate": "End Date",
+    "@endDate": {
+        "description": "End Date"
+    },
+    "on": "On",
+    "@on": {
+        "description": "On"
+    },
+    "every": "Every",
+    "@every": {
+        "description": "Every"
+    },
+    "hours": "hours",
+    "@hours": {
+        "description": "hours"
     }
 }

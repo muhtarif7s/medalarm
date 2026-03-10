@@ -1,12 +1,14 @@
+// Package imports:
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
+// Project imports:
 import 'package:myapp/src/features/doses/data/models/dose.dart';
 import 'package:myapp/src/features/doses/data/models/dose_schedule.dart';
 import 'package:myapp/src/features/doses/data/repositories/dose_schedule_repository.dart';
 import 'package:myapp/src/features/doses/presentation/providers/dose_provider.dart';
-import 'package:myapp/src/features/medication/presentation/providers/medication_provider.dart';
-
+import 'package:myapp/src/features/medication/providers/medication_provider.dart';
 import 'test_dose_provider.mocks.dart';
 
 @GenerateMocks([DoseScheduleRepository, MedicationProvider])

@@ -380,4 +380,49 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get couldNotLaunchUrl => 'تعذر فتح الرابط';
+
+  @override
+  String get profile => 'الملف الشخصي';
+
+  @override
+  String get editProfile => 'تعديل الملف الشخصي';
+
+  @override
+  String get security => 'الأمان';
+
+  @override
+  String get notifications => 'الإشعارات';
+
+  @override
+  String get doseNotifications => 'إشعارات الجرعة';
+
+  @override
+  String get reminders => 'التذكيرات';
+
+  @override
+  String get help => 'المساعدة';
+
+  @override
+  String get termsAndConditions => 'الشروط والأحكام';
+
+  @override
+  String get version => 'الإصدار';
+
+  @override
+  String get statistics => 'الإحصائيات';
+
+  @override
+  String get schedule => 'Schedule';
+
+  @override
+  String get endDate => 'End Date';
+
+  @override
+  String get on => 'On';
+
+  @override
+  String get every => 'Every';
+
+  @override
+  String get hours => 'hours';
 }

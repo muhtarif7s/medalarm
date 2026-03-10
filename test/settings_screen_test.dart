@@ -1,14 +1,19 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:myapp/l10n/app_localizations.dart';
-import 'package:myapp/src/features/settings/presentation/providers/locale_provider.dart';
+import 'package:myapp/src/features/settings/data/repositories/profile_repository.dart';
+import 'package:myapp/src/features/settings/providers/locale_provider.dart';
 import 'package:myapp/src/features/settings/presentation/providers/profile_provider.dart';
 import 'package:myapp/src/features/settings/presentation/providers/settings_provider.dart';
-import 'package:myapp/src/features/settings/presentation/screens/settings_screen.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:myapp/src/features/settings/data/repositories/profile_repository.dart';
+import 'package:myapp/src/features/settings/screens/settings_screen.dart';
 
 class MockLocaleProvider extends Mock implements LocaleProvider {
   @override
@@ -64,8 +69,9 @@ void main() {
 
       // Assert
       expect(find.text('Settings'), findsOneWidget);
-      expect(find.text('Dose Notifications'), findsOneWidget);
-      expect(find.text('Language'), findsOneWidget);
+      expect(find.text('Dose Reminders'), findsOneWidget);
+      expect(find.text('Help & Support'), findsOneWidget);
+      expect(find.text('Terms of Service'), findsOneWidget);
     });
   });
 }

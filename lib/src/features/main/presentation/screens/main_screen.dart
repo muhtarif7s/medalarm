@@ -1,9 +1,14 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:go_router/go_router.dart';
-import 'package:myapp/src/features/history/presentation/screens/history_screen.dart';
-import 'package:myapp/src/features/home/presentation/screens/home_screen.dart';
-import 'package:myapp/src/features/settings/presentation/screens/settings_screen.dart';
-import 'package:myapp/src/features/statistics/presentation/screens/statistics_screen.dart';
+
+// Project imports:
+import 'package:myapp/src/features/history/screens/history_screen.dart';
+import 'package:myapp/src/features/home/screens/home_screen.dart';
+import 'package:myapp/src/features/settings/screens/settings_screen.dart';
+import 'package:myapp/src/features/statistics/screens/statistics_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -48,42 +53,27 @@ class _MainScreenState extends State<MainScreen> {
       body: Center(
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.go('/add-edit-medication');
-        },
-        child: const Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 8.0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.home),
-              onPressed: () => _onItemTapped(0),
-              color: _selectedIndex == 0 ? Theme.of(context).colorScheme.primary : Colors.grey,
-            ),
-            IconButton(
-              icon: const Icon(Icons.history),
-              onPressed: () => _onItemTapped(1),
-              color: _selectedIndex == 1 ? Theme.of(context).colorScheme.primary : Colors.grey,
-            ),
-            const SizedBox(width: 40), // The dummy child
-            IconButton(
-              icon: const Icon(Icons.show_chart),
-              onPressed: () => _onItemTapped(2),
-              color: _selectedIndex == 2 ? Theme.of(context).colorScheme.primary : Colors.grey,
-            ),
-            IconButton(
-              icon: const Icon(Icons.settings),
-              onPressed: () => _onItemTapped(3),
-              color: _selectedIndex == 3 ? Theme.of(context).colorScheme.primary : Colors.grey,
-            ),
-          ],
-        ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history),
+            label: 'History',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.show_chart),
+            label: 'Statistics',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
       ),
     );
   }

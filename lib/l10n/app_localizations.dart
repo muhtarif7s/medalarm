@@ -795,6 +795,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not launch URL'**
   String get couldNotLaunchUrl;
+
+  /// Profile setting
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile;
+
+  /// Edit profile setting
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Profile'**
+  String get editProfile;
+
+  /// Security setting
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get security;
+
+  /// Notifications setting
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notifications;
+
+  /// Dose notifications setting
+  ///
+  /// In en, this message translates to:
+  /// **'Dose Notifications'**
+  String get doseNotifications;
+
+  /// Reminders setting
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get reminders;
+
+  /// Help setting
+  ///
+  /// In en, this message translates to:
+  /// **'Help'**
+  String get help;
+
+  /// Terms and conditions setting
+  ///
+  /// In en, this message translates to:
+  /// **'Terms and Conditions'**
+  String get termsAndConditions;
+
+  /// Version setting
+  ///
+  /// In en, this message translates to:
+  /// **'Version'**
+  String get version;
+
+  /// Statistics screen title
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics'**
+  String get statistics;
+
+  /// Schedule
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule'**
+  String get schedule;
+
+  /// End Date
+  ///
+  /// In en, this message translates to:
+  /// **'End Date'**
+  String get endDate;
+
+  /// On
+  ///
+  /// In en, this message translates to:
+  /// **'On'**
+  String get on;
+
+  /// Every
+  ///
+  /// In en, this message translates to:
+  /// **'Every'**
+  String get every;
+
+  /// hours
+  ///
+  /// In en, this message translates to:
+  /// **'hours'**
+  String get hours;
 }
 
 class _AppLocalizationsDelegate

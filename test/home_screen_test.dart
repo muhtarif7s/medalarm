@@ -1,15 +1,19 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:myapp/l10n/app_localizations.dart';
-import 'package:myapp/src/features/medication/data/models/medication.dart';
-import 'package:myapp/src/features/medication/presentation/providers/medication_provider.dart';
-import 'package:myapp/src/features/home/presentation/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
+// Project imports:
+import 'package:myapp/l10n/app_localizations.dart';
+import 'package:myapp/src/features/home/screens/home_screen.dart';
+import 'package:myapp/src/features/medication/models/medication.dart';
+import 'package:myapp/src/features/medication/providers/medication_provider.dart';
 import 'home_screen_test.mocks.dart';
 import 'utils/test_go_router.dart';
 
@@ -75,9 +79,9 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    await tester.tap(find.byIcon(Icons.add));
+    await tester.tap(find.widgetWithIcon(FloatingActionButton, Icons.add));
     await tester.pumpAndSettle();
 
-    verify(mockGoRouter.go('/add-edit-medication')).called(1);
+    verify(mockGoRouter.push('/add-medicine')).called(1);
   });
 }

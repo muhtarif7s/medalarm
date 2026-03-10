@@ -1,12 +1,16 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Package imports:
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:myapp/src/features/doses/data/repositories/dose_schedule_repository.dart';
-import 'package:myapp/src/features/medication/data/models/medication.dart';
-import 'package:myapp/src/features/medication/data/repositories/medication_repository.dart';
-import 'package:myapp/src/features/medication/presentation/providers/medication_provider.dart';
-import 'package:flutter/material.dart';
 
+// Project imports:
+import 'package:myapp/src/features/doses/data/repositories/dose_schedule_repository.dart';
+import 'package:myapp/src/features/medication/models/medication.dart';
+import 'package:myapp/src/features/medication/data/repositories/medication_repository.dart';
+import 'package:myapp/src/features/medication/providers/medication_provider.dart';
 import 'medication_provider_test.mocks.dart';
 
 @GenerateMocks([MedicationRepository, DoseScheduleRepository])

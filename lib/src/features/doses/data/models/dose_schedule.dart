@@ -1,4 +1,7 @@
+// Package imports:
 import 'package:equatable/equatable.dart';
+
+// Project imports:
 import 'package:myapp/src/features/doses/data/models/dose.dart';
 
 class DoseSchedule extends Equatable {

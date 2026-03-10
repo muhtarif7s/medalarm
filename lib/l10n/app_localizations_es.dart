@@ -381,4 +381,49 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get couldNotLaunchUrl => 'No se pudo abrir la URL';
+
+  @override
+  String get profile => 'Perfil';
+
+  @override
+  String get editProfile => 'Editar Perfil';
+
+  @override
+  String get security => 'Seguridad';
+
+  @override
+  String get notifications => 'Notificaciones';
+
+  @override
+  String get doseNotifications => 'Notificaciones de Dosis';
+
+  @override
+  String get reminders => 'Recordatorios';
+
+  @override
+  String get help => 'Ayuda';
+
+  @override
+  String get termsAndConditions => 'Términos y Condiciones';
+
+  @override
+  String get version => 'Versión';
+
+  @override
+  String get statistics => 'Estadísticas';
+
+  @override
+  String get schedule => 'Schedule';
+
+  @override
+  String get endDate => 'End Date';
+
+  @override
+  String get on => 'On';
+
+  @override
+  String get every => 'Every';
+
+  @override
+  String get hours => 'hours';
 }

@@ -1,5 +1,8 @@
-import 'package:myapp/src/features/settings/data/models/profile_model.dart';
+// Package imports:
 import 'package:sqflite/sqflite.dart';
+
+// Project imports:
+import 'package:myapp/src/features/settings/data/models/profile_model.dart';
 
 class ProfileRepository {
   final Database database;

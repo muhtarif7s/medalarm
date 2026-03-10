@@ -1,8 +1,11 @@
-
+// Dart imports:
 import 'dart:async';
 
-import 'package:myapp/src/features/medication/data/models/medication.dart';
+// Package imports:
 import 'package:sqflite/sqflite.dart';
+
+// Project imports:
+import 'package:myapp/src/features/medication/models/medication.dart';
 
 class MedicationRepository {
   final Database database;

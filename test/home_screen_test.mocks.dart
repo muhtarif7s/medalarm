@@ -3,9 +3,14 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+
+// Dart imports:
 import 'dart:async' as _i11;
 
+// Flutter imports:
 import 'package:flutter/widgets.dart' as _i4;
+
+// Package imports:
 import 'package:go_router/src/configuration.dart' as _i3;
 import 'package:go_router/src/delegate.dart' as _i5;
 import 'package:go_router/src/information_provider.dart' as _i6;

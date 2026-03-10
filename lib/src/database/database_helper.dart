@@ -1,6 +1,9 @@
+// Dart imports:
+import 'dart:async';
+
+// Package imports:
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'dart:async';
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();

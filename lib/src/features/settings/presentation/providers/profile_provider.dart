@@ -1,4 +1,7 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:myapp/src/features/settings/data/models/profile_model.dart';
 import 'package:myapp/src/features/settings/data/repositories/profile_repository.dart';
 

@@ -1,10 +1,15 @@
-import 'package:collection/collection.dart';
+// Flutter imports:
 import 'package:flutter/foundation.dart';
+
+// Package imports:
+import 'package:collection/collection.dart';
+
+// Project imports:
 import 'package:myapp/src/features/doses/data/models/dose.dart';
 import 'package:myapp/src/features/doses/data/models/dose_schedule.dart';
 import 'package:myapp/src/features/doses/data/repositories/dose_schedule_repository.dart';
-import 'package:myapp/src/features/medication/data/models/medication.dart';
-import 'package:myapp/src/features/medication/presentation/providers/medication_provider.dart';
+import 'package:myapp/src/features/medication/models/medication.dart';
+import 'package:myapp/src/features/medication/providers/medication_provider.dart';
 
 class DoseProvider with ChangeNotifier {
   final DoseScheduleRepository _doseScheduleRepository;
@@ -22,10 +27,10 @@ class DoseProvider with ChangeNotifier {
     return groupBy(_doses, (dose) => DateTime(dose.scheduledTime.year, dose.scheduledTime.month, dose.scheduledTime.day));
   }
 
-  Future<void> loadDoses() async {
+  Future<void> loadAllDoses() async {
     _isLoading = true;
     notifyListeners();
-    _doses = await _doseScheduleRepository.getAllPendingDoseSchedules();
+    _doses = await _doseScheduleRepository.getAllDoseSchedules();
     _isLoading = false;
     notifyListeners();
   }
@@ -58,6 +63,19 @@ class DoseProvider with ChangeNotifier {
     await _doseScheduleRepository.updateDoseSchedule(updatedDose);
     await _medicationProvider.loadMedications();
     await loadDosesForDay(dose.scheduledTime);
+  }
+
+  Future<List<DoseSchedule>> getDoseSchedulesForDay(DateTime date) async {
+    return await _doseScheduleRepository.getDoseSchedulesForDay(date);
+  }
+
+  Future<List<DoseSchedule>> getAllPendingDoseSchedules() async {
+    return await _doseScheduleRepository.getAllPendingDoseSchedules();
+  }
+
+  Future<void> addDose(Dose dose) async {
+    // This seems to be a left-over from a previous implementation. 
+    // The Dose model is not used, so this is a no-op.
   }
 
   Future<Medication?> medicationForDose(DoseSchedule dose) async {

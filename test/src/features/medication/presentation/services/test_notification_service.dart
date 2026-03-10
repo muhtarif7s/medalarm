@@ -1,9 +1,12 @@
+// Package imports:
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:myapp/src/features/medication/presentation/services/notification_service.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+
+// Project imports:
+import 'package:myapp/src/core/services/notification_service.dart';
 
 class MockFlutterLocalNotificationsPlugin extends Mock
     implements FlutterLocalNotificationsPlugin {}
@@ -35,14 +38,13 @@ void main() {
 
     // Assert
     verify(mockFlutterLocalNotificationsPlugin.zonedSchedule(
-      id,
-      title,
-      body,
-      tz.TZDateTime.from(scheduledDate, tz.local),
-      const NotificationDetails(),
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-    )).called(1);
+        id: id,
+        title: title,
+        body: body,
+        scheduledDate: tz.TZDateTime.from(scheduledDate, tz.local),
+        notificationDetails: const NotificationDetails(),
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        ));
   });
 
   test('should cancel a notification', () async {
@@ -50,9 +52,9 @@ void main() {
     final id = 1;
 
     // Act
-    await notificationService.cancelNotification(id);
+    await notificationService.cancelNotification(id: id);
 
     // Assert
-    verify(mockFlutterLocalNotificationsPlugin.cancel(id)).called(1);
+    verify(mockFlutterLocalNotificationsPlugin.cancel(id: id)).called(1);
   });
 }

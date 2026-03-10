@@ -3,18 +3,24 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+
+// Dart imports:
 import 'dart:async' as _i4;
 
+// Package imports:
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:sqflite/sqflite.dart' as _i2;
+
+// Project imports:
 import 'package:myapp/src/features/doses/data/models/dose.dart' as _i8;
 import 'package:myapp/src/features/doses/data/models/dose_schedule.dart' as _i7;
+
 import 'package:myapp/src/features/doses/data/repositories/dose_schedule_repository.dart'
     as _i6;
-import 'package:myapp/src/features/medication/data/models/medication.dart'
+import 'package:myapp/src/features/medication/models/medication.dart'
     as _i5;
 import 'package:myapp/src/features/medication/data/repositories/medication_repository.dart'
     as _i3;
-import 'package:sqflite/sqflite.dart' as _i2;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values

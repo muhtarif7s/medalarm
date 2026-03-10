@@ -547,5 +547,45 @@
     "couldNotLaunchUrl": "No se pudo abrir la URL",
     "@couldNotLaunchUrl": {
         "description": "Error message when a URL can't be launched"
+    },
+    "profile": "Perfil",
+    "@profile": {
+        "description": "Profile setting"
+    },
+    "editProfile": "Editar Perfil",
+    "@editProfile": {
+        "description": "Edit profile setting"
+    },
+    "security": "Seguridad",
+    "@security": {
+        "description": "Security setting"
+    },
+    "notifications": "Notificaciones",
+    "@notifications": {
+        "description": "Notifications setting"
+    },
+    "doseNotifications": "Notificaciones de Dosis",
+    "@doseNotifications": {
+        "description": "Dose notifications setting"
+    },
+    "reminders": "Recordatorios",
+    "@reminders": {
+        "description": "Reminders setting"
+    },
+    "help": "Ayuda",
+    "@help": {
+        "description": "Help setting"
+    },
+    "termsAndConditions": "Términos y Condiciones",
+    "@termsAndConditions": {
+        "description": "Terms and conditions setting"
+    },
+    "version": "Versión",
+    "@version": {
+        "description": "Version setting"
+    },
+    "statistics": "Estadísticas",
+    "@statistics": {
+        "description": "Statistics screen title"
     }
 }

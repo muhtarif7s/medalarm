@@ -1,14 +1,18 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
+import 'package:provider/provider.dart';
+
+// Project imports:
 import 'package:myapp/l10n/app_localizations.dart';
 import 'package:myapp/src/features/doses/data/models/dose_schedule.dart';
-import 'package:myapp/src/features/history/presentation/screens/history_screen.dart';
-import 'package:myapp/src/features/medication/data/models/medication.dart';
-import 'package:myapp/src/features/medication/presentation/providers/medication_provider.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-
+import 'package:myapp/src/features/history/screens/history_screen.dart';
+import 'package:myapp/src/features/medication/models/medication.dart';
+import 'package:myapp/src/features/medication/providers/medication_provider.dart';
 import 'medication_provider_test.mocks.dart';
 
 void main() {
