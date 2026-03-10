@@ -16,7 +16,8 @@ class DoseScheduleRepository {
       final batch = database.batch();
 
       if (medication.id != null) {
-        DateTime endDate = medication.endDate ?? medication.startDate.add(const Duration(days: 30));
+        DateTime endDate = medication.endDate ??
+            medication.startDate.add(const Duration(days: 30));
         for (var date = medication.startDate;
             date.isBefore(endDate.add(const Duration(days: 1)));
             date = date.add(const Duration(days: 1))) {
@@ -25,7 +26,8 @@ class DoseScheduleRepository {
               'dose_schedules',
               DoseSchedule(
                 medicationId: medication.id!,
-                scheduledTime: DateTime(date.year, date.month, date.day, time.hour, time.minute),
+                scheduledTime: DateTime(
+                    date.year, date.month, date.day, time.hour, time.minute),
                 status: DoseStatus.pending,
               ).toMap(),
               conflictAlgorithm: ConflictAlgorithm.replace,
@@ -68,7 +70,8 @@ class DoseScheduleRepository {
 
   Future<DoseSchedule?> getDoseSchedule(int id) async {
     try {
-      final maps = await database.query('dose_schedules', where: 'id = ?', whereArgs: [id]);
+      final maps = await database
+          .query('dose_schedules', where: 'id = ?', whereArgs: [id]);
       if (maps.isNotEmpty) {
         return DoseSchedule.fromMap(maps.first);
       } else {
@@ -94,7 +97,7 @@ class DoseScheduleRepository {
     }
   }
 
-    Future<List<DoseSchedule>> getAllDoseSchedules() async {
+  Future<List<DoseSchedule>> getAllDoseSchedules() async {
     try {
       final maps = await database.query(
         'dose_schedules',
