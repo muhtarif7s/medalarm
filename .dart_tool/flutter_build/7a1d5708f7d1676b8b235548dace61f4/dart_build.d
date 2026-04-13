@@ -1,0 +1,1 @@
+ /home/muhtarif7s/Download/medalarm/.dart_tool/flutter_build/7a1d5708f7d1676b8b235548dace61f4/dart_build_result.json:  /home/muhtarif7s/Download/medalarm/.dart_tool/package_config.json /home/muhtarif7s/Download/medalarm/pubspec.yaml /home/muhtarif7s/snap/flutter/common/flutter/bin/cache/dart-sdk/version

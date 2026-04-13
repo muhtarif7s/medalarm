@@ -1,0 +1,591 @@
+{
+    "@@locale": "es",
+    "addMedication": "Agregar Medicamento",
+    "@addMedication": {
+        "description": "Add medication button"
+    },
+    "medicationName": "Nombre del Medicamento",
+    "@medicationName": {
+        "description": "Medication name text field label"
+    },
+    "pleaseEnterName": "Por favor, ingrese un nombre de medicamento",
+    "@pleaseEnterName": {
+        "description": "Validation error message for medication name"
+    },
+    "dosage": "Dosis",
+    "@dosage": {
+        "description": "Dosage text field label"
+    },
+    "pleaseEnterDosage": "Por favor, ingrese una dosis",
+    "@pleaseEnterDosage": {
+        "description": "Validation error message for dosage"
+    },
+    "invalidNumber": "Número inválido",
+    "@invalidNumber": {
+        "description": "Validation error message for an invalid number"
+    },
+    "unitExample": "Unidad (ej. mg, ml)",
+    "@unitExample": {
+        "description": "Example for unit text field"
+    },
+    "pleaseEnterUnit": "Por favor, ingrese una unidad",
+    "@pleaseEnterUnit": {
+        "description": "Validation error message for unit"
+    },
+    "stock": "Existencias",
+    "@stock": {
+        "description": "Stock text field label"
+    },
+    "invalidStock": "Existencias inválidas",
+    "@invalidStock": {
+        "description": "Validation error message for stock"
+    },
+    "saveMedication": "Guardar Medicamento",
+    "@saveMedication": {
+        "description": "Save medication button"
+    },
+    "editMedication": "Editar Medicamento",
+    "@editMedication": {
+        "description": "Edit medication screen title"
+    },
+    "deleteMedication": "Eliminar Medicamento",
+    "@deleteMedication": {
+        "description": "Delete medication button"
+    },
+    "thisActionCannotBeUndone": "Esta acción no se puede deshacer.",
+    "@thisActionCannotBeUndone": {
+        "description": "Warning that an action cannot be undone"
+    },
+    "cancel": "Cancelar",
+    "@cancel": {
+        "description": "Cancel button"
+    },
+    "delete": "Eliminar",
+    "@delete": {
+        "description": "Delete button"
+    },
+    "daily": "Diario",
+    "@daily": {
+        "description": "Daily schedule type"
+    },
+    "specificDaysInWeek": "Días específicos de la semana",
+    "@specificDaysInWeek": {
+        "description": "Specific days in a week schedule type"
+    },
+    "interval": "Intervalo",
+    "@interval": {
+        "description": "Interval schedule type"
+    },
+    "intervalHours": "Intervalo en horas",
+    "@intervalHours": {
+        "description": "Interval in hours"
+    },
+    "daysOfTheWeek": "Días de la semana",
+    "@daysOfTheWeek": {
+        "description": "Days of the week"
+    },
+    "times": "Horas",
+    "@times": {
+        "description": "Times for medication"
+    },
+    "addTime": "Agregar Hora",
+    "@addTime": {
+        "description": "Add time button"
+    },
+    "startDate": "Fecha de Inicio",
+    "@startDate": {
+        "description": "Start date"
+    },
+    "endDateOptional": "Fecha de Finalización (Opcional)",
+    "@endDateOptional": {
+        "description": "End date (optional)"
+    },
+    "notSet": "No establecido",
+    "@notSet": {
+        "description": "Not set"
+    },
+    "home": "Inicio",
+    "@home": {
+        "description": "Home screen title"
+    },
+    "history": "Historial",
+    "@history": {
+        "description": "History screen title"
+    },
+    "settings": "Configuración",
+    "@settings": {
+        "description": "Settings screen title"
+    },
+    "medications": "Medicamentos",
+    "@medications": {
+        "description": "Medications screen title"
+    },
+    "noMedications": "No se han agregado medicamentos aún.",
+    "@noMedications": {
+        "description": "Message when there are no medications"
+    },
+    "addYourFirstMedication": "Agregue su primer medicamento",
+    "@addYourFirstMedication": {
+        "description": "Message to prompt user to add their first medication"
+    },
+    "dosesFor": "Dosis para",
+    "@dosesFor": {
+        "description": "Doses for a specific day"
+    },
+    "noDoses": "No hay dosis programadas para este día.",
+    "@noDoses": {
+        "description": "Message when there are no doses for a specific day"
+    },
+    "all": "Todo",
+    "@all": {
+        "description": "All filter"
+    },
+    "taken": "Tomado",
+    "@taken": {
+        "description": "Taken dose status"
+    },
+    "missed": "Omitido",
+    "@missed": {
+        "description": "Missed filter"
+    },
+    "theme": "Tema",
+    "@theme": {
+        "description": "Theme setting"
+    },
+    "light": "Claro",
+    "@light": {
+        "description": "Light theme"
+    },
+    "dark": "Oscuro",
+    "@dark": {
+        "description": "Dark theme"
+    },
+    "system": "Sistema",
+    "@system": {
+        "description": "System theme"
+    },
+    "language": "Idioma",
+    "@language": {
+        "description": "Language setting"
+    },
+    "english": "Inglés",
+    "@english": {
+        "description": "English language"
+    },
+    "spanish": "Español",
+    "@spanish": {
+        "description": "Spanish language"
+    },
+    "noRecords": "No se encontraron registros.",
+    "@noRecords": {
+        "description": "Message when there are no records"
+    },
+    "pleaseEnterAValidDosage": "Por favor, ingrese una dosis válida",
+    "@pleaseEnterAValidDosage": {
+        "description": "Validation error message for dosage"
+    },
+    "pleaseEnterAValidStock": "Por favor, ingrese existencias válidas",
+    "@pleaseEnterAValidStock": {
+        "description": "Validation error message for stock"
+    },
+    "failedToSaveMedication": "Error al guardar el medicamento:",
+    "@failedToSaveMedication": {
+        "description": "Error message when saving a medication fails"
+    },
+    "failedToDeleteMedication": "Error al eliminar el medicamento:",
+    "@failedToDeleteMedication": {
+        "description": "Error message when deleting a medication fails"
+    },
+    "yourMedications": "Sus Medicamentos",
+    "@yourMedications": {
+        "description": "Your medications screen title"
+    },
+    "noMedicationsYet": "Aún no hay medicamentos.",
+    "@noMedicationsYet": {
+        "description": "Message when there are no medications"
+    },
+    "addMedicationToGetStarted": "Agregue un medicamento para comenzar.",
+    "@addMedicationToGetStarted": {
+        "description": "Message to prompt user to add a medication"
+    },
+    "take": "Tomar",
+    "@take": {
+        "description": "Take button"
+    },
+    "historyScreenTitle": "Historial de Dosis",
+    "@historyScreenTitle": {
+        "description": "Dose history screen title"
+    },
+    "noDoseHistoryAvailable": "No hay historial de dosis disponible.",
+    "@noDoseHistoryAvailable": {
+        "description": "Message when no dose history is available"
+    },
+    "doseAt": "Dosis a las {time}",
+    "@doseAt": {
+        "description": "Dose at a specific time",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "doseDetails": "{dosage} {unit}",
+    "@doseDetails": {
+        "description": "Dose details",
+        "placeholders": {
+            "dosage": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "markAsTaken": "Marcar como Tomado",
+    "@markAsTaken": {
+        "description": "Mark as taken button"
+    },
+    "markAsSkipped": "Marcar como Omitido",
+    "@markAsSkipped": {
+        "description": "Mark as skipped button"
+    },
+    "markAsPending": "Marcar como Pendiente",
+    "@markAsPending": {
+        "description": "Mark as pending button"
+    },
+    "helloWorld": "¡Hola Mundo!",
+    "@helloWorld": {
+        "description": "The conventional newborn programmer greeting"
+    },
+    "confirmDelete": "Confirmar Eliminación",
+    "@confirmDelete": {
+        "description": "Confirm delete dialog title"
+    },
+    "areYouSureYouWantToDeleteThisMedication": "¿Está seguro de que desea eliminar este medicamento?",
+    "@areYouSureYouWantToDeleteThisMedication": {
+        "description": "Confirmation message for deleting a medication"
+    },
+    "noDosesInCategory": "No hay dosis en esta categoría.",
+    "@noDosesInCategory": {
+        "description": "Message when there are no doses in a category"
+    },
+    "status": "Estado",
+    "@status": {
+        "description": "Status"
+    },
+    "confirmAction": "Confirmar Acción",
+    "@confirmAction": {
+        "description": "Confirm action dialog title"
+    },
+    "areYouSureYouWantToMarkThisDoseAs": "¿Está seguro de que desea marcar esta dosis como {status}?",
+    "@areYouSureYouWantToMarkThisDoseAs": {
+        "description": "Confirmation message for marking a dose status",
+        "placeholders": {
+            "status": {
+                "type": "String"
+            }
+        }
+    },
+    "confirm": "Confirmar",
+    "@confirm": {
+        "description": "Confirm button"
+    },
+    "dailyDose": "Diariamente a las {time}",
+    "@dailyDose": {
+        "description": "Daily dose",
+        "placeholders": {
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "specificDaysDose": "En {days} a las {time}",
+    "@specificDaysDose": {
+        "description": "Dose on specific days",
+        "placeholders": {
+            "days": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "intervalDose": "Cada {interval} horas, a las {time}",
+    "@intervalDose": {
+        "description": "Dose at an interval",
+        "placeholders": {
+            "interval": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "oneTimeDose": "Dosis única el {date} a las {time}",
+    "@oneTimeDose": {
+        "description": "One-time dose",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "medicationDosage": "{dosage} {unit}",
+    "@medicationDosage": {
+        "description": "Medication dosage",
+        "placeholders": {
+            "dosage": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            }
+        }
+    },
+    "doseAtTime": "{dosage} {unit} a las {time}",
+    "@doseAtTime": {
+        "description": "Dose at a specific time",
+        "placeholders": {
+            "dosage": {
+                "type": "String"
+            },
+            "unit": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "startDateLabel": "Inicio: {date}",
+    "@startDateLabel": {
+        "description": "Start date label",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "endDateLabel": "Fin: {date}",
+    "@endDateLabel": {
+        "description": "End date label",
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
+    "mondayShort": "Lun",
+    "@mondayShort": {
+        "description": "Short name for Monday"
+    },
+    "tuesdayShort": "Mar",
+    "@tuesdayShort": {
+        "description": "Short name for Tuesday"
+    },
+    "wednesdayShort": "Mié",
+    "@wednesdayShort": {
+        "description": "Short name for Wednesday"
+    },
+    "thursdayShort": "Jue",
+    "@thursdayShort": {
+        "description": "Short name for Thursday"
+    },
+    "fridayShort": "Vie",
+    "@fridayShort": {
+        "description": "Short name for Friday"
+    },
+    "saturdayShort": "Sáb",
+    "@saturdayShort": {
+        "description": "Short name for Saturday"
+    },
+    "sundayShort": "Dom",
+    "@sundayShort": {
+        "description": "Short name for Sunday"
+    },
+    "scheduled": "Programado",
+    "@scheduled": {
+        "description": "Scheduled status"
+    },
+    "duration": "Duración",
+    "@duration": {
+        "description": "Duration"
+    },
+    "start": "Inicio",
+    "@start": {
+        "description": "Start"
+    },
+    "end": "Fin",
+    "@end": {
+        "description": "End"
+    },
+    "ongoing": "En curso",
+    "@ongoing": {
+        "description": "Ongoing status"
+    },
+    "onDays": "En {days} a las {time}",
+    "@onDays": {
+        "description": "On specific days",
+        "placeholders": {
+            "days": {
+                "type": "String"
+            },
+            "time": {
+                "type": "String"
+            }
+        }
+    },
+    "arabic": "Árabe",
+    "@arabic": {
+        "description": "Arabic language"
+    },
+    "loading": "Cargando...",
+    "@loading": {
+        "description": "Loading indicator"
+    },
+    "pleaseAddTime": "Por favor, agregue una hora",
+    "@pleaseAddTime": {
+        "description": "Validation error message for time"
+    },
+    "clear": "Limpiar",
+    "@clear": {
+        "description": "Clear button"
+    },
+    "pills": "píldoras",
+    "@pills": {
+        "description": "Pills"
+    },
+    "oneTime": "Una vez",
+    "@oneTime": {
+        "description": "One-time schedule type"
+    },
+    "weekdays": "Días de la semana",
+    "@weekdays": {
+        "description": "Weekdays schedule type"
+    },
+    "dateTime": "Fecha y Hora",
+    "@dateTime": {
+        "description": "Date and time"
+    },
+    "monday": "Lunes",
+    "@monday": {
+        "description": "Monday"
+    },
+    "tuesday": "Martes",
+    "@tuesday": {
+        "description": "Tuesday"
+    },
+    "wednesday": "Miércoles",
+    "@wednesday": {
+        "description": "Wednesday"
+    },
+    "thursday": "Jueves",
+    "@thursday": {
+        "description": "Thursday"
+    },
+    "friday": "Viernes",
+    "@friday": {
+        "description": "Friday"
+    },
+    "saturday": "Sábado",
+    "@saturday": {
+        "description": "Saturday"
+    },
+    "sunday": "Domingo",
+    "@sunday": {
+        "description": "Sunday"
+    },
+    "medicationHistory": "Historial de Medicamentos",
+    "@medicationHistory": {
+        "description": "Medication history screen title"
+    },
+    "noDoseHistoryYet": "Aún no hay historial de dosis.",
+    "@noDoseHistoryYet": {
+        "description": "Message when there is no dose history"
+    },
+    "today": "Hoy",
+    "@today": {
+        "description": "Today"
+    },
+    "yesterday": "Ayer",
+    "@yesterday": {
+        "description": "Yesterday"
+    },
+    "pending": "Pendiente",
+    "@pending": {
+        "description": "Pending dose status"
+    },
+    "privacyPolicy": "Política de Privacidad",
+    "@privacyPolicy": {
+        "description": "Privacy policy"
+    },
+    "appVersion": "Versión de la Aplicación",
+    "@appVersion": {
+        "description": "App version"
+    },
+    "themeMode": "Modo de Tema",
+    "@themeMode": {
+        "description": "Theme mode setting"
+    },
+    "appearance": "Apariencia",
+    "@appearance": {
+        "description": "Appearance setting"
+    },
+    "about": "Acerca de",
+    "@about": {
+        "description": "About screen title"
+    },
+    "languageName": "Español",
+    "@languageName": {
+        "description": "The name of the language"
+    },
+    "couldNotLaunchUrl": "No se pudo abrir la URL",
+    "@couldNotLaunchUrl": {
+        "description": "Error message when a URL can't be launched"
+    },
+    "profile": "Perfil",
+    "@profile": {
+        "description": "Profile setting"
+    },
+    "editProfile": "Editar Perfil",
+    "@editProfile": {
+        "description": "Edit profile setting"
+    },
+    "security": "Seguridad",
+    "@security": {
+        "description": "Security setting"
+    },
+    "notifications": "Notificaciones",
+    "@notifications": {
+        "description": "Notifications setting"
+    },
+    "doseNotifications": "Notificaciones de Dosis",
+    "@doseNotifications": {
+        "description": "Dose notifications setting"
+    },
+    "reminders": "Recordatorios",
+    "@reminders": {
+        "description": "Reminders setting"
+    },
+    "help": "Ayuda",
+    "@help": {
+        "description": "Help setting"
+    },
+    "termsAndConditions": "Términos y Condiciones",
+    "@termsAndConditions": {
+        "description": "Terms and conditions setting"
+    },
+    "version": "Versión",
+    "@version": {
+        "description": "Version setting"
+    },
+    "statistics": "Estadísticas",
+    "@statistics": {
+        "description": "Statistics screen title"
+    }
+}
