@@ -118,8 +118,8 @@ class Medication extends Equatable {
       'interval': interval,
       'startDate': startDate.toIso8601String(),
       'endDate': endDate?.toIso8601String(),
-      'remaining_doses': remainingDoses,
-      'taken_today': takenToday,
+      'remainingDoses': remainingDoses,
+      // 'takenToday' is not persisted in the current schema.
     };
   }
 
@@ -152,8 +152,8 @@ class Medication extends Equatable {
       endDate: map['endDate'] != null
           ? DateTime.parse(map['endDate'] as String)
           : null,
-      remainingDoses: map['remaining_doses'] as int? ?? 0,
-      takenToday: map['taken_today'] as int? ?? 0,
+      remainingDoses: map['remainingDoses'] as int? ?? 0,
+      takenToday: 0,
     );
   }
 }

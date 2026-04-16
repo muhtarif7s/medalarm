@@ -17,14 +17,22 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  late bool _doseNotifications;
+  bool _doseNotifications = true;
 
   @override
   void initState() {
     super.initState();
-    final notificationService = Provider.of<NotificationService>(context, listen: false);
+    final notificationService = NotificationService();
     _doseNotifications = notificationService.areNotificationsEnabled();
-    Provider.of<ProfileProvider>(context, listen: false).loadProfile();
+
+    // Defer loading profile to after the build is complete
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      try {
+        Provider.of<ProfileProvider>(context, listen: false).loadProfile();
+      } catch (e) {
+        debugPrint('Error accessing profile provider: $e');
+      }
+    });
   }
 
   @override
@@ -69,7 +77,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 radius: 40,
                 backgroundColor: Colors.blue,
                 child: Text(
-                  profileProvider.profile.name.isNotEmpty ? profileProvider.profile.name[0].toUpperCase() : '',
+                  profileProvider.profile.name.isNotEmpty
+                      ? profileProvider.profile.name[0].toUpperCase()
+                      : '',
                   style: const TextStyle(fontSize: 40, color: Colors.white),
                 ),
               ),
@@ -79,7 +89,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 children: [
                   Text(
                     profileProvider.profile.name,
-                    style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 5),
                   Text(
@@ -97,7 +110,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  void _showEditProfileDialog(BuildContext context, ProfileProvider profileProvider) {
+  void _showEditProfileDialog(
+      BuildContext context, ProfileProvider profileProvider) {
     showDialog(
       context: context,
       builder: (context) {
@@ -115,7 +129,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildSectionHeader(String title) {
     return Text(
       title,
-      style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+      style: const TextStyle(
+          color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
     );
   }
 
@@ -128,11 +143,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
         side: const BorderSide(color: Colors.white24),
       ),
       child: ListTile(
-        title: const Text('Dose Reminders', style: TextStyle(color: Colors.white)),
+        title:
+            const Text('Dose Reminders', style: TextStyle(color: Colors.white)),
         trailing: Switch(
           value: _doseNotifications,
           onChanged: (value) {
-            final notificationService = Provider.of<NotificationService>(context, listen: false);
+            final notificationService = NotificationService();
             if (value) {
               notificationService.enableNotifications();
             } else {
@@ -159,13 +175,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: Column(
         children: [
           ListTile(
-            title: const Text('Help & Support', style: TextStyle(color: Colors.white)),
+            title: const Text('Help & Support',
+                style: TextStyle(color: Colors.white)),
             trailing: const Icon(Icons.chevron_right, color: Colors.white),
             onTap: () {},
           ),
           const Divider(color: Colors.white24, height: 1),
           ListTile(
-            title: const Text('Terms of Service', style: TextStyle(color: Colors.white)),
+            title: const Text('Terms of Service',
+                style: TextStyle(color: Colors.white)),
             trailing: const Icon(Icons.chevron_right, color: Colors.white),
             onTap: () {},
           ),

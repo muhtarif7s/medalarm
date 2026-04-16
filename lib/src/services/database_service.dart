@@ -30,7 +30,7 @@ class SqfliteDatabaseService implements DatabaseService {
           'CREATE TABLE medications(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, dosage REAL, unit TEXT, scheduleType TEXT, times TEXT, weekdays TEXT, interval INTEGER, startDate TEXT, endDate TEXT)',
         );
         await database.execute(
-          'CREATE TABLE doses(id INTEGER PRIMARY KEY AUTOINCREMENT, medicationId INTEGER, time TEXT, status TEXT)',
+          'CREATE TABLE doses(id INTEGER PRIMARY KEY AUTOINCREMENT, medicationId INTEGER, scheduledTime TEXT, status TEXT)',
         );
       },
       version: 1,

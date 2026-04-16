@@ -412,17 +412,17 @@ class AppLocalizationsAr extends AppLocalizations {
   String get statistics => 'الإحصائيات';
 
   @override
-  String get schedule => 'Schedule';
+  String get schedule => 'جدولة';
 
   @override
-  String get endDate => 'End Date';
+  String get endDate => 'تاريخ الانتهاء';
 
   @override
-  String get on => 'On';
+  String get on => 'في';
 
   @override
-  String get every => 'Every';
+  String get every => 'كل';
 
   @override
-  String get hours => 'hours';
+  String get hours => 'ساعات';
 }

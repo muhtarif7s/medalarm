@@ -587,5 +587,25 @@
     "statistics": "الإحصائيات",
     "@statistics": {
         "description": "Statistics screen title"
+    },
+    "schedule": "جدولة",
+    "@schedule": {
+        "description": "Schedule"
+    },
+    "endDate": "تاريخ الانتهاء",
+    "@endDate": {
+        "description": "End date"
+    },
+    "on": "في",
+    "@on": {
+        "description": "On preposition"
+    },
+    "every": "كل",
+    "@every": {
+        "description": "Every"
+    },
+    "hours": "ساعات",
+    "@hours": {
+        "description": "Hours"
     }
 }

@@ -27,13 +27,23 @@ class SqfliteDatabaseService implements DatabaseService {
       join(path, 'medication.db'),
       onCreate: (database, version) async {
         await database.execute(
-          'CREATE TABLE medications(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, dosage REAL, unit TEXT, scheduleType TEXT, times TEXT, weekdays TEXT, interval INTEGER, startDate TEXT, endDate TEXT)',
+          'CREATE TABLE medications(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, dosage REAL, unit TEXT, stock INTEGER, scheduleType TEXT, times TEXT, daysOfWeek TEXT, interval INTEGER, startDate TEXT, endDate TEXT, remainingDoses INTEGER)',
         );
         await database.execute(
           'CREATE TABLE doses(id INTEGER PRIMARY KEY AUTOINCREMENT, medicationId INTEGER, time TEXT, status TEXT)',
         );
       },
-      version: 1,
+      onUpgrade: (database, oldVersion, newVersion) async {
+        if (oldVersion < 2) {
+          await database.execute(
+              'ALTER TABLE medications ADD COLUMN stock INTEGER DEFAULT 0');
+          await database
+              .execute('ALTER TABLE medications ADD COLUMN daysOfWeek TEXT');
+          await database.execute(
+              'ALTER TABLE medications ADD COLUMN remainingDoses INTEGER DEFAULT 0');
+        }
+      },
+      version: 2,
     );
   }
 

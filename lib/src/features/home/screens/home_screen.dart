@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:myapp/src/features/medication/models/medication.dart';
 import 'package:myapp/src/features/doses/data/models/dose.dart';
 import 'package:myapp/src/features/doses/presentation/providers/dose_provider.dart';
-import 'package:myapp/src/features/medication/models/medication.dart';
 import 'package:myapp/src/features/medication/providers/medication_provider.dart';
-import 'package:myapp/src/shared/widgets/empty_state.dart';
+import 'package:myapp/src/shared/widgets/action_button.dart';
+import 'package:myapp/src/shared/widgets/custom_card.dart';
+import 'package:myapp/src/shared/widgets/loading_shimmer.dart';
+import 'package:myapp/src/shared/widgets/section_header.dart';
+import 'package:myapp/src/shared/widgets/timeline_item.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,283 +19,585 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  late AnimationController _fadeController;
+  late Animation<double> _fadeAnimation;
+
   @override
   void initState() {
     super.initState();
+    _fadeController = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut),
+    );
+    _fadeController.forward();
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _loadData();
     });
   }
 
+  @override
+  void dispose() {
+    _fadeController.dispose();
+    super.dispose();
+  }
+
   Future<void> _loadData() async {
-    final medicationProvider = Provider.of<MedicationProvider>(context, listen: false);
-    final doseProvider = Provider.of<DoseProvider>(context, listen: false);
-    await medicationProvider.loadMedications();
-    await doseProvider.loadDosesForDay(DateTime.now());
+    try {
+      final medicationProvider =
+          Provider.of<MedicationProvider>(context, listen: false);
+      final doseProvider = Provider.of<DoseProvider>(context, listen: false);
+      await Future.wait([
+        medicationProvider.loadMedications(),
+        doseProvider.loadDosesForDay(DateTime.now()),
+      ]);
+    } catch (e) {
+      debugPrint('Error loading home screen data: $e');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error loading data: $e'),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  String _getGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour < 12) return 'Good morning';
+    if (hour < 17) return 'Good afternoon';
+    return 'Good evening';
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      backgroundColor: const Color(0xFF121212),
-      body: RefreshIndicator(
-        onRefresh: _loadData,
-        child: CustomScrollView(
-          slivers: <Widget>[
-            SliverAppBar(
-              expandedHeight: 200.0,
-              backgroundColor: const Color(0xFF121212),
-              flexibleSpace: FlexibleSpaceBar(
-                title: Text(
-                  'Good morning, User!',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white),
-                ),
-                background: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    Image.asset(
-                      'assets/images/home_background.jpg', // Placeholder image
-                      fit: BoxFit.cover,
-                    ),
-                    Container(
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [Colors.black54, Colors.transparent],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: _buildDoseStats(context),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: _buildNextDoseCard(context),
-              ),
-            ),
-            const SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Text(
-                  'Today\'s Timeline',
-                  style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-            _buildTodaysTimeline(context),
-            const SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-                child: Text(
-                  'Your Medications',
-                  style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-            _buildMedicationList(context),
-          ],
+      appBar: AppBar(
+        title: Text(
+          'MedAlarm',
+          style: theme.textTheme.headlineSmall?.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              final medications = Provider.of<MedicationProvider>(context, listen: false).medications;
+              showSearch(context: context, delegate: _MedicationSearchDelegate(medications, context));
+            },
+            icon: const Icon(Icons.search),
+          ),
+          IconButton(
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (_) => SafeArea(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ListTile(
+                        leading: const Icon(Icons.bar_chart),
+                        title: const Text('Statistics'),
+                        onTap: () { Navigator.pop(context); GoRouter.of(context).go('/statistics'); },
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.settings),
+                        title: const Text('Settings'),
+                        onTap: () { Navigator.pop(context); GoRouter.of(context).go('/settings'); },
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+            icon: const Icon(Icons.more_vert),
+          ),
+        ],
+      ),
+      body: FadeTransition(
+        opacity: _fadeAnimation,
+        child: RefreshIndicator(
+          onRefresh: _loadData,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Greeting Header
+                _buildGreetingHeader(context),
+
+                const SizedBox(height: 24),
+
+                // Next Dose Card
+                _buildNextDoseSection(context),
+
+                const SizedBox(height: 24),
+
+                // Today's Timeline
+                _buildTimelineSection(context),
+
+                const SizedBox(height: 24),
+
+                // Quick Actions
+                _buildQuickActions(context),
+
+                const SizedBox(height: 24),
+
+                // Medications Overview
+                _buildMedicationsOverview(context),
+              ],
+            ),
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => GoRouter.of(context).push('/add-medication'),
+        child: const Icon(Icons.add),
       ),
     );
   }
 
-  Widget _buildDoseStats(BuildContext context) {
-    return Consumer<DoseProvider>(
-      builder: (context, doseProvider, child) {
-        final doses = doseProvider.doses;
-        final totalDoses = doses.length;
-        final takenDoses = doses.where((d) => d.status == DoseStatus.taken).length;
-        final missedDoses = doses.where((d) => d.status == DoseStatus.missed).length;
+  Widget _buildGreetingHeader(BuildContext context) {
+    final theme = Theme.of(context);
+    final greeting = _getGreeting();
 
-        return Card(
-          color: const Color(0xFF1E1E1E),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-            side: const BorderSide(color: Colors.white24),
+    return CustomCard(
+      backgroundColor: theme.colorScheme.primaryContainer,
+      child: Row(
+        children: [
+          Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              color: theme.colorScheme.primary,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.waving_hand,
+              color: theme.colorScheme.onPrimary,
+            ),
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildStatColumn('Total Doses', totalDoses.toString()),
-                _buildStatColumn('Taken', takenDoses.toString()),
-                _buildStatColumn('Missed', missedDoses.toString()),
+                Text(
+                  '$greeting!',
+                  style: theme.textTheme.headlineSmall?.copyWith(
+                    color: theme.colorScheme.onPrimaryContainer,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                Text(
+                  'Stay on top of your medication schedule',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color:
+                        theme.colorScheme.onPrimaryContainer.withValues(alpha: 0.7),
+                  ),
+                ),
               ],
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNextDoseSection(BuildContext context) {
+    return Consumer<DoseProvider>(
+      builder: (context, doseProvider, child) {
+        if (doseProvider.isLoading) {
+          return const LoadingCard();
+        }
+
+        final nextDose = doseProvider.doses
+            .where((d) =>
+                d.status == DoseStatus.pending &&
+                d.time.isAfter(DateTime.now()))
+            .firstOrNull;
+
+        if (nextDose == null) {
+          return CustomCard(
+            backgroundColor:
+                Theme.of(context).colorScheme.surfaceContainerHighest,
+            child: Row(
+              children: [
+                Icon(
+                  Icons.check_circle,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 32,
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'All caught up!',
+                        style:
+                            Theme.of(context).textTheme.titleMedium?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                      ),
+                      Text(
+                        'No upcoming doses for today',
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+
+        return Consumer<MedicationProvider>(
+          builder: (context, medicationProvider, child) {
+            final medication =
+                medicationProvider.getMedication(nextDose.medicationId);
+
+            return CustomCard(
+              backgroundColor: Theme.of(context).colorScheme.errorContainer,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.notifications_active,
+                        color: Theme.of(context).colorScheme.error,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        'Next Dose',
+                        style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                              color: Theme.of(context).colorScheme.error,
+                              fontWeight: FontWeight.w600,
+                            ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    medication?.name ?? 'Unknown Medication',
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                  Text(
+                    '${medication?.dosage ?? 0} ${medication?.unit ?? ''}',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    DateFormat.jm().format(nextDose.time),
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
+                  ),
+                  const SizedBox(height: 16),
+                  ActionButton(
+                    label: 'Take Dose',
+                    icon: Icons.check,
+                    onPressed: () async {
+                      final scaffoldMessenger = ScaffoldMessenger.of(context);
+                      await doseProvider.takeDose(nextDose);
+                      scaffoldMessenger.showSnackBar(
+                        SnackBar(
+                          content: const Text('Dose marked as taken'),
+                          behavior: SnackBarBehavior.floating,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
         );
       },
     );
   }
 
-  Widget _buildStatColumn(String title, String value) {
+  Widget _buildTimelineSection(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: const TextStyle(color: Colors.white70, fontSize: 16)),
-        const SizedBox(height: 4),
-        Text(value, style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold)),
+        SectionHeader(
+          title: 'Today\'s Timeline',
+          trailing: TextButton(
+            onPressed: () => GoRouter.of(context).go('/history'),
+            child: const Text('View All'),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Consumer<DoseProvider>(
+          builder: (context, doseProvider, child) {
+            if (doseProvider.isLoading) {
+              return const LoadingTimeline();
+            }
+
+            final doses = doseProvider.doses.take(5).toList(); // Show first 5
+
+            if (doses.isEmpty) {
+              return CustomCard(
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.timeline,
+                          size: 48,
+                          color: Theme.of(context).colorScheme.outline,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'No doses scheduled',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        Text(
+                          'Add medications to see your timeline',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                  ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            }
+
+            return Consumer<MedicationProvider>(
+              builder: (context, medicationProvider, child) {
+                return Column(
+                  children: doses.map((dose) {
+                    final medication =
+                        medicationProvider.getMedication(dose.medicationId);
+                    final isCompleted = dose.status == DoseStatus.taken;
+
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: TimelineItem(
+                        time: DateFormat.jm().format(dose.time),
+                        title: medication?.name ?? 'Unknown',
+                        subtitle:
+                            '${medication?.dosage ?? 0} ${medication?.unit ?? ''}',
+                        icon:
+                            isCompleted ? Icons.check_circle : Icons.medication,
+                        iconColor: isCompleted
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.outline,
+                        isCompleted: isCompleted,
+                      ),
+                    );
+                  }).toList(),
+                );
+              },
+            );
+          },
+        ),
       ],
     );
   }
 
-  Widget _buildNextDoseCard(BuildContext context) {
-    return Consumer<DoseProvider>(
-      builder: (context, doseProvider, child) {
-        final nextDose = doseProvider.doses
-            .where((d) => d.status == DoseStatus.pending && d.time.isAfter(DateTime.now()))
-            .firstOrNull;
-
-        if (nextDose == null) {
-          return const Card(
-            color: Color(0xFF1E1E1E),
-            child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text('No upcoming doses for today.', style: TextStyle(color: Colors.white)),
+  Widget _buildQuickActions(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SectionHeader(title: 'Quick Actions'),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Expanded(
+              child: ActionButton(
+                label: 'Add Medication',
+                icon: Icons.add,
+                onPressed: () => GoRouter.of(context).push('/add-medication'),
+              ),
             ),
-          );
-        }
-
-        return Consumer<MedicationProvider>(
-          builder: (context, medicationProvider, child) {
-            final medication = medicationProvider.getMedication(nextDose.medicationId);
-            return Card(
-              color: const Color(0xFF1E1E1E),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-                side: const BorderSide(color: Colors.white24),
+            const SizedBox(width: 12),
+            Expanded(
+              child: ActionButton(
+                label: 'View History',
+                icon: Icons.history,
+                onPressed: () => GoRouter.of(context).go('/history'),
+                isOutlined: true,
               ),
-              child: ListTile(
-                leading: const Icon(Icons.notifications_active, color: Colors.blue, size: 40),
-                title: Text('Next Dose: ${medication?.name ?? 'Unknown'}', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-                subtitle: Text(DateFormat.jm().format(nextDose.time), style: const TextStyle(color: Colors.white70)),
-                trailing: ElevatedButton(
-                  onPressed: () async {
-                    await doseProvider.takeDose(nextDose);
-                  },
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                  child: const Text('Take'),
-                ),
-              ),
-            );
-          },
-        );
-      },
+            ),
+          ],
+        ),
+      ],
     );
   }
 
-  Widget _buildTodaysTimeline(BuildContext context) {
-    return Consumer<DoseProvider>(
-      builder: (context, doseProvider, child) {
-        if (doseProvider.isLoading) {
-          return const SliverToBoxAdapter(child: Center(child: CircularProgressIndicator()));
-        }
-
-        final doses = doseProvider.doses;
-
-        if (doses.isEmpty) {
-          return const SliverToBoxAdapter(
-            child: EmptyState(
-              icon: Icons.timeline,
-              title: 'No Doses Today',
-              message: 'You have no medication scheduled for today.',
-            ),
-          );
-        }
-
-        return Consumer<MedicationProvider>(
-          builder: (context, medicationProvider, child) {
-            return SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  final dose = doses[index];
-                  final medication = medicationProvider.getMedication(dose.medicationId);
-                  return ListTile(
-                    leading: const Icon(Icons.medication_outlined, color: Colors.white70),
-                    title: Text(medication?.name ?? 'Unknown Medication', style: const TextStyle(color: Colors.white)),
-                    subtitle: Text(DateFormat.jm().format(dose.time), style: const TextStyle(color: Colors.white70)),
-                    trailing: dose.status == DoseStatus.pending
-                        ? ElevatedButton(
-                            onPressed: () async {
-                              await doseProvider.takeDose(dose);
-                            },
-                            child: const Text('Take'),
-                          )
-                        : Text(dose.status.name, style: TextStyle(color: _getStatusColor(dose.status), fontWeight: FontWeight.bold)),
-                  );
-                },
-                childCount: doses.length,
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
-  Widget _buildMedicationList(BuildContext context) {
+  Widget _buildMedicationsOverview(BuildContext context) {
     return Consumer<MedicationProvider>(
       builder: (context, medicationProvider, child) {
         if (medicationProvider.isLoading) {
-          return const SliverToBoxAdapter(child: Center(child: CircularProgressIndicator()));
-        }
-
-        final medications = medicationProvider.medications;
-
-        if (medications.isEmpty) {
-          return const SliverToBoxAdapter(
-            child: EmptyState(
-              icon: Icons.medication,
-              title: 'No Medications',
-              message: 'Add a medication to get started.',
-            ),
+          return const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              LoadingShimmer(width: 150, height: 24),
+              SizedBox(height: 16),
+              LoadingCard(),
+              SizedBox(height: 12),
+              LoadingCard(),
+            ],
           );
         }
 
-        return SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              final Medication medication = medications[index];
-              return Card(
-                color: const Color(0xFF1E1E1E),
-                margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-                child: ListTile(
-                  title: Text(medication.name, style: const TextStyle(color: Colors.white)),
-                  subtitle: Text('${medication.dosage} ${medication.unit}', style: const TextStyle(color: Colors.white70)),
-                  trailing: const Icon(Icons.chevron_right, color: Colors.white),
-                  onTap: () {
-                    GoRouter.of(context).push('/medication-details/${medication.id}');
-                  },
+        final medications = medicationProvider.medications.take(3).toList();
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SectionHeader(
+              title: 'Your Medications',
+              subtitle: '${medicationProvider.medications.length} active',
+              trailing: TextButton(
+                onPressed: () => GoRouter.of(context).push('/medications'),
+                child: const Text('View All'),
+              ),
+            ),
+            const SizedBox(height: 16),
+            if (medications.isEmpty)
+              CustomCard(
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(32),
+                    child: Column(
+                      children: [
+                        Icon(
+                          Icons.medication,
+                          size: 48,
+                          color: Theme.of(context).colorScheme.outline,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'No medications added yet',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Tap the + button to add your first medication',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                  ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              );
-            },
-            childCount: medications.length,
-          ),
+              )
+            else
+              ...medications.map((medication) => Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: CustomCard(
+                      child: ListTile(
+                        leading: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color:
+                                Theme.of(context).colorScheme.primaryContainer,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Icon(
+                            Icons.medication,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                        title: Text(
+                          medication.name,
+                          style:
+                              Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                        ),
+                        subtitle: Text(
+                          '${medication.dosage} ${medication.unit} • ${medication.scheduleType}',
+                        ),
+                        trailing: Icon(
+                          Icons.chevron_right,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
+                        onTap: () {
+                          GoRouter.of(context)
+                              .push('/medicine-details/${medication.id}');
+                        },
+                      ),
+                    ),
+                  )),
+          ],
         );
       },
     );
   }
+}
 
-  Color _getStatusColor(DoseStatus status) {
-    switch (status) {
-      case DoseStatus.taken:
-        return Colors.green;
-      case DoseStatus.missed:
-        return Colors.red;
-      case DoseStatus.pending:
-        return Colors.orange;
-      default:
-        return Colors.grey;
+class _MedicationSearchDelegate extends SearchDelegate<void> {
+  final List<Medication> medications;
+  final BuildContext parentContext;
+
+  _MedicationSearchDelegate(this.medications, this.parentContext);
+
+  @override
+  List<Widget> buildActions(BuildContext context) => [
+        IconButton(icon: const Icon(Icons.clear), onPressed: () => query = ''),
+      ];
+
+  @override
+  Widget buildLeading(BuildContext context) =>
+      IconButton(icon: const Icon(Icons.arrow_back), onPressed: () => close(context, null));
+
+  @override
+  Widget buildResults(BuildContext context) => _buildList();
+
+  @override
+  Widget buildSuggestions(BuildContext context) => _buildList();
+
+  Widget _buildList() {
+    final results = medications
+        .where((m) => m.name.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+    if (results.isEmpty) {
+      return const Center(child: Text('No medications found'));
     }
+    return ListView.builder(
+      itemCount: results.length,
+      itemBuilder: (_, i) => ListTile(
+        leading: const Icon(Icons.medication),
+        title: Text(results[i].name),
+        subtitle: Text('${results[i].dosage} ${results[i].unit}'),
+        onTap: () {
+          close(parentContext, null);
+          GoRouter.of(parentContext).push('/medicine-details/${results[i].id}');
+        },
+      ),
+    );
   }
 }

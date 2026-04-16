@@ -27,8 +27,8 @@ class MedicationDetailsScreen extends StatelessWidget {
                     context: context,
                     builder: (context) => AlertDialog(
                       title: const Text('Delete Medication'),
-                      content:
-                          const Text('Are you sure you want to delete this medication?'),
+                      content: const Text(
+                          'Are you sure you want to delete this medication?'),
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.of(context).pop(false),
@@ -76,7 +76,7 @@ class MedicationDetailsScreen extends StatelessWidget {
                 ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              context.push('/edit-medication/$medicationId', extra: medication);
+              context.push('/add-medication', extra: int.parse(medicationId));
             },
             child: const Icon(Icons.edit),
           ),

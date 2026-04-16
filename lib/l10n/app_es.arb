@@ -587,5 +587,25 @@
     "statistics": "Estadísticas",
     "@statistics": {
         "description": "Statistics screen title"
+    },
+    "schedule": "Programar",
+    "@schedule": {
+        "description": "Schedule"
+    },
+    "endDate": "Fecha de finalización",
+    "@endDate": {
+        "description": "End date"
+    },
+    "on": "en",
+    "@on": {
+        "description": "On preposition"
+    },
+    "every": "cada",
+    "@every": {
+        "description": "Every"
+    },
+    "hours": "horas",
+    "@hours": {
+        "description": "Hours"
     }
 }

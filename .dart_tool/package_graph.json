@@ -26,6 +26,7 @@
         "permission_handler",
         "provider",
         "shared_preferences",
+        "shimmer",
         "sqflite",
         "sqflite_common_ffi",
         "sqflite_common_ffi_web",
@@ -144,6 +145,13 @@
         "stream_channel",
         "test_api",
         "vector_math"
+      ]
+    },
+    {
+      "name": "shimmer",
+      "version": "3.0.0",
+      "dependencies": [
+        "flutter"
       ]
     },
     {

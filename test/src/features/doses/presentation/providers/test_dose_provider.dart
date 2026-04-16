@@ -4,10 +4,10 @@ import 'package:mockito/mockito.dart';
 import 'package:myapp/src/features/doses/data/models/dose.dart';
 import 'package:myapp/src/features/doses/data/repositories/dose_repository.dart';
 import 'package:myapp/src/features/doses/presentation/providers/dose_provider.dart';
+import 'test_dose_provider.mocks.dart';
 
-class MockDoseRepository extends Mock implements DoseRepository {}
-
-@GenerateMocks([DoseRepository])
+@GenerateMocks([],
+    customMocks: [MockSpec<DoseRepository>(as: #MockDoseRepository)])
 void main() {
   group('DoseProvider', () {
     late DoseProvider doseProvider;

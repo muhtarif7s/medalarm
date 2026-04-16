@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 // Project imports:
 import 'package:myapp/l10n/app_localizations.dart';
 import 'package:myapp/src/features/doses/data/models/dose_schedule.dart';
+import 'package:myapp/src/features/doses/presentation/providers/dose_provider.dart';
 import 'package:myapp/src/features/history/screens/history_screen.dart';
 import 'package:myapp/src/features/medication/models/medication.dart';
 import 'package:myapp/src/features/medication/providers/medication_provider.dart';
@@ -19,13 +20,16 @@ void main() {
   group('HistoryScreen', () {
     late MockMedicationRepository mockMedicationRepository;
     late MockDoseScheduleRepository mockDoseScheduleRepository;
+    late MockDoseRepositoryForMed mockDoseRepository;
 
     setUp(() {
       mockMedicationRepository = MockMedicationRepository();
       mockDoseScheduleRepository = MockDoseScheduleRepository();
+      mockDoseRepository = MockDoseRepositoryForMed();
     });
 
-    testWidgets('should display the list of medications', (WidgetTester tester) async {
+    testWidgets('should display the list of medications',
+        (WidgetTester tester) async {
       // Arrange
       final medications = [
         Medication(
@@ -51,22 +55,29 @@ void main() {
           startDate: DateTime.now(),
         ),
       ];
-      when(mockMedicationRepository.allMedications).thenAnswer((_) => Stream.value(medications));
-      when(mockMedicationRepository.fetchAllMedications()).thenAnswer((_) async {});
+      when(mockDoseRepository.getAllDoses()).thenAnswer((_) async => []);
 
-      final doseSchedules = medications.map((medication) => DoseSchedule(
-        id: medication.id!,
-        medicationId: medication.id!,
-        scheduledTime: DateTime(2024, 1, 1, medication.times.first.hour, medication.times.first.minute),
-      )).toList();
-      when(mockDoseScheduleRepository.getDoseSchedulesForMedication(any)).thenAnswer((_) async => doseSchedules);
+      final doseSchedules = medications
+          .map((medication) => DoseSchedule(
+                id: medication.id!,
+                medicationId: medication.id!,
+                scheduledTime: DateTime(2024, 1, 1, medication.times.first.hour,
+                    medication.times.first.minute),
+              ))
+          .toList();
+      when(mockDoseScheduleRepository.getDoseSchedulesForMedication(any))
+          .thenAnswer((_) async => doseSchedules);
 
       // Act
       await tester.pumpWidget(
         MultiProvider(
           providers: [
             ChangeNotifierProvider(
-              create: (_) => MedicationProvider(mockMedicationRepository, mockDoseScheduleRepository),
+              create: (_) => MedicationProvider(
+                  mockMedicationRepository, mockDoseScheduleRepository),
+            ),
+            ChangeNotifierProvider(
+              create: (_) => DoseProvider(mockDoseRepository),
             ),
           ],
           child: const MaterialApp(

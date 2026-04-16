@@ -90,13 +90,14 @@ void main() {
         child: const MaterialApp(
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
+          locale: Locale('en'),
           home: HomeScreen(),
         ),
       ),
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('No Medications'), findsOneWidget);
+    expect(find.text('No medications added yet'), findsOneWidget);
     expect(find.byType(ListView), findsNothing);
   });
 }

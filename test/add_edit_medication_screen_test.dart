@@ -24,8 +24,6 @@ void main() {
     setUp(() {
       mockMedicationRepository = MockMedicationRepository();
       mockDoseScheduleRepository = MockDoseScheduleRepository();
-      when(mockMedicationRepository.allMedications).thenAnswer((_) => Stream.value([]));
-      when(mockMedicationRepository.fetchAllMedications()).thenAnswer((_) async {});
 
       router = GoRouter(
         routes: [
@@ -59,14 +57,16 @@ void main() {
         remainingDoses: 10,
         startDate: DateTime.now(),
       );
-      when(mockMedicationRepository.addMedication(any)).thenAnswer((_) async => 1);
+      when(mockMedicationRepository.addMedication(any))
+          .thenAnswer((_) async => 1);
 
       // Act
       await tester.pumpWidget(
         MultiProvider(
           providers: [
             ChangeNotifierProvider(
-              create: (_) => MedicationProvider(mockMedicationRepository, mockDoseScheduleRepository),
+              create: (_) => MedicationProvider(
+                  mockMedicationRepository, mockDoseScheduleRepository),
             ),
           ],
           child: MaterialApp.router(
@@ -89,13 +89,13 @@ void main() {
       await tester.pumpAndSettle();
 
       await tester.enterText(
-        find.byWidgetPredicate(
-            (widget) => widget is TextField && widget.decoration?.labelText == 'Name'),
+        find.byWidgetPredicate((widget) =>
+            widget is TextField && widget.decoration?.labelText == 'Name'),
         medication.name,
       );
       await tester.enterText(
-        find.byWidgetPredicate(
-            (widget) => widget is TextField && widget.decoration?.labelText == 'Dosage'),
+        find.byWidgetPredicate((widget) =>
+            widget is TextField && widget.decoration?.labelText == 'Dosage'),
         medication.dosage.toString(),
       );
       await tester.tap(find.text('pill')); // Default value
@@ -103,8 +103,8 @@ void main() {
       await tester.tap(find.text(medication.unit).last);
       await tester.pumpAndSettle();
       await tester.enterText(
-        find.byWidgetPredicate(
-            (widget) => widget is TextField && widget.decoration?.labelText == 'Stock'),
+        find.byWidgetPredicate((widget) =>
+            widget is TextField && widget.decoration?.labelText == 'Stock'),
         medication.stock.toString(),
       );
       await tester.pumpAndSettle();

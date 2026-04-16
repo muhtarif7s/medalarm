@@ -3,24 +3,19 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-
-// Dart imports:
 import 'dart:async' as _i4;
 
-// Package imports:
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:sqflite/sqflite.dart' as _i2;
-
-// Project imports:
 import 'package:myapp/src/features/doses/data/models/dose.dart' as _i8;
 import 'package:myapp/src/features/doses/data/models/dose_schedule.dart' as _i7;
-
+import 'package:myapp/src/features/doses/data/repositories/dose_repository.dart'
+    as _i9;
 import 'package:myapp/src/features/doses/data/repositories/dose_schedule_repository.dart'
     as _i6;
-import 'package:myapp/src/features/medication/models/medication.dart'
-    as _i5;
 import 'package:myapp/src/features/medication/data/repositories/medication_repository.dart'
     as _i3;
+import 'package:myapp/src/features/medication/models/medication.dart' as _i5;
+import 'package:sqflite/sqflite.dart' as _i2;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -66,22 +61,6 @@ class MockMedicationRepository extends _i1.Mock
       ) as _i2.Database);
 
   @override
-  _i4.Stream<List<_i5.Medication>> get allMedications => (super.noSuchMethod(
-        Invocation.getter(#allMedications),
-        returnValue: _i4.Stream<List<_i5.Medication>>.empty(),
-      ) as _i4.Stream<List<_i5.Medication>>);
-
-  @override
-  _i4.Future<void> fetchAllMedications() => (super.noSuchMethod(
-        Invocation.method(
-          #fetchAllMedications,
-          [],
-        ),
-        returnValue: _i4.Future<void>.value(),
-        returnValueForMissingStub: _i4.Future<void>.value(),
-      ) as _i4.Future<void>);
-
-  @override
   _i4.Future<int> addMedication(_i5.Medication? medication) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -106,6 +85,16 @@ class MockMedicationRepository extends _i1.Mock
   _i4.Future<void> deleteMedication(int? id) => (super.noSuchMethod(
         Invocation.method(
           #deleteMedication,
+          [id],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+
+  @override
+  _i4.Future<void> delete(int? id) => (super.noSuchMethod(
+        Invocation.method(
+          #delete,
           [id],
         ),
         returnValue: _i4.Future<void>.value(),
@@ -212,6 +201,17 @@ class MockDoseScheduleRepository extends _i1.Mock
       ) as _i4.Future<List<_i7.DoseSchedule>>);
 
   @override
+  _i4.Future<List<_i7.DoseSchedule>> getAllDoseSchedules() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAllDoseSchedules,
+          [],
+        ),
+        returnValue:
+            _i4.Future<List<_i7.DoseSchedule>>.value(<_i7.DoseSchedule>[]),
+      ) as _i4.Future<List<_i7.DoseSchedule>>);
+
+  @override
   _i4.Future<List<_i7.DoseSchedule>> getAllPendingDoseSchedules() =>
       (super.noSuchMethod(
         Invocation.method(
@@ -243,4 +243,83 @@ class MockDoseScheduleRepository extends _i1.Mock
         returnValue:
             _i4.Future<List<_i7.DoseSchedule>>.value(<_i7.DoseSchedule>[]),
       ) as _i4.Future<List<_i7.DoseSchedule>>);
+}
+
+/// A class which mocks [DoseRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockDoseRepositoryForMed extends _i1.Mock implements _i9.DoseRepository {
+  MockDoseRepositoryForMed() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i2.Database get database => (super.noSuchMethod(
+        Invocation.getter(#database),
+        returnValue: _FakeDatabase_0(
+          this,
+          Invocation.getter(#database),
+        ),
+      ) as _i2.Database);
+
+  @override
+  _i4.Future<void> addDose(_i8.Dose? dose) => (super.noSuchMethod(
+        Invocation.method(
+          #addDose,
+          [dose],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+
+  @override
+  _i4.Future<void> updateDose(_i8.Dose? dose) => (super.noSuchMethod(
+        Invocation.method(
+          #updateDose,
+          [dose],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+
+  @override
+  _i4.Future<List<_i8.Dose>> getDosesForDay(DateTime? date) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getDosesForDay,
+          [date],
+        ),
+        returnValue: _i4.Future<List<_i8.Dose>>.value(<_i8.Dose>[]),
+      ) as _i4.Future<List<_i8.Dose>>);
+
+  @override
+  _i4.Future<List<_i8.Dose>> getAllDoses() => (super.noSuchMethod(
+        Invocation.method(
+          #getAllDoses,
+          [],
+        ),
+        returnValue: _i4.Future<List<_i8.Dose>>.value(<_i8.Dose>[]),
+      ) as _i4.Future<List<_i8.Dose>>);
+
+  @override
+  _i4.Future<void> createDosesForMedication(_i5.Medication? medication) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #createDosesForMedication,
+          [medication],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+
+  @override
+  _i4.Future<void> deleteDosesForMedication(int? medicationId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #deleteDosesForMedication,
+          [medicationId],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 }

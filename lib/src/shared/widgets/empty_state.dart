@@ -16,14 +16,16 @@ class EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 100, color: Colors.grey),
-          const SizedBox(height: 20),
-          Text(title, style: Theme.of(context).textTheme.headlineSmall),
-          Text(message, style: Theme.of(context).textTheme.bodyLarge),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 100, color: Colors.grey),
+            const SizedBox(height: 20),
+            Text(title, style: Theme.of(context).textTheme.headlineSmall),
+            Text(message, style: Theme.of(context).textTheme.bodyLarge),
+          ],
+        ),
       ),
     );
   }

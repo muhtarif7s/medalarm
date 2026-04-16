@@ -10,6 +10,7 @@ import 'package:myapp/src/features/history/screens/history_screen.dart';
 import 'package:myapp/src/features/home/screens/home_screen.dart';
 import 'package:myapp/src/features/medication/screens/add_edit_medication_screen.dart';
 import 'package:myapp/src/features/medication/screens/medication_details_screen.dart';
+import 'package:myapp/src/features/medication/screens/home_screen.dart' as medication_home;
 import 'package:myapp/src/features/settings/screens/settings_screen.dart';
 import 'package:myapp/src/features/statistics/screens/statistics_screen.dart';
 import 'package:myapp/src/navigation/scaffold_with_nested_navigation.dart';
@@ -89,7 +90,7 @@ class AppRouter {
         ],
       ),
       GoRoute(
-        path: '/add-medicine',
+        path: '/add-medication',
         parentNavigatorKey: _rootNavigatorKey,
         builder: (context, state) {
           final medicationId = state.extra as int?;
@@ -103,6 +104,11 @@ class AppRouter {
           final medicationId = state.pathParameters['id']!;
           return MedicationDetailsScreen(medicationId: medicationId);
         },
+      ),
+      GoRoute(
+        path: '/medications',
+        parentNavigatorKey: _rootNavigatorKey,
+        builder: (context, state) => const medication_home.HomeScreen(),
       ),
     ],
   );

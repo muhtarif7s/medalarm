@@ -11,15 +11,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // Project imports:
 import 'package:myapp/main.dart';
+import 'package:myapp/src/core/services/notification_service.dart';
 
 void main() {
   testWidgets('App starts', (WidgetTester tester) async {
     SharedPreferences.setMockInitialValues({});
     final sharedPreferences = await SharedPreferences.getInstance();
+    final notificationService = NotificationService();
     // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp(database: null, sharedPreferences: sharedPreferences));
+    await tester.pumpWidget(MyApp(
+        database: null,
+        sharedPreferences: sharedPreferences,
+        notificationService: notificationService));
 
     // Verify that the app starts.
-    expect(find.text('Error: Database could not be initialized.'), findsOneWidget);
+    expect(
+        find.text('Error: Database could not be initialized.'), findsOneWidget);
   });
 }

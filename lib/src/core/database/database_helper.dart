@@ -7,7 +7,7 @@ import 'package:sqflite/sqflite.dart';
 
 class DatabaseHelper {
   static const _databaseName = "MyDatabase.db";
-  static const _databaseVersion = 1;
+  static const _databaseVersion = 2;
 
   // Make this a singleton class.
   DatabaseHelper._privateConstructor();
@@ -26,8 +26,14 @@ class DatabaseHelper {
   Future<Database> _initDatabase() async {
     String path = join(await getDatabasesPath(), _databaseName);
     return await openDatabase(path,
-        version: _databaseVersion,
-        onCreate: _onCreate);
+        version: _databaseVersion, onCreate: _onCreate, onUpgrade: _onUpgrade);
+  }
+
+  Future _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      await db.execute('ALTER TABLE medications ADD COLUMN interval INTEGER');
+      await db.execute('ALTER TABLE medications ADD COLUMN endDate TEXT');
+    }
   }
 
   // SQL code to create the database table.
@@ -41,9 +47,11 @@ class DatabaseHelper {
             stock INTEGER NOT NULL,
             scheduleType TEXT NOT NULL,
             times TEXT NOT NULL, -- JSON list of TimeOfDay
+            daysOfWeek TEXT, -- JSON list of DayOfWeek
+            interval INTEGER,
             startDate TEXT NOT NULL,
-            remainingDoses INTEGER NOT NULL,
-            daysOfWeek TEXT -- JSON list of DayOfWeek
+            endDate TEXT,
+            remainingDoses INTEGER NOT NULL
           )
           ''');
 
@@ -88,7 +96,8 @@ class DatabaseHelper {
   // raw SQL commands. This method uses a raw query to give the row count.
   Future<int?> queryRowCount(String table) async {
     Database db = await instance.database;
-    return Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM $table'));
+    return Sqflite.firstIntValue(
+        await db.rawQuery('SELECT COUNT(*) FROM $table'));
   }
 
   // We are assuming here that the id column in the map is set. The other
@@ -106,15 +115,20 @@ class DatabaseHelper {
     return await db.delete(table, where: 'id = ?', whereArgs: [id]);
   }
 
-  Future<List<Map<String, dynamic>>> queryRowsByDate(String table, DateTime date) async {
+  Future<List<Map<String, dynamic>>> queryRowsByDate(
+      String table, DateTime date) async {
     Database db = await instance.database;
     String dateString = date.toIso8601String().substring(0, 10);
-    return await db.query(table, where: "strftime('%Y-%m-%d', scheduledTime) = ?", whereArgs: [dateString]);
+    return await db.query(table,
+        where: "strftime('%Y-%m-%d', scheduledTime) = ?",
+        whereArgs: [dateString]);
   }
 
-  Future<List<Map<String, dynamic>>> queryRowsByMedicationId(String table, int medicationId) async {
+  Future<List<Map<String, dynamic>>> queryRowsByMedicationId(
+      String table, int medicationId) async {
     Database db = await instance.database;
-    return await db.query(table, where: 'medicationId = ?', whereArgs: [medicationId]);
+    return await db
+        .query(table, where: 'medicationId = ?', whereArgs: [medicationId]);
   }
 
   Future<List<Map<String, dynamic>>> queryPendingDoses(String table) async {
@@ -122,7 +136,7 @@ class DatabaseHelper {
     return await db.query(table, where: 'status = ?', whereArgs: ['pending']);
   }
 
-   Future<Map<String, dynamic>?> getById(String table, int id) async {
+  Future<Map<String, dynamic>?> getById(String table, int id) async {
     Database db = await instance.database;
     List<Map<String, dynamic>> maps = await db.query(
       table,

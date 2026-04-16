@@ -8,13 +8,13 @@ class DoseRepository {
   DoseRepository({required this.database});
 
   Future<void> addDose(Dose dose) async {
-    await database.insert('doses', dose.toMap(),
+    await database.insert('dose_schedules', dose.toMap(),
         conflictAlgorithm: ConflictAlgorithm.replace);
   }
 
   Future<void> updateDose(Dose dose) async {
     await database.update(
-      'doses',
+      'dose_schedules',
       dose.toMap(),
       where: 'id = ?',
       whereArgs: [dose.id],
@@ -26,7 +26,7 @@ class DoseRepository {
     final end =
         DateTime(date.year, date.month, date.day, 23, 59, 59).toIso8601String();
     final maps = await database.query(
-      'doses',
+      'dose_schedules',
       where: 'scheduledTime BETWEEN ? AND ?',
       whereArgs: [start, end],
       orderBy: 'scheduledTime ASC',
@@ -36,7 +36,7 @@ class DoseRepository {
 
   Future<List<Dose>> getAllDoses() async {
     final maps = await database.query(
-      'doses',
+      'dose_schedules',
       orderBy: 'scheduledTime ASC',
     );
     return List.generate(maps.length, (i) => Dose.fromMap(maps[i]));
@@ -51,7 +51,7 @@ class DoseRepository {
 
   Future<void> deleteDosesForMedication(int medicationId) async {
     await database.delete(
-      'doses',
+      'dose_schedules',
       where: 'medicationId = ?',
       whereArgs: [medicationId],
     );

@@ -7,13 +7,15 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 // Project imports:
+import 'package:myapp/src/features/doses/data/repositories/dose_repository.dart';
 import 'package:myapp/src/features/doses/data/repositories/dose_schedule_repository.dart';
 import 'package:myapp/src/features/medication/models/medication.dart';
 import 'package:myapp/src/features/medication/data/repositories/medication_repository.dart';
 import 'package:myapp/src/features/medication/providers/medication_provider.dart';
 import 'medication_provider_test.mocks.dart';
 
-@GenerateMocks([MedicationRepository, DoseScheduleRepository])
+@GenerateMocks([MedicationRepository, DoseScheduleRepository],
+    customMocks: [MockSpec<DoseRepository>(as: #MockDoseRepositoryForMed)])
 void main() {
   group('MedicationProvider', () {
     late MockMedicationRepository mockMedicationRepository;
@@ -23,9 +25,8 @@ void main() {
     setUp(() {
       mockMedicationRepository = MockMedicationRepository();
       mockDoseScheduleRepository = MockDoseScheduleRepository();
-      when(mockMedicationRepository.allMedications).thenAnswer((_) => Stream.value([]));
-      when(mockMedicationRepository.fetchAllMedications()).thenAnswer((_) async {});
-      medicationProvider = MedicationProvider(mockMedicationRepository, mockDoseScheduleRepository);
+      medicationProvider = MedicationProvider(
+          mockMedicationRepository, mockDoseScheduleRepository);
     });
 
     test('should load medications from the repository', () async {
@@ -54,16 +55,14 @@ void main() {
           startDate: DateTime.now(),
         ),
       ];
-      when(mockMedicationRepository.allMedications).thenAnswer((_) => Stream.value(medications));
+      when(mockMedicationRepository.getAllMedicationsOnce())
+          .thenAnswer((_) async => medications);
       // Re-initialize the provider to pick up the new stub.
-      medicationProvider = MedicationProvider(mockMedicationRepository, mockDoseScheduleRepository);
-
+      medicationProvider = MedicationProvider(
+          mockMedicationRepository, mockDoseScheduleRepository);
 
       // Act
-      // The medications are loaded in the constructor, so no need to call loadMedications()
-      
-      // We need to wait for the stream to emit and the provider to notify listeners.
-      await Future.delayed(Duration.zero);
+      await medicationProvider.loadMedications();
 
       // Assert
       expect(medicationProvider.medications, medications);

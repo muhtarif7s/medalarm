@@ -4,17 +4,21 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 
 // Project imports:
 import 'package:myapp/l10n/app_localizations.dart';
-import 'package:myapp/src/features/settings/data/repositories/profile_repository.dart';
+import 'package:myapp/src/features/profile/data/repositories/profile_repository.dart';
+import 'package:myapp/src/features/profile/models/profile.dart';
+import 'package:myapp/src/features/profile/presentation/providers/profile_provider.dart';
 import 'package:myapp/src/features/settings/providers/locale_provider.dart';
-import 'package:myapp/src/features/settings/presentation/providers/profile_provider.dart';
 import 'package:myapp/src/features/settings/presentation/providers/settings_provider.dart';
 import 'package:myapp/src/features/settings/screens/settings_screen.dart';
+import 'settings_screen_test.mocks.dart';
 
+@GenerateMocks([ProfileRepository])
 class MockLocaleProvider extends Mock implements LocaleProvider {
   @override
   Locale get locale => const Locale('en');
@@ -25,8 +29,6 @@ class MockLocaleProvider extends Mock implements LocaleProvider {
   @override
   String getLangName(String langCode) => 'English';
 }
-
-class MockProfileRepository extends Mock implements ProfileRepository {}
 
 void main() {
   group('SettingsScreen', () {
@@ -40,6 +42,11 @@ void main() {
       mockLocaleProvider = MockLocaleProvider();
       mockProfileRepository = MockProfileRepository();
       profileProvider = ProfileProvider(mockProfileRepository);
+
+      // Stub the getProfile method to return a Future<Profile>
+      when(mockProfileRepository.getProfile()).thenAnswer(
+        (_) async => Profile(name: 'Test User', email: 'test@example.com'),
+      );
     });
 
     testWidgets('should display the settings screen',
@@ -53,8 +60,8 @@ void main() {
                 value: mockLocaleProvider),
             ChangeNotifierProvider.value(value: profileProvider),
           ],
-          child: const MaterialApp(
-            home: SettingsScreen(),
+          child: MaterialApp(
+            home: const SettingsScreen(),
             localizationsDelegates: [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,

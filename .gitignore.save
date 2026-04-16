@@ -1,0 +1,41 @@
+# Flutter
+build/
+.dart_tool/
+.packages
+.pub/
+pubspec.lock
+
+# Android
+android/.gradle/
+android/app/build/
+local.properties
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# Misc
+*.iml# Flutter
+build/
+.dart_tool/
+.packages
+.pub/
+pubspec.lock
+
+# Android
+android/.gradle/
+android/app/build/
+local.properties
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# Misc
+*.iml

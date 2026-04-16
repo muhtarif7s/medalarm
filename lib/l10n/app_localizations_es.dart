@@ -413,17 +413,17 @@ class AppLocalizationsEs extends AppLocalizations {
   String get statistics => 'Estadísticas';
 
   @override
-  String get schedule => 'Schedule';
+  String get schedule => 'Programar';
 
   @override
-  String get endDate => 'End Date';
+  String get endDate => 'Fecha de finalización';
 
   @override
-  String get on => 'On';
+  String get on => 'en';
 
   @override
-  String get every => 'Every';
+  String get every => 'cada';
 
   @override
-  String get hours => 'hours';
+  String get hours => 'horas';
 }

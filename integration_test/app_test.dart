@@ -11,13 +11,14 @@ void main() {
     await tester.pumpAndSettle();
 
     // Home Screen
-    expect(find.text('Medication Tracker'), findsOneWidget);
+    expect(find.text('Today\'s Timeline'), findsOneWidget);
     await tester.tap(find.byType(FloatingActionButton));
     await tester.pumpAndSettle();
 
     // Add Medication Screen
     expect(find.text('Add Medication'), findsOneWidget);
-    await tester.enterText(find.byKey(const Key('medication_name')), 'Test Medication');
+    await tester.enterText(
+        find.byKey(const Key('medication_name')), 'Test Medication');
     await tester.enterText(find.byKey(const Key('medication_dosage')), '10');
     await tester.tap(find.text('Save'));
     await tester.pumpAndSettle();
@@ -30,7 +31,8 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.byIcon(Icons.edit));
     await tester.pumpAndSettle();
-    await tester.enterText(find.byKey(const Key('medication_name')), 'Updated Medication');
+    await tester.enterText(
+        find.byKey(const Key('medication_name')), 'Updated Medication');
     await tester.tap(find.text('Save'));
     await tester.pumpAndSettle();
     expect(find.text('Updated Medication'), findsOneWidget);

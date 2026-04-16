@@ -1,4 +1,3 @@
-
 enum DoseStatus { taken, skipped, pending, missed }
 
 class Dose {
@@ -32,8 +31,8 @@ class Dose {
     return {
       'id': id,
       'medicationId': medicationId,
-      'time': time.toIso8601String(),
-      'status': status.toString(),
+      'scheduledTime': time.toIso8601String(),
+      'status': status.name,
     };
   }
 
@@ -41,8 +40,8 @@ class Dose {
     return Dose(
       id: map['id'],
       medicationId: map['medicationId'],
-      time: DateTime.parse(map['time']),
-      status: DoseStatus.values.firstWhere((e) => e.toString() == map['status']),
+      time: DateTime.parse(map['scheduledTime']),
+      status: DoseStatus.values.firstWhere((e) => e.name == map['status']),
     );
   }
 }
